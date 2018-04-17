@@ -1,0 +1,17 @@
+<div>
+  <a routerLink="/frontpage">
+    <img class="logo" src="/assets/logo.png">
+  </a>
+  (Search module goes here)
+  <div class="loginlogout">
+    <div *ngIf="user.name">
+        <a (click)="logout()" routerLink=""> Log Out </a>
+    </div>
+    <div *ngIf="!user.name">
+        <a routerLink="/login"> Log In </a>
+    </div>
+    
+    
+    <p>{{user.name}}</p>
+  </div>
+</div>

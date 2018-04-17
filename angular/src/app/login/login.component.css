@@ -1,0 +1,11 @@
+img {
+    display: Block;
+    margin-left: auto;
+    margin-right: auto;
+}
+button {
+    display: Block;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
