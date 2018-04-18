@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import * as firebase from 'firebase/app';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireDatabase } from 'angularfire2/Database';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap';
@@ -14,11 +14,11 @@ interface User {
   displayName?: string;
 }
 
-
 @Injectable()
 export class AuthService {
 
-  user;
+  public user;
+  public userReference;
 
   constructor(private afAuth: AngularFireAuth,
               private db: AngularFireDatabase,
@@ -28,14 +28,13 @@ export class AuthService {
       this.user = this.afAuth.authState
         .switchMap(user => {
           if (user) {
-            return  this.user = db.list(`users/${user.uid}`).valueChanges();
+            this.userReference = this.user = db.object(`users/${user.uid}`).valueChanges();
+            return  this.user = db.object(`users/${user.uid}`).valueChanges();
           } else {
             return Observable.of(null)
           }
         })
   }
-
-
 
   googleLogin() {
     const provider = new firebase.auth.GoogleAuthProvider()
@@ -49,7 +48,6 @@ export class AuthService {
       })
   }
 
-
   private updateUserData(user) {
     // Sets user data to firedatabase on login
     const userRef  = this.db.object(`users/${user.uid}`);
@@ -59,10 +57,18 @@ export class AuthService {
       email: user.email,
       displayName: user.displayName,
     }
-
     return userRef.update(data);
-
   }
+
+   getUser(): Observable<User> {
+    let userAuth = this.afAuth.authState
+    .switchMap(userAuth => {
+      if (userAuth) {
+        return this.db.object(`users/${userAuth.uid}`).valueChanges()
+  }
+    })
+    return Observable.of(null)
+} 
 
 // Signs out the user
   signOut() {

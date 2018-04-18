@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { User } from '../user';
+import { AuthService } from '../core/auth.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-frontpage',
@@ -9,12 +11,12 @@ import { User } from '../user';
 })
 export class FrontpageComponent implements OnInit {
 
-  user: User;
+  user;
   
-  constructor(private userService: UserService) { }
+  constructor(public auth: AuthService, private userService: UserService) { }
 
-  getUser(): void {
-    this.user = this.userService.getUser();
+  getUser() {
+    this.user = this.auth.getUser().subscribe()
   }
 
   ngOnInit() {
@@ -22,7 +24,7 @@ export class FrontpageComponent implements OnInit {
   }
 
   logout() : void {
-    this.user.name = "";
+    //this.user.name = "";
   }
 
 }

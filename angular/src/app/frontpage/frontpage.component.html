@@ -3,15 +3,21 @@
     <img class="logo" src="/assets/logo.png">
   </a>
   (Search module goes here)
-  <div class="loginlogout">
-    <div *ngIf="user.name">
-        <a (click)="logout()" routerLink=""> Log Out </a>
-    </div>
-    <div *ngIf="!user.name">
-        <a routerLink="/login"> Log In </a>
-    </div>
-    
-    
-    <p>{{user.name}}</p>
+  <div *ngIf="auth.user | async; then loggedin else guest" class="loginlogout" > <!-- Templates replaces this tag -->
   </div>
 </div>
+
+
+<ng-template #guest>
+  <div class="loginlogout">
+      <button (click)="auth.googleLogin()"> Log In </button>
+      <p>You are logged out</p>
+  </div>
+</ng-template>
+
+<ng-template #loggedin>
+  <div class="loginlogout">
+      <button (click)="auth.signOut()" routerLink=""> Log Out </button>
+      <p>You are logged in</p>
+  </div>
+</ng-template>
