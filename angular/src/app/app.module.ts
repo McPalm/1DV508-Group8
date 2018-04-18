@@ -9,6 +9,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { FrontpageComponent } from './frontpage/frontpage.component';
 import { UserService } from './user.service';
+import { CoreModule } from './core/core.module';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
@@ -28,6 +29,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
+    CoreModule,
 
   ],
   providers: [UserService],
