@@ -12,7 +12,18 @@ interface User {
   uid: string;
   email: string;
   lastActive : string;  /*  Is not needed if firebase will handle this. */
+
+  /*  Is not required for every time user logins. */
+  createDate ?: string;
   displayName?: string;
+  telephone ?: string;
+  firstName ?: string;
+  lastName ?: string;
+  city ?: string;
+  postcode ?: number;
+  /*  TODO add later */
+  //privacy : Privacy;
+  //privilege : Privilege;
 }
 
 @Injectable()
