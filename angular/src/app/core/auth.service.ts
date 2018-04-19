@@ -11,6 +11,7 @@ import 'rxjs/add/operator/switchMap';
 interface User {
   uid: string;
   email: string;
+  lastActive : string;  /*  Is not needed if firebase will handle this. */
   displayName?: string;
 }
 
@@ -52,9 +53,12 @@ export class AuthService {
     // Sets user data to firedatabase on login
     const userRef  = this.db.object(`users/${user.uid}`);
 
+
+    const today = new Date();
     const data: User = {
       uid: user.uid,
       email: user.email,
+      lastActive : today.toString(),
       displayName: user.displayName,
     }
     return userRef.update(data);
@@ -68,7 +72,7 @@ export class AuthService {
   }
     })
     return Observable.of(null)
-} 
+}
 
 // Signs out the user
   signOut() {
