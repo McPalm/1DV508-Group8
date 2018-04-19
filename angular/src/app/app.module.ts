@@ -8,7 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { FrontpageComponent } from './frontpage/frontpage.component';
-import { UserService } from './user.service';
+import { UserService } from './services/user.service';
 import { CoreModule } from './core/core.module';
 
 import { AngularFireModule } from 'angularfire2';
