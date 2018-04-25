@@ -16,8 +16,11 @@ export class ItemService {
    * @param category
    */
   getItems(category : Category) : Observable<any[]> {
-    console.log("Not yet implemented!");
-    return null;
+
+    return this.db.list(this.itemPath ,
+      ref => ref.orderByChild('category').equalTo(category.uid)
+    ).valueChanges();
+
   }
 
   /**
