@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Category } from './category';
-import { AngularFireList } from 'angularfire2/database';
+import { AngularFireList, AngularFireDatabase } from 'angularfire2/database';
 import { Item } from './item';
 
 @Injectable()
 export class ItemService {
 
-  constructor() { }
+  private itemPath = "/items"; 
+
+  constructor(private db : AngularFireDatabase) { }
 
   /**
    * Get all items in a specified category
@@ -22,8 +24,7 @@ export class ItemService {
    * @param category 
    */
   getItemsAll() : AngularFireList<Item> {
-    console.log("Not yet implemented!");
-    return null;
+    return this.db.list(this.itemPath);
   }
   
   /**
@@ -31,6 +32,8 @@ export class ItemService {
    * @param item an item object to put in the database
    */
   addItem(item : Item) : void {
-    console.log("Not yet implemented!");
+    const obj = this.db.database.ref(this.itemPath);
+    obj.push(item);
+    console.log("Pushed?");
   }
 }
