@@ -15,6 +15,7 @@ import { CategoryService } from './services/category.service';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { ItemService } from './services/item.service';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
   providers: [
     UserService,
     CategoryService,
+    ItemService,
   ],
   bootstrap: [AppComponent]
 })
