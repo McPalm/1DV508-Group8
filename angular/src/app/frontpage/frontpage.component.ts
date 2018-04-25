@@ -12,7 +12,7 @@ import { Observable } from 'rxjs/Observable';
 export class FrontpageComponent implements OnInit {
 
   user;
-  
+
   constructor(public auth: AuthService, private userService: UserService) { }
 
   getUser() {
@@ -26,5 +26,4 @@ export class FrontpageComponent implements OnInit {
   logout() : void {
     //this.user.name = "";
   }
-
 }

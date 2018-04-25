@@ -10,12 +10,14 @@ import { AppRoutingModule } from './/app-routing.module';
 import { FrontpageComponent } from './frontpage/frontpage.component';
 import { UserService } from './services/user.service';
 import { CoreModule } from './core/core.module';
-import { CategoryService } from './services/category.service';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { ItemService } from './services/item.service';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { AddcategoryComponent } from './addcategory/addcategory.component';
+import { AdminComponent } from './admin/admin.component';
+import { AddproductComponent } from './addproduct/addproduct.component';
 
 
 @NgModule({
@@ -23,7 +25,11 @@ import { ItemService } from './services/item.service';
     AppComponent,
     LoginComponent,
     DashboardComponent,
-    FrontpageComponent
+    FrontpageComponent,
+    UserProfileComponent,
+    AddcategoryComponent,
+    AdminComponent,
+    AddproductComponent
   ],
   imports: [
     BrowserModule,
@@ -34,11 +40,7 @@ import { ItemService } from './services/item.service';
     CoreModule,
 
   ],
-  providers: [
-    UserService,
-    CategoryService,
-    ItemService,
-  ],
+  providers: [UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
