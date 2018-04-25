@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Category } from './category';
 import { AngularFireList, AngularFireDatabase } from 'angularfire2/database';
 import { Item } from './item';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ItemService {
@@ -14,7 +15,7 @@ export class ItemService {
    * Get all items in a specified category
    * @param category
    */
-  getItems(category : Category) : AngularFireList<Item> {
+  getItems(category : Category) : Observable<any[]> {
     console.log("Not yet implemented!");
     return null;
   }
@@ -23,8 +24,8 @@ export class ItemService {
    * Get all items currently on the server
    * @param category 
    */
-  getItemsAll() : AngularFireList<Item> {
-    return this.db.list(this.itemPath);
+  getItemsAll() : Observable<any[]> {
+    return this.db.list(this.itemPath).valueChanges();
   }
   
   /**
