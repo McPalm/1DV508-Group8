@@ -1,4 +1,4 @@
-<button (click)="toggleVisible()" type="button"> Add Category </button>
+<button *ngIf="isAdmin" (click)="toggleVisible()" type="button"> Add Category </button>
 <form *ngIf="isVisible" onSubmit="return false;">
 	Category name:
 	<input #newCategory

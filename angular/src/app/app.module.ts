@@ -21,6 +21,7 @@ import { AdminComponent } from './admin/admin.component';
 import { AddproductComponent } from './addproduct/addproduct.component';
 import { ItemService } from './services/item.service';
 import { CategoryService } from './services/category.service';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { CategoryService } from './services/category.service';
     UserService,
     ItemService,
     CategoryService,
+	CookieService,
   ],
   bootstrap: [AppComponent]
 })
