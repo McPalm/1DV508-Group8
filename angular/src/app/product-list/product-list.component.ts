@@ -3,6 +3,7 @@ import {CategoryService} from "../services/category.service";
 import {ItemService} from "../services/item.service";
 import {FlashMessagesService} from "angular2-flash-messages";
 import {Category} from "../services/category";
+import {Item} from "../services/item";
 
 @Component({
   selector: 'app-product-list',
@@ -11,13 +12,17 @@ import {Category} from "../services/category";
 })
 export class ProductListComponent implements OnInit {
 
-  @Input() search: string;
   /*  For listening to search query.  */
+  @Input() search: string;
+  @Input() category: string;
+
   // pager object
   pager: any = {
     currentPage: 0,
     totalPages: 3
   };
+
+  cachedItems: Item[] = [];
 
   constructor(private catagory: CategoryService, private items: ItemService, private flashMessage: FlashMessagesService) {
   }
@@ -25,33 +30,44 @@ export class ProductListComponent implements OnInit {
   ngOnInit() {
 
     if (this.search !== undefined) {
-      /*  Get result based on the search. */
-    } else {
-      const catagories = this.catagory.getCategories();
-      const listCatagories: Category[] = [];
+      /*  Get result based on the search or cat. */
 
-      /*  */
-      if (listCatagories.length === 0) {
-        this.flashMessage.show("Error with the product server - Thanks for your the patience!", {
+
+    } else {
+
+      const catagories = this.catagory.getCategories();
+      catagories.subscribe(value => {
+        console.log(value);
+
+        this.items.getItems(value[0]).subscribe(value1 => {
+          this.cachedItems = value1;
+          console.log(value1);
+        }, error1 => {
+          this.flashMessage.show('Error with the product server - Thanks for your the patience!', {
+            cssClass: 'alert-danger',
+            timeout: 3000
+          });
+          console.error(error1);
+        });
+
+      }, error => {
+        this.flashMessage.show('Error with the product server - Thanks for your the patience!', {
           cssClass: 'alert-danger',
           timeout: 3000
         });
-      } else {
-        this.items.getItems(this.catagory[0]);
-      }
+      });
+
+
     }
-
-
 
     /*  Compute the pager.  */
     this.pager.pages = [0, 1, 2, 3];
-
   }
 
   /**
    *
    */
-  private computePager(){
+  private computePager() {
 
   }
 
@@ -60,6 +76,7 @@ export class ProductListComponent implements OnInit {
    * @returns {number}
    */
   getNumberCols() {
+    /*  TODO add logic for what device platform is used.  */
     return 4; //window.screen.width / (this.getRowHeight() * 2);
   }
 
@@ -68,6 +85,7 @@ export class ProductListComponent implements OnInit {
    * @returns {number}
    */
   getRowHeight() {
+    /*  TODO add some logic based on the resolution of the media. */
     return 300;
   }
 
@@ -77,14 +95,23 @@ export class ProductListComponent implements OnInit {
    */
   getTiles() {
 
+    const tiles = [];
     /*  Temporarily const variables. TODO resolve */
-    const tiles = [
-      {text: 'One', cols: 3, rows: 1, color: 'lightblue', description: "I'm suppose to be coffe", uid: 0},
-      {text: 'Two', cols: 1, rows: 2, color: 'lightgreen', description: "I'm suppose to be something useful", uid: 1},
-      {text: 'Three', cols: 1, rows: 1, color: 'lightpink', description: "I'm suppose to be a RX 580", uid: 2},
-      {text: 'Four', cols: 2, rows: 1, color: '#DDBDF1', description: "none", uid: 3},
-      {text: 'Four', cols: 2, rows: 1, color: '#DDBDF1', description: "none", uid: 3},
-    ];
+    for (let i = 0; i < this.cachedItems.length; i++) {
+      const item = this.cachedItems[i];
+
+      tiles.push(
+        {
+          text: 'One',
+          cols: (i % this.getNumberCols()) + 1,
+          rows: (i / this.getNumberCols()) + 1,
+          color: 'lightblue',
+          name: item.name,
+          description: item.description,
+          uid: item.uuid
+        }
+      );
+    }
 
     return tiles;
   }
