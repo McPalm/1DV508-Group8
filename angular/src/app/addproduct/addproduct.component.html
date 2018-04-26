@@ -1,5 +1,5 @@
 <div>
-    <button (click)="addProduct()" type="button"> Add Product </button>
+    <button *ngIf="isAdmin" (click)="addProduct()" type="button"> Add Product </button>
     <form (ngSubmit)="onSubmit()" *ngIf="isVisible" #productForm="ngForm">
         <div class="form-group">
             <label for="name">Product Name</label>
