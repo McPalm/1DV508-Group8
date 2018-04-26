@@ -8,12 +8,12 @@ export class CategoryService {
   private categories: Observable<Category[]>;
   private db;
   private id: number = 0;
-  
+
   constructor(db: AngularFireDatabase) {
     this.db = db;
   }
 
-  getCategories(): Observable<Category[]> { 
+  getCategories(): Observable<Category[]> {
     this.categories = this.db.list('categories').valueChanges();
     return this.categories;
   }
