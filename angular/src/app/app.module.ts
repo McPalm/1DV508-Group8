@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { environment } from '../environments/environment';
+import { FormsModule } from '@angular/forms';
 
 
 import { AppComponent } from './app.component';
@@ -40,7 +41,7 @@ import { CategoryService } from './services/category.service';
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     CoreModule,
-
+    FormsModule,
   ],
   providers: [
     UserService,
