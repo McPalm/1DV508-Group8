@@ -2,9 +2,18 @@
 <form *ngIf="isVisible" onSubmit="return false;">
 	Category name:
 	<input #newCategory
-        (keyup.enter)="addCategory(newCategory.value)"
-        (blur)="addCategory(newCategory.value); newCategory.value='' ">
-
-      <button (click)="addCategory(newCategory.value)" type="button">Add</button>
+        (keyup.enter)="newCategoryDesc.focus()">
+        <br>
+  Category description:
+  <input #newCategoryDesc
+        (keyup.enter)="addCategory(newCategory.value, newCategoryDesc.value)">
+        <br>
+        <p [hidden]="!categoryExists"#existError>Category already exists</p>
+      <button (click)="
+        addCategory(newCategory.value, newCategoryDesc.value); 
+        newCategory.value=''; newCategoryDesc.value='';" type="button">Add</button>
+        <p>Categories:</p>
+<ul>
+  <li *ngFor="let category of categories | async"><p>{{category.name}}</p></li>
+</ul>
 </form>
-<ul><li *ngFor="let category of categories">{{category}}</li></ul>
