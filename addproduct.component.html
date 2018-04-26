@@ -1,0 +1,40 @@
+<div>
+    <button *ngIf="isAdmin" (click)="addProduct()" type="button"> Add Product </button>
+    <form (ngSubmit)="onSubmit()" *ngIf="isVisible" #productForm="ngForm">
+        <div class="form-group">
+            <label for="name">Product Name</label>
+            <input type="text" class="form-control" id="name"
+            required
+            [(ngModel)]="model.name" name="name"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number" class="form-control" id="price"
+            required
+            [(ngModel)]="model.price" name="price"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="category">Category</label>
+            <select class="form-control" id="category"
+            required
+            [(ngModel)]="model.category" name="category"
+            >
+                <option *ngFor="let cat of categories | async" [value]="cat.uid">{{cat.name}}</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Description</label><br>
+            <textarea name="description" rows="5" cols="41"
+            required
+            [(ngModel)]="model.description" name="description"
+            >Describe the product for the customer.</textarea>
+        </div>
+
+        <button type="submit" [disabled]="!productForm.form.valid">Submit</button>
+    </form>
+</div>
