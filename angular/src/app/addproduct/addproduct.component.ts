@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Item } from '../services/item';
+import { Category } from '../services/category';
+import { Observable } from 'rxjs/observable';
+import { CategoryService } from '../services/category.service';
+import { ItemService } from '../services/item.service';
 
 @Component({
   selector: 'app-addproduct',
@@ -7,9 +12,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddproductComponent implements OnInit {
 	isVisible: boolean = false;
-	constructor() { }
+	constructor(
+		private categoryService : CategoryService,
+		private itemService : ItemService,
+	) { }
+
+	model = new Item();
+
+	categories: Observable<Category[]>;
+
+	submitted = false;
+
+	onSubmit() {
+		this.isVisible = false;
+		this.itemService.addItem(this.model);
+		this.model = new Item();
+	}
 
 	ngOnInit() {
+		this.categories = this.categoryService.getCategories();
 	}
 
 	toggleVisible() {

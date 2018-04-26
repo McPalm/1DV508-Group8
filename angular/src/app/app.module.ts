@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { environment } from '../environments/environment';
+import { FormsModule } from '@angular/forms';
 
 
 import { AppComponent } from './app.component';
@@ -18,6 +19,8 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { AddcategoryComponent } from './addcategory/addcategory.component';
 import { AdminComponent } from './admin/admin.component';
 import { AddproductComponent } from './addproduct/addproduct.component';
+import { ItemService } from './services/item.service';
+import { CategoryService } from './services/category.service';
 
 
 @NgModule({
@@ -38,9 +41,13 @@ import { AddproductComponent } from './addproduct/addproduct.component';
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     CoreModule,
-
+    FormsModule,
   ],
-  providers: [UserService],
+  providers: [
+    UserService,
+    ItemService,
+    CategoryService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
