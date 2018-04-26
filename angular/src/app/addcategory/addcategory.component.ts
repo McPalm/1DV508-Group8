@@ -29,15 +29,16 @@ export class AddcategoryComponent implements OnInit {
 
   addCategory(newCategory: string, newCategoryDesc: string) {
 	  if(newCategory){
-      // Check if category already exists
-      for (let i = 0; i < this.categoriesList.length; i++) {
-        if (this.categoriesList[i].name == newCategory) {
-          this.categoryExists = true;
-          return;
-        }  
-      }
-      this.categoryExists = false;
-		  this.categoryService.addCategory(newCategory, newCategoryDesc)
+	      // Check if category already exists
+	      for (let i = 0; i < this.categoriesList.length; i++) {
+	        if (this.categoriesList[i].name == newCategory) {
+	          this.categoryExists = true;
+	          return;
+	        }
+	      }
+	      this.categoryExists = false;
+	      this.categoryService.addCategory(newCategory, newCategoryDesc)
+
 	  }
   }
 }
