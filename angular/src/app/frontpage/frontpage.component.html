@@ -7,13 +7,15 @@
   </div>
 </div>
 
-
 <ng-template #guest>
   <div class="loginlogout">
       <button (click)="auth.googleLogin()"> Log In </button>
       <p>You are logged out</p>
   </div>
 </ng-template>
+
+
+<app-product-list></app-product-list>
 
 <ng-template #loggedin>
   <div class="loginlogout">

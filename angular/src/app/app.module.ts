@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { environment } from '../environments/environment';
+import {FlashMessagesModule, FlashMessagesService} from 'angular2-flash-messages';
 
 
 import { AppComponent } from './app.component';
@@ -16,6 +17,9 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { ItemService } from './services/item.service';
+import { ProductListComponent } from './product-list/product-list.component';
+import {MatGridListModule} from '@angular/material';
+import {CdkTableModule} from '@angular/cdk/table';
 
 
 @NgModule({
@@ -23,7 +27,8 @@ import { ItemService } from './services/item.service';
     AppComponent,
     LoginComponent,
     DashboardComponent,
-    FrontpageComponent
+    FrontpageComponent,
+    ProductListComponent
   ],
   imports: [
     BrowserModule,
@@ -32,6 +37,9 @@ import { ItemService } from './services/item.service';
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     CoreModule,
+    MatGridListModule,
+    FlashMessagesModule.forRoot(),
+    CdkTableModule,
 
   ],
   providers: [
