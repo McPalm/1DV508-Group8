@@ -1,2 +1,18 @@
-<button (click)="addProduct()" type="button"> Add Product </button>
-<form *ngIf="isVisible"> addproduct here! </form>
+<div>
+    <button (click)="addProduct()" type="button"> Add Product </button>
+    <form *ngIf="isVisible">
+        Product Name: 
+        <input type="text"><br>
+        Price: 
+        <input type="text"><br>
+        Category: 
+        <select name="Category">
+            <option value="guns">Guns</option>
+            <option value="electronics">Electronics</option>
+        </select><br>
+
+        Description<br>
+        <textarea name="description" rows="5">Describe the product for the customer.</textarea><br>
+        <button (click)="addItem()" type="button">Submit</button>
+    </form>
+</div>
