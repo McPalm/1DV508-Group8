@@ -1,6 +1,6 @@
 <div>
     <button (click)="addProduct()" type="button"> Add Product </button>
-    <form *ngIf="isVisible">
+    <form (ngSubmit)="onSubmit()" *ngIf="isVisible" #productForm="ngForm">
         <div class="form-group">
             <label for="name">Product Name</label>
             <input type="text" class="form-control" id="name"
@@ -23,8 +23,8 @@
             required
             [(ngModel)]="model.category" name="category"
             >
-                <option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>
-            </select><br>
+                <option *ngFor="let cat of categories | async" [value]="cat.uid">{{cat.name}}</option>
+            </select>
         </div>
 
         <div class="form-group">
@@ -35,6 +35,6 @@
             >Describe the product for the customer.</textarea>
         </div>
 
-        <button type="submit">Submit</button>
+        <button type="submit" [disabled]="!productForm.form.valid">Submit</button>
     </form>
 </div>

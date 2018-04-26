@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Item } from '../services/item';
+import { Category } from '../services/category';
+import { Observable } from 'rxjs/observable';
+import { CategoryService } from '../services/category.service';
 
 @Component({
   selector: 'app-addproduct',
@@ -8,17 +11,18 @@ import { Item } from '../services/item';
 })
 export class AddproductComponent implements OnInit {
 	isVisible: boolean = false;
-	constructor() { }
+	constructor( private categoryService : CategoryService ) { }
 
 	model = new Item();
 
-	categories = ["Guns", "Electronics", "Mugs", "Garbage", "Pets"]; // for testing, need to sync with available categories later
+	categories: Observable<Category[]>;
 
 	submitted = false;
 
-	onSubmit() { this.submitted = true; console.log("submit"); }
+	onSubmit() { this.submitted = true; console.log(this.model); }
 
 	ngOnInit() {
+		this.categories = this.categoryService.getCategories();
 	}
 
 	toggleVisible() {
