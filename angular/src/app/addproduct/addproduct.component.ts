@@ -19,7 +19,11 @@ export class AddproductComponent implements OnInit {
 
 	submitted = false;
 
-	onSubmit() { this.submitted = true; console.log(this.model); }
+	onSubmit() {
+		this.isVisible = false;
+		console.log(this.model);
+		this.model = new Item();
+	}
 
 	ngOnInit() {
 		this.categories = this.categoryService.getCategories();
@@ -31,10 +35,5 @@ export class AddproductComponent implements OnInit {
 
 	addProduct() {
 		this.toggleVisible();
-	}
-
-	addItem()
-	{
-		console.log(this.model);
 	}
 }
