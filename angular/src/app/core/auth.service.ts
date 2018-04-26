@@ -72,7 +72,7 @@ export class AuthService {
       lastActive : today.toString(),
       displayName: user.displayName,
     }
-    return userRef.update(data);
+    return userRef.set(data);
   }
 
    getUser(): Observable<User> {

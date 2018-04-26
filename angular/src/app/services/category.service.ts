@@ -7,7 +7,7 @@ export class CategoryService {
   private categories: AngularFireList<Category[]>;
   private db;
   private id: number = 0;
-  
+
   constructor(db: AngularFireDatabase) {
     this.db = db;
   }
@@ -28,6 +28,6 @@ export class CategoryService {
       }
       this.db.object(`categories/${this.id}`).update(data);
       dbRef.unsubscribe();
-    })
+    });
   }
 }

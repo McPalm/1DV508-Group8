@@ -41,8 +41,17 @@ export class ProductListComponent implements OnInit {
       }
     }
 
+
+
     /*  Compute the pager.  */
     this.pager.pages = [0, 1, 2, 3];
+
+  }
+
+  /**
+   *
+   */
+  private computePager(){
 
   }
 
@@ -51,7 +60,7 @@ export class ProductListComponent implements OnInit {
    * @returns {number}
    */
   getNumberCols() {
-    return 4;
+    return 4; //window.screen.width / (this.getRowHeight() * 2);
   }
 
   /**
@@ -59,7 +68,7 @@ export class ProductListComponent implements OnInit {
    * @returns {number}
    */
   getRowHeight() {
-    return 100;
+    return 300;
   }
 
   /**
@@ -73,6 +82,7 @@ export class ProductListComponent implements OnInit {
       {text: 'One', cols: 3, rows: 1, color: 'lightblue', description: "I'm suppose to be coffe", uid: 0},
       {text: 'Two', cols: 1, rows: 2, color: 'lightgreen', description: "I'm suppose to be something useful", uid: 1},
       {text: 'Three', cols: 1, rows: 1, color: 'lightpink', description: "I'm suppose to be a RX 580", uid: 2},
+      {text: 'Four', cols: 2, rows: 1, color: '#DDBDF1', description: "none", uid: 3},
       {text: 'Four', cols: 2, rows: 1, color: '#DDBDF1', description: "none", uid: 3},
     ];
 

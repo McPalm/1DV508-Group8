@@ -1,0 +1,10 @@
+<button (click)="toggleVisible()" type="button"> Add Category </button>
+<form *ngIf="isVisible" onSubmit="return false;">
+	Category name:
+	<input #newCategory
+        (keyup.enter)="addCategory(newCategory.value)"
+        (blur)="addCategory(newCategory.value); newCategory.value='' ">
+
+      <button (click)="addCategory(newCategory.value)" type="button">Add</button>
+</form>
+<ul><li *ngFor="let category of categories">{{category}}</li></ul>
