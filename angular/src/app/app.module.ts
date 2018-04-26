@@ -18,6 +18,8 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { AddcategoryComponent } from './addcategory/addcategory.component';
 import { AdminComponent } from './admin/admin.component';
 import { AddproductComponent } from './addproduct/addproduct.component';
+import { ItemService } from './services/item.service';
+import { CategoryService } from './services/category.service';
 
 
 @NgModule({
@@ -40,7 +42,11 @@ import { AddproductComponent } from './addproduct/addproduct.component';
     CoreModule,
 
   ],
-  providers: [UserService],
+  providers: [
+    UserService,
+    ItemService,
+    CategoryService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
