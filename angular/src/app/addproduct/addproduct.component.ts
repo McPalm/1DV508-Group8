@@ -3,6 +3,7 @@ import { Item } from '../services/item';
 import { Category } from '../services/category';
 import { Observable } from 'rxjs/observable';
 import { CategoryService } from '../services/category.service';
+import { ItemService } from '../services/item.service';
 
 @Component({
   selector: 'app-addproduct',
@@ -11,7 +12,10 @@ import { CategoryService } from '../services/category.service';
 })
 export class AddproductComponent implements OnInit {
 	isVisible: boolean = false;
-	constructor( private categoryService : CategoryService ) { }
+	constructor(
+		private categoryService : CategoryService,
+		private itemService : ItemService,
+	) { }
 
 	model = new Item();
 
@@ -21,7 +25,7 @@ export class AddproductComponent implements OnInit {
 
 	onSubmit() {
 		this.isVisible = false;
-		console.log(this.model);
+		this.itemService.addItem(this.model);
 		this.model = new Item();
 	}
 
