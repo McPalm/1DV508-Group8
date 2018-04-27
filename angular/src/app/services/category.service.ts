@@ -29,6 +29,6 @@ export class CategoryService {
       }
       this.db.object(`categories/${this.id}`).update(data);
       dbRef.unsubscribe();
-    })
+    });
   }
 }
