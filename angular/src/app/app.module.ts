@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { environment } from '../environments/environment';
 import {FlashMessagesModule, FlashMessagesService} from 'angular2-flash-messages';
+import { FormsModule } from '@angular/forms';
 
 
 import { AppComponent } from './app.component';
@@ -40,7 +41,7 @@ import {CdkTableModule} from '@angular/cdk/table';
     MatGridListModule,
     FlashMessagesModule.forRoot(),
     CdkTableModule,
-
+    FormsModule
   ],
   providers: [
     UserService,

@@ -23,3 +23,9 @@
       <p>You are logged in</p>
   </div>
 </ng-template>
+
+<app-admin></app-admin>
+
+<ul>
+  <li *ngFor="let category of categories | async"><p>{{category.name}}</p></li>
+</ul>

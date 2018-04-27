@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Category } from './category';
+import { Observable } from 'rxjs/observable'
 
 @Injectable()
 export class CategoryService {
-  private categories: AngularFireList<Category[]>;
+  private categories: Observable<Category[]>;
   private db;
   private id: number = 0;
 
@@ -12,7 +13,7 @@ export class CategoryService {
     this.db = db;
   }
 
-  getCategories(): AngularFireList<Category[]>{
+  getCategories(): Observable<Category[]> {
     this.categories = this.db.list('categories').valueChanges();
     return this.categories;
   }
