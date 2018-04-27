@@ -9,7 +9,7 @@
 
 <ng-template #guest>
   <div class="loginlogout">
-      <button (click)="auth.googleLogin()"> Log In </button>
+      <button (click)="auth.googleLogin()" type="button"> Log In </button>
       <p>You are logged out</p>
   </div>
 </ng-template>
@@ -19,7 +19,7 @@
 
 <ng-template #loggedin>
   <div class="loginlogout">
-      <button (click)="auth.signOut()" routerLink=""> Log Out </button>
+      <button (click)="auth.signOut()" routerLink="" type="button"> Log Out </button>
       <p>You are logged in</p>
   </div>
 </ng-template>
