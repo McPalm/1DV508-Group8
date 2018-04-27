@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {CategoryService} from "../services/category.service";
-import {ItemService} from "../services/item.service";
-import {FlashMessagesService} from "angular2-flash-messages";
-import {Category} from "../services/category";
-import {Item} from "../services/item";
+import {CategoryService} from '../services/category.service';
+import {ItemService} from '../services/item.service';
+import {FlashMessagesService} from 'angular2-flash-messages';
+import {Item} from '../services/item';
+import {Category} from '../services/category';
 
 @Component({
   selector: 'app-product-list',
@@ -14,7 +14,7 @@ export class ProductListComponent implements OnInit {
 
   /*  For listening to search query.  */
   @Input() search: string;
-  @Input() category: string;
+  @Input() category: Category;
 
   // pager object
   pager: any = {
@@ -22,6 +22,7 @@ export class ProductListComponent implements OnInit {
     totalPages: 3
   };
 
+  /*  */
   cachedItems: Item[] = [];
 
   constructor(private catagory: CategoryService, private items: ItemService, private flashMessage: FlashMessagesService) {
@@ -32,13 +33,14 @@ export class ProductListComponent implements OnInit {
     if (this.search !== undefined) {
       /*  Get result based on the search or cat. */
 
-
     } else {
 
       const catagories = this.catagory.getCategories();
+
       catagories.subscribe(value => {
         console.log(value);
 
+        /*  TODO add support for reading from the input variable category.  */
         this.items.getItems(value[0]).subscribe(value1 => {
           this.cachedItems = value1;
           console.log(value1);
@@ -121,6 +123,13 @@ export class ProductListComponent implements OnInit {
    * @param {number} number
    */
   setPage(number: number) {
+
+    /*  Update items list.  */
+
+    /*  Update pager. */
+
+    /*  Update view.  */
+
     return true;
   }
 
@@ -129,7 +138,10 @@ export class ProductListComponent implements OnInit {
    * @param {number | string | any} uid
    * @returns {string}
    */
-  getImageSource(uid: number | string | any) {
+  getImageURL(uid: number | string | any) {
+    const imgRef = '/products/' + uid.toString() + '/preview.png';
+    /*  Get image url from storage. */
+
     return '';
   }
 }

@@ -14,7 +14,7 @@
 
           <!-- Image and hyperlink -->
           <div>
-            <a href="#" > <img [src]="getImageSource(tile.uid)"></a>
+            <a href="#" > <img [width]="getRowHeight()" [src]="getImageURL(tile.uid)" [srcset]=""></a>
             {{ tile.description}}
           </div>
 
