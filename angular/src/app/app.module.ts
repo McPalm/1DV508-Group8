@@ -26,6 +26,8 @@ import { ProductListComponent } from './product-list/product-list.component';
 import {MatGridListModule} from '@angular/material';
 import {CdkTableModule} from '@angular/cdk/table';
 
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
 
 @NgModule({
   declarations: [
@@ -37,7 +39,7 @@ import {CdkTableModule} from '@angular/cdk/table';
     AddcategoryComponent,
     AdminComponent,
     AddproductComponent,
-    ProductListComponent
+    ProductListComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,7 +51,8 @@ import {CdkTableModule} from '@angular/cdk/table';
     MatGridListModule,
     FlashMessagesModule.forRoot(),
     CdkTableModule,
-    FormsModule
+    FormsModule,
+    NgbModule.forRoot(),
   ],
   providers: [
     UserService,
