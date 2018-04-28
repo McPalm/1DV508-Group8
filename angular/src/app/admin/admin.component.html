@@ -1,10 +1,16 @@
-<form *ngIf="isVisible">
-	<div class="clearfix">
-	</div>
+<h1>Admin Controls</h1>
+<ngb-accordion  [closeOthers]="true">
 
-	<div class="adminbuttons">
-	    <app-addcategory></app-addcategory>
-		<app-addproduct></app-addproduct>
-	</div>
+	<ngb-panel id="static-1" title="New Product">
+		<ng-template ngbPanelContent>
+			<app-addproduct></app-addproduct>
+		</ng-template>
+	</ngb-panel>
 
-</form>
+	<ngb-panel id="static-2" title="New Category">
+		<ng-template ngbPanelContent>
+			<app-addcategory></app-addcategory>
+		</ng-template>
+	</ngb-panel>
+
+</ngb-accordion >

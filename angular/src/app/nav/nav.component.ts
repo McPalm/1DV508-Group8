@@ -15,7 +15,7 @@ export class NavComponent implements OnInit {
   model = "";
   admin = true; // For when we got this functionally up and running
   category: Category;
-  adminPage = false;
+  adminPage = true;
 
   constructor(private categoryService : CategoryService) { }
 
