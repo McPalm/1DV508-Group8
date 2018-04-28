@@ -1,29 +1,39 @@
-<div class="header">
-  <a routerLink="/frontpage">
-    <img class="logo" src="/assets/logo.png">
-  </a>
-  (Search module goes here)
-  <div *ngIf="auth.user | async; then loggedin else guest" class="loginlogout" > <!-- Templates replaces this tag -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-3 nopadding">
+      <a routerLink="/frontpage">
+        <img class="logo" src="/assets/logo.png">
+      </a>
+    </div>
+    <div class="col-md-6 nopadding">
+      <h1>Cuddly(tm)</h1>
+    </div>
+    <div class="col-md-3 nopadding">
+      <div *ngIf="auth.user | async; then loggedin else guest" class="loginlogout" > <!-- Templates replaces this tag -->
+      </div>
+    </div>
   </div>
-</div>
 
-<ng-template #guest>
-  <div class="loginlogout">
-      <button (click)="auth.googleLogin()" type="button"> Log In </button>
-      <p>You are logged out</p>
-  </div>
-</ng-template>
+  <ng-template #guest>
+    <div class="loginlogout">
+        <button (click)="auth.googleLogin()" type="button"> Log In </button>
+        <p>You are logged out</p>
+    </div>
+  </ng-template>
+
+  <ng-template #loggedin>
+      <div class="loginlogout">
+          <button (click)="auth.signOut()" routerLink="" type="button"> Log Out </button>
+          <p>Logged in as <strong>Fix me!</strong></p>
+      </div>
+    </ng-template>
+</div>
 
 <app-nav></app-nav>
 <!--
 <app-product-list></app-product-list>
 
-<ng-template #loggedin>
-  <div class="loginlogout">
-      <button (click)="auth.signOut()" routerLink="" type="button"> Log Out </button>
-      <p>You are logged in</p>
-  </div>
-</ng-template>
+
 
 <app-admin></app-admin>
 -->
