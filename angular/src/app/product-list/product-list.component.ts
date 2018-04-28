@@ -26,8 +26,8 @@ export class ProductListComponent implements OnInit {
   cachedItems: Item[] = [];
 
   constructor(
-    private catagory: CategoryService,
-    private items: ItemService,
+    private categoryService: CategoryService,
+    private itemService: ItemService,
     private flashMessage: FlashMessagesService,
   ) { }
 
@@ -38,13 +38,13 @@ export class ProductListComponent implements OnInit {
 
     } else {
 
-      const catagories = this.catagory.getCategories();
+      const catagories = this.categoryService.getCategories();
 
       catagories.subscribe(value => {
         console.log(value);
 
         /*  TODO add support for reading from the input variable category.  */
-        this.items.getItems(value[0]).subscribe(value1 => {
+        this.itemService.getItems(value[0]).subscribe(value1 => {
           this.cachedItems = value1;
           console.log(value1);
         }, error1 => {

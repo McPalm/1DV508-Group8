@@ -15,6 +15,7 @@ export class NavComponent implements OnInit {
   model = "";
   admin = true; // For when we got this functionally up and running
   category: Category;
+  adminPage = false;
 
   constructor(private categoryService : CategoryService) { }
 
@@ -24,8 +25,21 @@ export class NavComponent implements OnInit {
   }
   
   onChange(value) {
-    for(let c of this.categoryArray)
-      if(c.name == value)
-        this.category = c;
+    if(value == "admin")
+    {
+      this.openAdmin();
+    }
+    else
+    {
+      for(let c of this.categoryArray)
+        if(c.name == value)
+          this.category = c;
+      this.adminPage = false;
+    }
+  }
+
+  openAdmin() {
+    this.category = null;
+    this.adminPage = true;
   }
 }
