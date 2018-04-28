@@ -14,7 +14,7 @@
         <br *ngIf="admin">
 
         <label *ngFor="let cat of categories | async" class="btn btn-primary">
-          <input ngbButton type="radio" [value]="cat.name"> {{cat.name}}
+          <input ngbButton type="radio" [value]="cat.name" (click)="onChange(cat.name)"> {{cat.name}}
         </label>
 
         
@@ -22,8 +22,8 @@
     </div>
     <div class="col-md-9">
       <div class="main">
-        <h1>{{model}}</h1>
-        <app-product-list></app-product>
+        
+        <app-product-list *ngIf="category != null" [category]="category"></app-product-list>
       </div>
     </div>
   </div>

@@ -25,8 +25,11 @@ export class ProductListComponent implements OnInit {
   /*  */
   cachedItems: Item[] = [];
 
-  constructor(private catagory: CategoryService, private items: ItemService, private flashMessage: FlashMessagesService) {
-  }
+  constructor(
+    private catagory: CategoryService,
+    private items: ItemService,
+    private flashMessage: FlashMessagesService,
+  ) { }
 
   ngOnInit() {
 
