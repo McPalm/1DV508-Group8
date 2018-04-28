@@ -26,7 +26,7 @@ import { ProductListComponent } from './product-list/product-list.component';
 import {MatGridListModule} from '@angular/material';
 import {CdkTableModule} from '@angular/cdk/table';
 
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModule, NgbAlert} from '@ng-bootstrap/ng-bootstrap';
 import { NavComponent } from './nav/nav.component';
 import { NgbRadio, NgbRadioGroup } from '@ng-bootstrap/ng-bootstrap/buttons/radio';
 import { NgbButtonLabel } from '@ng-bootstrap/ng-bootstrap/buttons/label';
@@ -65,6 +65,7 @@ import { NgbButtonLabel } from '@ng-bootstrap/ng-bootstrap/buttons/label';
     NgbRadio,
     NgbButtonLabel,
     NgbRadioGroup,
+    NgbAlert,
   ],
   bootstrap: [AppComponent]
 })
