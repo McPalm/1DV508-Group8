@@ -1,7 +1,7 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-3 nopadding">
       <div
       class="btn-group-vertical btn-group-toggle"
       ngbRadioGroup
@@ -9,7 +9,7 @@
       >
        
         <label *ngIf="admin" class="btn btn-primary">
-          <input ngbButton type="radio" value="Admin Controls" (click)="onChange(admin)"> Admin Controls
+          <input ngbButton type="radio" value="Admin Controls" (click)="onChange('admin')"> Admin Controls
         </label>
         <br *ngIf="admin">
 

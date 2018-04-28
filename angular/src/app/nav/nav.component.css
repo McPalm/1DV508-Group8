@@ -2,3 +2,16 @@
     height: 100%;
     display: block;
 }
+
+.btn-group-vertical {
+    width: 100%;
+}
+
+label.btn {
+    text-align: left;
+}
+
+.nopadding {
+    padding: 0 !important;
+    margin: 0 !important;
+}
