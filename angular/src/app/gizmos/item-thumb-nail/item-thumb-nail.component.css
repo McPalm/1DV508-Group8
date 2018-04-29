@@ -1,0 +1,25 @@
+
+.thumb-link {
+    cursor: pointer;
+}
+
+.thumb-link:hover {
+    color: blue;
+}
+
+.caption {
+    background-color: rgba(255, 255, 255, 0.479);
+    position: absolute;
+    bottom: 20%;
+    width: 70%;
+    text-align: center;
+}
+
+.pricetag {
+    background-color: rgba(240, 255, 30, 0.74);
+    position: absolute;
+    top: 5%;
+    right: 15px;
+    padding: 10px 10px 3px 10px;
+    text-align: right;
+}
