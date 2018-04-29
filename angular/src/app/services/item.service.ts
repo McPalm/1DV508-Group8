@@ -37,6 +37,7 @@ export class ItemService {
    */
   addItem(item : Item) : void {
     const obj = this.db.database.ref(this.itemPath);
+    item.category = Number(item.category);
     obj.push(item);
     console.log("Pushed?");
   }
