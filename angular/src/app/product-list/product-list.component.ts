@@ -14,7 +14,13 @@ export class ProductListComponent implements OnInit {
 
   /*  For listening to search query.  */
   @Input() search: string;
-  @Input() category: Category;
+  @Input() set category(value:Category)
+  {
+    this.itemService.getItems(value).subscribe(value1 =>
+      this.cachedItems = value1
+    );
+    this.cachedCategory = value;
+  }
 
   // pager object
   pager: any = {
@@ -24,6 +30,7 @@ export class ProductListComponent implements OnInit {
 
   /*  */
   cachedItems: Item[] = [];
+  cachedCategory: Category;
 
   constructor(
     private categoryService: CategoryService,
@@ -31,10 +38,14 @@ export class ProductListComponent implements OnInit {
     private flashMessage: FlashMessagesService,
   ) { }
 
-  ngOnInit() {
+  itemClick(item : Item) {
+    console.log(item);
+  }
 
+  ngOnInit() {
+/*
     if (this.search !== undefined) {
-      /*  Get result based on the search or cat. */
+      //  Get result based on the search or cat.
 
     } else {
 
@@ -43,7 +54,7 @@ export class ProductListComponent implements OnInit {
       catagories.subscribe(value => {
         console.log(value);
 
-        /*  TODO add support for reading from the input variable category.  */
+        //  TODO add support for reading from the input variable category.
         this.itemService.getItems(value[0]).subscribe(value1 => {
           this.cachedItems = value1;
           console.log(value1);
@@ -64,8 +75,8 @@ export class ProductListComponent implements OnInit {
 
 
     }
-
-    /*  Compute the pager.  */
+    */
+    //  Compute the pager.
     this.pager.pages = [0, 1, 2, 3];
   }
 

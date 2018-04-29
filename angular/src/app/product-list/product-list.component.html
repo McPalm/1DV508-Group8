@@ -1,12 +1,21 @@
 
 <div>
-  <h1>{{category.name}}</h1>
-  <p>{{category.description}}</p>
+  <h1>{{cachedCategory.name}}</h1>
+  <p>{{cachedCategory.description}}</p>
   <!-- -->
   <div class="container">
     <div class="text-center">
 
       <!-- items being paged -->
+      <div class="row">
+          <div *ngFor="let item of cachedItems"  class="col-sm-3">
+              <app-item-thumb-nail
+                [item]="item"
+                (callback)="itemClick($event)"
+              ></app-item-thumb-nail>
+          </div>
+      </div>
+      <!--
       <mat-grid-list [rowHeight]="getRowHeight()" [cols]="getNumberCols()">
         <mat-grid-tile
           *ngFor="let tile of getTiles()"
@@ -14,7 +23,7 @@
           [rowspan]="tile.rows"
           [style.background]="tile.color">
 
-          <!-- Image and hyperlink -->
+          <!-- Image and hyperlink
           <div>
             <a href="#" > <img [width]="getRowHeight()" [src]="getImageURL(tile.uid)" [srcset]=""></a>
             {{ tile.description}}
@@ -23,6 +32,7 @@
         </mat-grid-tile>
 
       </mat-grid-list>
+      -->
 
       <!-- pager -->
       <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
