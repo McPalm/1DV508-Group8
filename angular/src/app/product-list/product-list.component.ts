@@ -14,77 +14,60 @@ export class ProductListComponent implements OnInit {
 
   /*  For listening to search query.  */
   @Input() search: string;
-  @Input() set category(value:Category)
-  {
-    this.itemService.getItems(value).subscribe(value1 =>
-      this.cachedItems = value1
-    );
+
+  @Input() set category(value: Category) {
     this.cachedCategory = value;
+    this.setPage(1);
   }
 
   // pager object
   pager: any = {
-    currentPage: 0,
-    totalPages: 3
+    currentPage: -1,
+    totalPages: 0,
+    pages: [],
   };
 
   /*  */
   cachedItems: Item[] = [];
   cachedCategory: Category;
+  scaleFactor: float = 1.0;
 
   constructor(
     private categoryService: CategoryService,
     private itemService: ItemService,
     private flashMessage: FlashMessagesService,
-  ) { }
-
-  itemClick(item : Item) {
-    console.log(item);
-  }
-
-  ngOnInit() {
-/*
-    if (this.search !== undefined) {
-      //  Get result based on the search or cat.
-
-    } else {
-
-      const catagories = this.categoryService.getCategories();
-
-      catagories.subscribe(value => {
-        console.log(value);
-
-        //  TODO add support for reading from the input variable category.
-        this.itemService.getItems(value[0]).subscribe(value1 => {
-          this.cachedItems = value1;
-          console.log(value1);
-        }, error1 => {
-          this.flashMessage.show('Error with the product server - Thanks for your the patience!', {
-            cssClass: 'alert-danger',
-            timeout: 3000
-          });
-          console.error(error1);
-        });
-
-      }, error => {
-        this.flashMessage.show('Error with the product server - Thanks for your the patience!', {
-          cssClass: 'alert-danger',
-          timeout: 3000
-        });
-      });
-
-
-    }
-    */
-    //  Compute the pager.
-    this.pager.pages = [0, 1, 2, 3];
+  ) {
   }
 
   /**
    *
+   * @param {Item} item
+   */
+  itemClick(item: Item) {
+    console.log(item);
+  }
+
+  ngOnInit() {
+
+  }
+
+  /**
+   * Compute pager.
    */
   private computePager() {
+    /*  Reset.  */
+    this.pager.pages = [];
 
+    /*  Compute the pager.  */
+    const nrDisplayElements: number = this.getNumberCols() * this.getNumberCols();
+    const nrElements: number = Math.floor((this.cachedItems.length / nrDisplayElements));
+
+    for (let i = 1; i < nrElements + 1; i++) {
+      this.pager.pages.push(i);
+    }
+
+    console.log(nrElements);
+    this.pager.totalPages = nrElements;
   }
 
   /**
@@ -93,7 +76,7 @@ export class ProductListComponent implements OnInit {
    */
   getNumberCols() {
     /*  TODO add logic for what device platform is used.  */
-    return 4; //window.screen.width / (this.getRowHeight() * 2);
+    return 1; //window.screen.width / (this.getRowHeight() * 2);
   }
 
   /**
@@ -102,29 +85,34 @@ export class ProductListComponent implements OnInit {
    */
   getRowHeight() {
     /*  TODO add some logic based on the resolution of the media. */
-    return 300;
+    return 100 * this.scaleFactor;
+  }
+
+  /**
+   *
+   * @param factor
+   */
+  setScaleFactor(factor) {
+    this.scaleFactor = factor;
   }
 
   /**
    *
    * @returns {{text: string; cols: number; rows: number; color: string}[]}
    */
-  getTiles() {
+  getItems() {
 
     const tiles = [];
     /*  Temporarily const variables. TODO resolve */
     for (let i = 0; i < this.cachedItems.length; i++) {
-      const item = this.cachedItems[i];
+      const item: Item = this.cachedItems[i];
 
+      /*  Add item. */
       tiles.push(
         {
-          text: 'One',
           cols: (i % this.getNumberCols()) + 1,
           rows: (i / this.getNumberCols()) + 1,
-          color: 'lightblue',
-          name: item.name,
-          description: item.description,
-          uid: item.uuid
+          item : item
         }
       );
     }
@@ -138,24 +126,33 @@ export class ProductListComponent implements OnInit {
    */
   setPage(number: number) {
 
+    /*  */
+    const newPage = Math.min(Math.max(number, 1), this.pager.totalPages);
+    if (newPage === this.pager.currentPage)
+      return;
+
+    console.log("page " + newPage);
+    this.pager.currentPage = newPage;
+
     /*  Update items list.  */
+    if (this.cachedCategory != null || this.cachedItems !== undefined) {
+      /*  TODO add page offset and number of elements to extract. */
+      this.itemService.getItems(this.cachedCategory).subscribe(result => {
+        console.log(result);
+        this.cachedItems = result;
 
-    /*  Update pager. */
+        /*  Update pager. */
+        this.computePager();
 
-    /*  Update view.  */
+      }, error => {
+        /*  Display error if items could not be displayed.  */
+        this.flashMessage.show('Error with the product server - Thanks for your the patience!', {
+          cssClass: 'alert-danger',
+          timeout: 3000
+        });
+      });
+    }
 
     return true;
-  }
-
-  /**
-   *
-   * @param {number | string | any} uid
-   * @returns {string}
-   */
-  getImageURL(uid: number | string | any) {
-    const imgRef = '/products/' + uid.toString() + '/preview.png';
-    /*  Get image url from storage. */
-
-    return '';
   }
 }
