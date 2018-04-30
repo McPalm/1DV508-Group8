@@ -105,16 +105,14 @@ export class ProductListComponent implements OnInit {
     const tiles = [];
     /*  Temporarily const variables. TODO resolve */
     for (let i = 0; i < this.cachedItems.length; i++) {
-      const item = this.cachedItems[i];
+      const item: Item = this.cachedItems[i];
 
       /*  Add item. */
       tiles.push(
         {
           cols: (i % this.getNumberCols()) + 1,
           rows: (i / this.getNumberCols()) + 1,
-          name: item.name,
-          description: item.description,
-          uid: item.uuid
+          item : item
         }
       );
     }
