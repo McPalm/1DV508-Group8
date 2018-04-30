@@ -14,18 +14,17 @@ export class ProductListComponent implements OnInit {
 
   /*  For listening to search query.  */
   @Input() search: string;
-  @Input() set category(value:Category)
-  {
-    this.itemService.getItems(value).subscribe(value1 =>
-      this.cachedItems = value1
-    );
+
+  @Input() set category(value: Category) {
     this.cachedCategory = value;
+    this.setPage(0);
   }
 
   // pager object
   pager: any = {
     currentPage: 0,
-    totalPages: 3
+    totalPages: 3,
+    pages: []
   };
 
   /*  */
@@ -36,55 +35,71 @@ export class ProductListComponent implements OnInit {
     private categoryService: CategoryService,
     private itemService: ItemService,
     private flashMessage: FlashMessagesService,
-  ) { }
+  ) {
+  }
 
-  itemClick(item : Item) {
+  /**
+   *
+   * @param {Item} item
+   */
+  itemClick(item: Item) {
     console.log(item);
   }
 
   ngOnInit() {
-/*
-    if (this.search !== undefined) {
-      //  Get result based on the search or cat.
 
-    } else {
+    /*
+        if (this.search !== undefined) {
+          //  Get result based on the search or cat.
 
-      const catagories = this.categoryService.getCategories();
+        } else {
 
-      catagories.subscribe(value => {
-        console.log(value);
+          const catagories = this.categoryService.getCategories();
 
-        //  TODO add support for reading from the input variable category.
-        this.itemService.getItems(value[0]).subscribe(value1 => {
-          this.cachedItems = value1;
-          console.log(value1);
-        }, error1 => {
-          this.flashMessage.show('Error with the product server - Thanks for your the patience!', {
-            cssClass: 'alert-danger',
-            timeout: 3000
+          catagories.subscribe(value => {
+            console.log(value);
+
+            //  TODO add support for reading from the input variable category.
+            this.itemService.getItems(value[0]).subscribe(value1 => {
+              this.cachedItems = value1;
+              console.log(value1);
+            }, error1 => {
+              this.flashMessage.show('Error with the product server - Thanks for your the patience!', {
+                cssClass: 'alert-danger',
+                timeout: 3000
+              });
+              console.error(error1);
+            });
+
+          }, error => {
+            this.flashMessage.show('Error with the product server - Thanks for your the patience!', {
+              cssClass: 'alert-danger',
+              timeout: 3000
+            });
           });
-          console.error(error1);
-        });
-
-      }, error => {
-        this.flashMessage.show('Error with the product server - Thanks for your the patience!', {
-          cssClass: 'alert-danger',
-          timeout: 3000
-        });
-      });
 
 
-    }
-    */
-    //  Compute the pager.
-    this.pager.pages = [0, 1, 2, 3];
+        }
+        */
+
   }
 
   /**
    *
    */
   private computePager() {
+    /*  Reset.  */
+    this.pager.pages = [];
 
+    /*  Compute the pager.  */
+    const nrDisplayElements = this.getNumberCols() * this.getRowHeight();
+    const nrElements = this.cachedItems.length / nrDisplayElements + 1;
+
+    for (let i = 0; i < nrElements; i++) {
+      this.pager.pages.push(i);
+    }
+
+    this.pager.totalPages = nrElements;
   }
 
   /**
@@ -109,7 +124,7 @@ export class ProductListComponent implements OnInit {
    *
    * @returns {{text: string; cols: number; rows: number; color: string}[]}
    */
-  getTiles() {
+  getItems() {
 
     const tiles = [];
     /*  Temporarily const variables. TODO resolve */
@@ -118,10 +133,8 @@ export class ProductListComponent implements OnInit {
 
       tiles.push(
         {
-          text: 'One',
           cols: (i % this.getNumberCols()) + 1,
           rows: (i / this.getNumberCols()) + 1,
-          color: 'lightblue',
           name: item.name,
           description: item.description,
           uid: item.uuid
@@ -138,24 +151,22 @@ export class ProductListComponent implements OnInit {
    */
   setPage(number: number) {
 
+    this.pager.currentPage = number;
+
+
     /*  Update items list.  */
+    if (this.cachedCategory != null || this.cachedItems !== undefined) {
+      this.itemService.getItems(this.cachedCategory).subscribe(value1 => {
+        this.cachedItems = value1;
 
-    /*  Update pager. */
+        /*  Update pager. */
+        this.computePager();
 
-    /*  Update view.  */
+        /*  Update view.  */
+
+      });
+    }
 
     return true;
-  }
-
-  /**
-   *
-   * @param {number | string | any} uid
-   * @returns {string}
-   */
-  getImageURL(uid: number | string | any) {
-    const imgRef = '/products/' + uid.toString() + '/preview.png';
-    /*  Get image url from storage. */
-
-    return '';
   }
 }

@@ -7,32 +7,24 @@
     <div class="text-center">
 
       <!-- items being paged -->
-      <div class="row">
-          <div *ngFor="let item of cachedItems"  class="col-sm-3">
-              <app-item-thumb-nail
-                [item]="item"
-                (callback)="itemClick($event)"
-              ></app-item-thumb-nail>
-          </div>
-      </div>
-      <!--
+
       <mat-grid-list [rowHeight]="getRowHeight()" [cols]="getNumberCols()">
         <mat-grid-tile
-          *ngFor="let tile of getTiles()"
-          [colspan]="tile.cols"
-          [rowspan]="tile.rows"
-          [style.background]="tile.color">
+          *ngFor="let item of getItems()"
+          [colspan]="item.cols"
+          [rowspan]="item.rows"
+          [style.background]="item.color">
 
-          <!-- Image and hyperlink
-          <div>
-            <a href="#" > <img [width]="getRowHeight()" [src]="getImageURL(tile.uid)" [srcset]=""></a>
-            {{ tile.description}}
-          </div>
+          <!-- Image and hyperlink -->
+          <app-item-thumb-nail
+            [item]="item"
+            (callback)="itemClick($event)"
+          ></app-item-thumb-nail>
 
         </mat-grid-tile>
 
       </mat-grid-list>
-      -->
+
 
       <!-- pager -->
       <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
