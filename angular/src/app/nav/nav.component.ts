@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../services/category.service';
-import { Observable } from 'rxjs/observable';
+import { Observable } from 'rxjs/Observable';
 import { Category } from '../services/category';
 
 @Component({
@@ -23,7 +23,7 @@ export class NavComponent implements OnInit {
     this.categories = this.categoryService.getCategories();
     this.categories.subscribe(blarg => this.categoryArray = blarg);
   }
-  
+
   onChange(value) {
     if(value == "admin")
     {
