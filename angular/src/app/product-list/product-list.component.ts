@@ -13,10 +13,16 @@ import {Category} from '../services/category';
 export class ProductListComponent implements OnInit {
 
   /*  For listening to search query.  */
-  @Input() search: string;
+  @Input() set search(value: string) {
+    this.cacheSearch = value;
+    this.resetPager();
+    this.setPage(1);
+  }
 
   @Input() set category(value: Category) {
     this.cachedCategory = value;
+    /*  Reset pager.  */
+    this.resetPager();
     this.setPage(1);
   }
 
@@ -29,8 +35,9 @@ export class ProductListComponent implements OnInit {
 
   /*  */
   cachedItems: Item[] = [];
-  cachedCategory: Category;
-  scaleFactor: float = 1.0;
+  cachedCategory: Category = null;
+  scaleFactor = 1.0;
+  cacheSearch: string = null;
 
   constructor(
     private categoryService: CategoryService,
@@ -55,7 +62,7 @@ export class ProductListComponent implements OnInit {
    * Compute pager.
    */
   private computePager() {
-    /*  Reset.  */
+    /*  Reset pages.  */
     this.pager.pages = [];
 
     /*  Compute the pager.  */
@@ -112,12 +119,24 @@ export class ProductListComponent implements OnInit {
         {
           cols: (i % this.getNumberCols()) + 1,
           rows: (i / this.getNumberCols()) + 1,
-          item : item
+          item: item
         }
       );
     }
 
     return tiles;
+  }
+
+
+  /**
+   *
+   */
+  private resetPager(){
+    this.pager = {
+      currentPage: -1,
+      totalPages: 0,
+      pages: [],
+    };
   }
 
   /**
@@ -126,16 +145,17 @@ export class ProductListComponent implements OnInit {
    */
   setPage(number: number) {
 
-    /*  */
+    /*  Compute the new valid page and compare with current.  */
     const newPage = Math.min(Math.max(number, 1), this.pager.totalPages);
     if (newPage === this.pager.currentPage)
       return;
 
+    /*  Set new page log it.  */
     console.log("page " + newPage);
     this.pager.currentPage = newPage;
 
     /*  Update items list.  */
-    if (this.cachedCategory != null || this.cachedItems !== undefined) {
+    if (this.cachedCategory != null) {
       /*  TODO add page offset and number of elements to extract. */
       this.itemService.getItems(this.cachedCategory).subscribe(result => {
         console.log(result);
@@ -146,11 +166,13 @@ export class ProductListComponent implements OnInit {
 
       }, error => {
         /*  Display error if items could not be displayed.  */
-        this.flashMessage.show('Error with the product server - Thanks for your the patience!', {
+        this.flashMessage.show('Error with the product server ;' + error + '  - Thanks for your the patience!', {
           cssClass: 'alert-danger',
           timeout: 3000
         });
       });
+    } else if (this.cacheSearch != null) {
+
     }
 
     return true;
