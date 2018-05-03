@@ -7,11 +7,10 @@
     <div class="text-center">
 
       <!-- items being paged -->
-      <mat-grid-list [rowHeight]="getRowHeight()" [cols]="getNumberCols()">
+      <mat-grid-list [cols]="this.breakpoint" rowHeight="1.0:1.0" (window:resize)="onResize($event)">
         <mat-grid-tile
-          *ngFor="let item of getItems()"
-          [colspan]="item.cols"
-          [rowspan]="item.rows"
+          *ngFor="let item of tiles"
+
           [style.background]="item.color">
 
           <!-- Image and hyperlink -->
@@ -23,7 +22,6 @@
         </mat-grid-tile>
 
       </mat-grid-list>
-
 
       <!-- pager -->
       <ul *ngIf="pager.pages && pager.pages.length" class="pagination">

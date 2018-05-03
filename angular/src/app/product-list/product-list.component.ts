@@ -19,6 +19,7 @@ export class ProductListComponent implements OnInit {
     this.setPage(1);
   }
 
+  /*  listening for external category changes.  */
   @Input() set category(value: Category) {
     this.cachedCategory = value;
     /*  Reset pager.  */
@@ -38,6 +39,11 @@ export class ProductListComponent implements OnInit {
   cachedCategory: Category = null;
   scaleFactor = 1.0;
   cacheSearch: string = null;
+  breakpoint = 2;
+  tiles;
+  /*  Constants.  */
+  MAXROW = 6;
+  MAXCOLUMN = 6;
 
   constructor(
     private categoryService: CategoryService,
@@ -47,15 +53,16 @@ export class ProductListComponent implements OnInit {
   }
 
   /**
-   *
+   * Select item.
    * @param {Item} item
    */
   itemClick(item: Item) {
+    /*  TODO add logic for changing router to the view of the product!  */
     console.log(item);
   }
 
   ngOnInit() {
-
+    this.breakpoint = this.computeBreakPoints(window.innerWidth);
   }
 
   /**
@@ -78,12 +85,11 @@ export class ProductListComponent implements OnInit {
   }
 
   /**
-   *
+   * Get number of Column
    * @returns {number}
    */
   getNumberCols() {
-    /*  TODO add logic for what device platform is used.  */
-    return 1; //window.screen.width / (this.getRowHeight() * 2);
+    return this.breakpoint * this.scaleFactor;
   }
 
   /**
@@ -96,7 +102,7 @@ export class ProductListComponent implements OnInit {
   }
 
   /**
-   *
+   * Set the zoom factor.
    * @param factor
    */
   setScaleFactor(factor) {
@@ -118,7 +124,6 @@ export class ProductListComponent implements OnInit {
       tiles.push(
         {
           cols: (i % this.getNumberCols()) + 1,
-          rows: (i / this.getNumberCols()) + 1,
           item: item
         }
       );
@@ -129,9 +134,9 @@ export class ProductListComponent implements OnInit {
 
 
   /**
-   *
+   * Reset pager to default.
    */
-  private resetPager(){
+  private resetPager() {
     this.pager = {
       currentPage: -1,
       totalPages: 0,
@@ -147,8 +152,9 @@ export class ProductListComponent implements OnInit {
 
     /*  Compute the new valid page and compare with current.  */
     const newPage = Math.min(Math.max(number, 1), this.pager.totalPages);
-    if (newPage === this.pager.currentPage)
+    if (newPage === this.pager.currentPage) {
       return;
+    }
 
     /*  Set new page log it.  */
     console.log("page " + newPage);
@@ -160,6 +166,9 @@ export class ProductListComponent implements OnInit {
       this.itemService.getItems(this.cachedCategory).subscribe(result => {
         console.log(result);
         this.cachedItems = result;
+
+        /*  */
+        this.tiles = this.getItems();
 
         /*  Update pager. */
         this.computePager();
@@ -176,5 +185,23 @@ export class ProductListComponent implements OnInit {
     }
 
     return true;
+  }
+
+  /**
+   * Recompute number of column.
+   * @param event
+   */
+  onResize(event) {
+    this.breakpoint = this.computeBreakPoints(event.target.innerWidth);
+    this.tiles = this.getItems();
+  }
+
+  /**
+   *
+   * @param {number} width
+   * @returns {number}
+   */
+  private computeBreakPoints(width: number) {
+    return width < 768 ? 1 : 1;
   }
 }
