@@ -1,4 +1,16 @@
 <div>
-	<input [(ngModel)]="deleteId" #ctrl="ngModel" required>
-	<button (click)="deleteProduct()">Delete</button>
+    <form (ngSubmit)="deleteProduct()" #productForm="ngForm">
+
+        <div class="form-group">
+            <label for="item">Item</label>
+            <select class="form-control" id="product"
+            required
+            [(ngModel)]="deleteId" name="product"
+            >
+                <option *ngFor="let item of items | async" [value]="item.uid">{{item.name}}</option>
+            </select>
+        </div>
+
+        <button type="submit" [disabled]="!productForm.form.valid">Delete</button>
+    </form>
 </div>
