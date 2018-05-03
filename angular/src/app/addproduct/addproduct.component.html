@@ -33,6 +33,14 @@
             [(ngModel)]="model.description" name="description"
             >Describe the product for the customer.</textarea>
         </div>
+		
+		<div class="form-group">
+            <label for="count">Quantity</label>
+            <input type="number" class="form-control" id="count"
+            required
+            [(ngModel)]="model.count" name="count"
+            >
+        </div>
 
         <button type="submit" [disabled]="!productForm.form.valid">Submit</button>
     </form>
