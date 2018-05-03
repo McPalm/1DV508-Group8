@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { AuthService} from './auth.service'
+import { AuthService} from './auth.service';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/take';
@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
                console.log('access denied')
                this.router.navigate(['/']);
              }
-         })
+         });
 
   }
 }

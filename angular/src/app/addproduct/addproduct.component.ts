@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Item } from '../services/item';
 import { Category } from '../services/category';
-import { Observable } from 'rxjs/observable';
+import { Observable } from 'rxjs/Observable';
 import { CategoryService } from '../services/category.service';
 import { ItemService } from '../services/item.service';
 
@@ -11,7 +11,7 @@ import { ItemService } from '../services/item.service';
   styleUrls: ['./addproduct.component.css']
 })
 export class AddproductComponent implements OnInit {
-	isVisible: boolean = false;
+
 	constructor(
 		private categoryService : CategoryService,
 		private itemService : ItemService,
@@ -24,7 +24,6 @@ export class AddproductComponent implements OnInit {
 	submitted = false;
 
 	onSubmit() {
-		this.isVisible = false;
 		this.itemService.addItem(this.model);
 		this.model = new Item();
 	}
@@ -33,11 +32,8 @@ export class AddproductComponent implements OnInit {
 		this.categories = this.categoryService.getCategories();
 	}
 
-	toggleVisible() {
-	  this.isVisible = !this.isVisible;
-	}
 
 	addProduct() {
-		this.toggleVisible();
+
 	}
 }

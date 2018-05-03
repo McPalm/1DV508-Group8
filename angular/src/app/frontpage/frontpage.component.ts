@@ -16,7 +16,11 @@ export class FrontpageComponent implements OnInit {
   categories: Observable<Category[]>;
   categoriesList: Category[];
 
-  constructor(public auth: AuthService, private userService: UserService, private categoryService: CategoryService) { }
+  constructor(
+    public auth: AuthService,
+    private userService: UserService,
+    private categoryService: CategoryService
+  ) { }
 
   getUser() {
     this.user = this.auth.getUser().subscribe()
@@ -24,13 +28,9 @@ export class FrontpageComponent implements OnInit {
 
   ngOnInit() {
     this.getUser();
-	this.categories = this.categoryService.getCategories();
-    this.categories.subscribe(list => {
-      this.categoriesList = list;
+    this.categories = this.categoryService.getCategories();
+      this.categories.subscribe(list => {
+        this.categoriesList = list;
     })
-  }
-
-  logout() : void {
-    //this.user.name = "";
   }
 }
