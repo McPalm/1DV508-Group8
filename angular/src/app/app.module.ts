@@ -31,6 +31,7 @@ import { NavComponent } from './nav/nav.component';
 import { NgbRadio, NgbRadioGroup } from '@ng-bootstrap/ng-bootstrap/buttons/radio';
 import { NgbButtonLabel } from '@ng-bootstrap/ng-bootstrap/buttons/label';
 import { ItemThumbNailComponent } from './gizmos/item-thumb-nail/item-thumb-nail.component';
+import { DeleteproductComponent } from './deleteproduct/deleteproduct.component';
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import { ItemThumbNailComponent } from './gizmos/item-thumb-nail/item-thumb-nail
     ProductListComponent,
     NavComponent,
     ItemThumbNailComponent,
+    DeleteproductComponent,
   ],
   imports: [
     BrowserModule,
