@@ -43,7 +43,7 @@ export class ProductListComponent implements OnInit {
   tiles;
   /*  Constants.  */
   MAXROW = 6;
-  MAXCOLUMN = 6;
+  MAXCOLUMN = 3;
 
   constructor(
     private categoryService: CategoryService,
@@ -202,6 +202,6 @@ export class ProductListComponent implements OnInit {
    * @returns {number}
    */
   private computeBreakPoints(width: number) {
-    return width < 768 ? 1 : 1;
+    return width < 768 ? 1 : this.MAXCOLUMN;
   }
 }
