@@ -1,5 +1,5 @@
 export class Item {
-    uuid: number;
+    uid: string;
     name: string;
     description: string;
     price: number;
@@ -7,4 +7,3 @@ export class Item {
     keyword: string;
 	path: string;
   }
-  

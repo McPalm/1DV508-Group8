@@ -4,10 +4,9 @@ import { Category } from '../services/category';
 import { Observable } from 'rxjs/Observable';
 import { CategoryService } from '../services/category.service';
 import { ItemService } from '../services/item.service';
-import { AngularFireDatabase } from 'angularfire2/database';
-
 import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-addproduct',
@@ -21,23 +20,30 @@ export class AddproductComponent implements OnInit {
 	snapshot: Observable<any>;
 	downloadURL: Observable<string>;
 	isHovering: boolean;
+	selectedFiles: FileList;
+	file: File;
+	@ViewChild('myInput')
+	myInputVariable: any;
 
 	constructor(
 		private categoryService : CategoryService,
 		private itemService : ItemService,
 		private storage: AngularFireStorage,
-		private db: AngularFireDatabase,
 	) { }
 
 	model = new Item();
 
 	categories: Observable<Category[]>;
+
 	submitted = false;
 
 	onSubmit() {
 		
+		
+		this.startUpload();
 		this.itemService.addItem(this.model);
 		this.model = new Item();
+		this.reset()
 	}
 
 	ngOnInit() {
@@ -50,20 +56,24 @@ export class AddproductComponent implements OnInit {
 	}
 	
 	
-		toggleHover(event: boolean) {
+	
+	toggleHover(event: boolean) {
     this.isHovering = event;
   }
   
+	 
+	chooseFiles(event) {
+    this.selectedFiles = event.target.files;
+   
+  }
   
 
 
-  startUpload(event: FileList) {
+	startUpload() {
     
-    const file = event.item(0)
-	
+	let file = this.selectedFiles.item(0);
     const path = `products/${new Date().getTime()}_${file.name}`;
 	
-
     
     // The main task
     this.task = this.storage.upload(path, file)
@@ -80,9 +90,12 @@ export class AddproductComponent implements OnInit {
   isActive(snapshot) {
     return snapshot.state === 'running' && snapshot.bytesTransferred < snapshot.totalBytes
   }
-	
-	
-	
+  
+  reset() {
+    console.log(this.myInputVariable.nativeElement.files);
+    this.myInputVariable.nativeElement.value = "";
+    console.log(this.myInputVariable.nativeElement.files);
+	}
 	
 	
 }

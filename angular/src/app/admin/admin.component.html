@@ -1,4 +1,4 @@
-<h2> Admin Controls</h2>
+<h2>Admin Controls</h2>
 <ngb-accordion  [closeOthers]="true">
 
 	<ngb-panel id="static-1" title="New Product">
@@ -7,7 +7,13 @@
 		</ng-template>
 	</ngb-panel>
 
-	<ngb-panel id="static-2" title="New Category">
+	<ngb-panel id="static-2" title="Delete Product">
+		<ng-template ngbPanelContent>
+			<app-deleteproduct></app-deleteproduct>
+		</ng-template>
+	</ngb-panel>
+
+	<ngb-panel id="static-3" title="New Category">
 		<ng-template ngbPanelContent>
 			<app-addcategory></app-addcategory>
 		</ng-template>

@@ -31,17 +31,14 @@
             <textarea name="description" rows="5" cols="41"
             required
             [(ngModel)]="model.description" name="description"
-            ></textarea>
+            >Describe the product for the customer.</textarea>
         </div>
-		
 		
 		<div class="dropzone" 
 			dropZone
 			(hovered)="toggleHover($event)"
-			(dropped)="startUpload($event)"
+			(dropped)="chooseFiles($event)"
 			[class.hovering]="isHovering">
-
-
 
 			 <label for="file">File</label>
 
@@ -50,9 +47,8 @@
 				<label class="file-label">
 
 
-					<input class="file-input" type="file" (change)="startUpload($event.target.files)" required>
-
-
+					<input #myInput class="file-input" name="filename" type="file" (change)="chooseFiles($event)">
+ 
 					<span class="file-cta">
 						<span class="file-icon">
 						<i class="fa fa-upload"></i>
@@ -64,19 +60,15 @@
 		</div>
 
 	<div *ngIf="percentage | async as pct">
-
 		<progress class="progress is-info" 
 				[value]="pct" 
 				max="100">        
 		</progress>
-
 		{{ pct | number }}%
-
 	</div>
 		
+		
 
-        <button type="submit"  [disabled]="!productForm.form.valid">Submit</button>
+        <button type="submit" [disabled]="!productForm.form.valid">Submit</button>
     </form>
-	
-
 </div>

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class ItemService {
 
-  private itemPath = "/items"; 
+  private itemPath = "/items";
 
   constructor(private db : AngularFireDatabase) { }
 
@@ -25,12 +25,12 @@ export class ItemService {
 
   /**
    * Get all items currently on the server
-   * @param category 
+   * @param category
    */
   getItemsAll() : Observable<any[]> {
     return this.db.list(this.itemPath).valueChanges();
   }
-  
+
   /**
    * Push an item to the database
    * @param item an item object to put in the database
@@ -38,7 +38,14 @@ export class ItemService {
   addItem(item : Item) : void {
     const obj = this.db.database.ref(this.itemPath);
     item.category = Number(item.category);
-    obj.push(item);
-    console.log("Pushed?");
+	item.uid = this.db.database.ref().push().key;
+    obj.child(item.uid).set(item);
+    console.log(`pushed ${this.itemPath}/${item.uid}`);
+  }
+
+  delete(id : String) : void {
+    var ref = this.db.database.ref().child(`${this.itemPath}/${id}`);
+    ref.remove();
+    console.log(`removed ${this.itemPath}/${id}`);
   }
 }

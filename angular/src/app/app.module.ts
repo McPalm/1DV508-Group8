@@ -21,6 +21,7 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { CookieService } from 'ngx-cookie-service';
 
+
 import { DropZoneDirective } from './drop-zone.directive';
 import { ItemService } from './services/item.service';
 import { UserProfileComponent } from './user-profile/user-profile.component';
@@ -36,6 +37,7 @@ import { NavComponent } from './nav/nav.component';
 import { NgbRadio, NgbRadioGroup } from '@ng-bootstrap/ng-bootstrap/buttons/radio';
 import { NgbButtonLabel } from '@ng-bootstrap/ng-bootstrap/buttons/label';
 import { ItemThumbNailComponent } from './gizmos/item-thumb-nail/item-thumb-nail.component';
+import { DeleteproductComponent } from './deleteproduct/deleteproduct.component';
 
 
 @NgModule({
@@ -51,6 +53,7 @@ import { ItemThumbNailComponent } from './gizmos/item-thumb-nail/item-thumb-nail
     ProductListComponent,
     NavComponent,
     ItemThumbNailComponent,
+    DeleteproductComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,7 +78,7 @@ import { ItemThumbNailComponent } from './gizmos/item-thumb-nail/item-thumb-nail
     NgbButtonLabel,
     NgbRadioGroup,
     NgbAlert,
-	CookieService,
+    CookieService,	
   ],
   bootstrap: [AppComponent]
 })
