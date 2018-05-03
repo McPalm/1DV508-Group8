@@ -14,15 +14,12 @@ import { UserService } from './services/user.service';
 import { CoreModule } from './core/core.module';
 import { CategoryService } from './services/category.service';
 
-import { AngularFireModule } from 'angularfire2';
-import { AngularFireAuthModule } from 'angularfire2/auth';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { CookieService } from 'ngx-cookie-service';
-
-
-import { DropZoneDirective } from './drop-zone.directive';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { ItemService } from './services/item.service';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { AddcategoryComponent } from './addcategory/addcategory.component';
@@ -38,6 +35,7 @@ import { NgbRadio, NgbRadioGroup } from '@ng-bootstrap/ng-bootstrap/buttons/radi
 import { NgbButtonLabel } from '@ng-bootstrap/ng-bootstrap/buttons/label';
 import { ItemThumbNailComponent } from './gizmos/item-thumb-nail/item-thumb-nail.component';
 import { DeleteproductComponent } from './deleteproduct/deleteproduct.component';
+import { UpdateproductComponent } from './updateproduct/updateproduct.component';
 
 
 @NgModule({
@@ -54,6 +52,7 @@ import { DeleteproductComponent } from './deleteproduct/deleteproduct.component'
     NavComponent,
     ItemThumbNailComponent,
     DeleteproductComponent,
+    UpdateproductComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,7 +67,7 @@ import { DeleteproductComponent } from './deleteproduct/deleteproduct.component'
     FormsModule,
     NgbModule.forRoot(),
 	AngularFirestoreModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
   ],
   providers: [
     UserService,
@@ -78,7 +77,7 @@ import { DeleteproductComponent } from './deleteproduct/deleteproduct.component'
     NgbButtonLabel,
     NgbRadioGroup,
     NgbAlert,
-    CookieService,	
+	CookieService,
   ],
   bootstrap: [AppComponent]
 })

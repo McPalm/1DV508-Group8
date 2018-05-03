@@ -15,7 +15,7 @@ export class NavComponent implements OnInit {
   categories: Observable<Category[]>;
   categoryArray: Category[];
   model = "";
-  admin = false; // For when we got this functionally up and running
+  admin = false; // temp fix
   category: Category;
   adminPage = false;
 
