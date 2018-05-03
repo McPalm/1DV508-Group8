@@ -1,0 +1,31 @@
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-3 nopadding">
+      <div
+      class="btn-group-vertical btn-group-toggle"
+      ngbRadioGroup
+      [(ngModel)]="model"
+      >
+       
+        <label *ngIf="admin" class="btn btn-primary">
+          <input ngbButton type="radio" value="Admin Controls" (click)="onChange('admin')"> Admin Controls
+        </label>
+        <br *ngIf="admin">
+
+        <label *ngFor="let cat of categories | async" class="btn btn-primary">
+          <input ngbButton type="radio" [value]="cat.name" (click)="onChange(cat.name)"> {{cat.name}}
+        </label>
+
+        
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="main">
+        
+        <app-product-list *ngIf="category != null" [category]="category"></app-product-list>
+        <app-admin *ngIf="adminPage"></app-admin>
+      </div>
+    </div>
+  </div>
+</div>

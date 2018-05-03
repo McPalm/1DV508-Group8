@@ -1,0 +1,13 @@
+.sidenav {
+    height: 100%;
+    display: block;
+}
+
+.btn-group-vertical {
+    width: 100%;
+}
+
+label.btn {
+    text-align: left;
+}
+

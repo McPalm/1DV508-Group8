@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Item } from '../services/item';
 import { Category } from '../services/category';
-import { Observable } from 'rxjs/observable';
+import { Observable } from 'rxjs/Observable';
 import { CategoryService } from '../services/category.service';
 import { ItemService } from '../services/item.service';
-import { CookieService } from 'ngx-cookie-service';
 import { AngularFireDatabase } from 'angularfire2/database';
+
+import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 
 @Component({
   selector: 'app-addproduct',
@@ -13,47 +15,74 @@ import { AngularFireDatabase } from 'angularfire2/database';
   styleUrls: ['./addproduct.component.css']
 })
 export class AddproductComponent implements OnInit {
-	isVisible: boolean = false;
-	isAdmin: boolean = false;
+	
+	task: AngularFireUploadTask;
+	percentage: Observable<number>;
+	snapshot: Observable<any>;
+	downloadURL: Observable<string>;
+	isHovering: boolean;
+
 	constructor(
 		private categoryService : CategoryService,
 		private itemService : ItemService,
-		private cookieService: CookieService, 
+		private storage: AngularFireStorage,
 		private db: AngularFireDatabase,
 	) { }
 
 	model = new Item();
 
 	categories: Observable<Category[]>;
-
 	submitted = false;
 
 	onSubmit() {
-		this.isVisible = false;
+		
 		this.itemService.addItem(this.model);
 		this.model = new Item();
 	}
 
 	ngOnInit() {
 		this.categories = this.categoryService.getCategories();
-		
-		const UID: string = this.cookieService.get('UID');
-	    this.db.object(`users/` + UID + `/admin`).valueChanges().subscribe((value) => {
-	    if(value === 'true'){
-		this.adminTrue(); 
-	 }});	
-	}
-	
-	
-	adminTrue() {
-		this.isAdmin = true;
 	}
 
-	toggleVisible() {
-	  this.isVisible = !this.isVisible;
-	}
 
 	addProduct() {
-		this.toggleVisible();
+
 	}
+	
+	
+		toggleHover(event: boolean) {
+    this.isHovering = event;
+  }
+  
+  
+
+
+  startUpload(event: FileList) {
+    
+    const file = event.item(0)
+	
+    const path = `products/${new Date().getTime()}_${file.name}`;
+	
+
+    
+    // The main task
+    this.task = this.storage.upload(path, file)
+
+    // Progress monitoring
+    this.percentage = this.task.percentageChanges();
+    this.snapshot   = this.task.snapshotChanges()
+	
+	this.model.path = 'gs://dv508-project-8.appspot.com/' + path;
+	
+  }
+
+  // Determines if the upload task is active
+  isActive(snapshot) {
+    return snapshot.state === 'running' && snapshot.bytesTransferred < snapshot.totalBytes
+  }
+	
+	
+	
+	
+	
 }

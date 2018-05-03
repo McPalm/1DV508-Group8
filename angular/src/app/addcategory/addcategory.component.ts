@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../services/category.service';
 import { Category } from '../services/category';
-import { Observable } from 'rxjs/observable';
-import { CookieService } from 'ngx-cookie-service';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-addcategory',
@@ -11,34 +9,24 @@ import { AngularFireDatabase } from 'angularfire2/database';
   styleUrls: ['./addcategory.component.css']
 })
 export class AddcategoryComponent implements OnInit {
-  isAdmin: boolean = false;
-  isVisible: boolean = false;
+
   categoryExists: boolean = false;
   categories: Observable<Category[]>;
   categoriesList: Category[];
 
-  constructor(private categoryService: CategoryService,
-			  private cookieService: CookieService, 
-		      private db: AngularFireDatabase,) { }
+  model = new Category();
+
+  constructor(private categoryService: CategoryService) { }
 
   ngOnInit() {
-    this.categories = this.categoryService.getCategories();
-    this.categories.subscribe(list => {
+      this.categories = this.categoryService.getCategories();
+      this.categories.subscribe(list => {
       this.categoriesList = list;
-    })
-	const UID: string = this.cookieService.get('UID');
-	this.db.object(`users/` + UID + `/admin`).valueChanges().subscribe((value) => {
-	    if(value === 'true'){
-			this.adminTrue(); 
-			}});
+    });
   }
-  
-  adminTrue() {
-		this.isAdmin = true;
-	}
 
-  toggleVisible() {
-    this.isVisible = !this.isVisible;
+  onSubmit() {
+    this.addCategory(this.model.name, this.model.description);
   }
 
   addCategory(newCategory: string, newCategoryDesc: string) {

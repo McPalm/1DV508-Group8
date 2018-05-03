@@ -1,6 +1,5 @@
 <div>
-    <button *ngIf="isAdmin" (click)="addProduct()" type="button"> Add Product </button>
-    <form (ngSubmit)="onSubmit()" *ngIf="isVisible" #productForm="ngForm">
+    <form (ngSubmit)="onSubmit()" #productForm="ngForm">
         <div class="form-group">
             <label for="name">Product Name</label>
             <input type="text" class="form-control" id="name"
@@ -32,9 +31,52 @@
             <textarea name="description" rows="5" cols="41"
             required
             [(ngModel)]="model.description" name="description"
-            >Describe the product for the customer.</textarea>
+            ></textarea>
         </div>
+		
+		
+		<div class="dropzone" 
+			dropZone
+			(hovered)="toggleHover($event)"
+			(dropped)="startUpload($event)"
+			[class.hovering]="isHovering">
 
-        <button type="submit" [disabled]="!productForm.form.valid">Submit</button>
+
+
+			 <label for="file">File</label>
+
+				<div class="file"
+				class="form-group">
+				<label class="file-label">
+
+
+					<input class="file-input" type="file" (change)="startUpload($event.target.files)" required>
+
+
+					<span class="file-cta">
+						<span class="file-icon">
+						<i class="fa fa-upload"></i>
+						</span>
+
+					</span>
+			</label>
+			</div>
+		</div>
+
+	<div *ngIf="percentage | async as pct">
+
+		<progress class="progress is-info" 
+				[value]="pct" 
+				max="100">        
+		</progress>
+
+		{{ pct | number }}%
+
+	</div>
+		
+
+        <button type="submit"  [disabled]="!productForm.form.valid">Submit</button>
     </form>
+	
+
 </div>

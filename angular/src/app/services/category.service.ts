@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Category } from './category';
-import { Observable } from 'rxjs/observable'
+import { Observable } from 'rxjs/Observable'
 
 @Injectable()
 export class CategoryService {
@@ -29,6 +29,6 @@ export class CategoryService {
       }
       this.db.object(`categories/${this.id}`).update(data);
       dbRef.unsubscribe();
-    })
+    });
   }
 }

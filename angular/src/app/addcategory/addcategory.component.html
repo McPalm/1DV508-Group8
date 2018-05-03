@@ -1,19 +1,44 @@
-<button *ngIf="isAdmin" (click)="toggleVisible()" type="button"> Add Category </button>
-<form *ngIf="isVisible" onSubmit="return false;">
-	Category name:
+<div>
+  <form (ngSubmit)="onSubmit()" #categoryForm="ngForm">
+    <div class="form-group">
+        <label for="name">Category Name</label>
+        <input type="text" class="form-control" id="name"
+        required
+        [(ngModel)]="model.name" name="name"
+        >
+    </div>
+
+    <div class="form-group">
+        <label>Description</label><br>
+        <textarea name="description" rows="5" cols="41"
+        required
+        [(ngModel)]="model.description" name="description"
+        ></textarea>
+    </div>
+
+    <button type="submit" [disabled]="!categoryForm.form.valid">Submit</button>
+    <p>
+        <ngb-alert *ngIf="categoryExists" [dismissible]="true" (close)="categoryExists = false">
+          <strong>Problem!</strong> That category already exists.
+        </ngb-alert>
+      </p>
+    </form>
+</div>
+<!--
+	<label>name</label>
 	<input #newCategory
-        (keyup.enter)="newCategoryDesc.focus()">
-        <br>
-  Category description:
+        (keyup.enter)="newCategoryDesc.focus()"
+        >
+  <label>description</label>
   <input #newCategoryDesc
-        (keyup.enter)="addCategory(newCategory.value, newCategoryDesc.value)">
-        <br>
+        (keyup.enter)="addCategory(newCategory.value, newCategoryDesc.value)"
+        >
         <p [hidden]="!categoryExists"#existError>Category already exists</p>
       <button (click)="
         addCategory(newCategory.value, newCategoryDesc.value); 
-        newCategory.value=''; newCategoryDesc.value='';" type="button">Add</button>
-        <p>Categories:</p>
-<ul>
-  <li *ngFor="let category of categories | async"><p>{{category.name}}</p></li>
-</ul>
+        newCategory.value='';
+        newCategoryDesc.value='';"
+        type="button"
+        >Add</button>
 </form>
+-->
