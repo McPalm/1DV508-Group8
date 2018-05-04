@@ -5,6 +5,7 @@ import { Category } from '../services/category';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { CookieService } from 'ngx-cookie-service';
 
+
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
@@ -15,6 +16,7 @@ export class NavComponent implements OnInit {
   categories: Observable<Category[]>;
   categoryArray: Category[];
   model = "";
+
   admin = false; // temp fix
   category: Category;
   adminPage = false;
@@ -23,9 +25,11 @@ export class NavComponent implements OnInit {
 			private cookieService: CookieService, 
 			private db: AngularFireDatabase,) { }
 
+
   ngOnInit() {
     this.categories = this.categoryService.getCategories();
     this.categories.subscribe(blarg => this.categoryArray = blarg);
+
 	
 	const UID: string = this.cookieService.get('UID');
 	this.db.object(`users/` + UID + `/admin`).valueChanges().subscribe((value) => {
@@ -33,8 +37,7 @@ export class NavComponent implements OnInit {
 	    if(value === 'true'){
 		this.adminTrue(); 
 	 }});
-	
-	
+
   }
 
   onChange(value) {
@@ -60,6 +63,5 @@ export class NavComponent implements OnInit {
 	 adminTrue() {
 		this.admin = true;
 	}
-  
   
 }

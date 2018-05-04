@@ -66,8 +66,9 @@ import { UpdateproductComponent } from './updateproduct/updateproduct.component'
     CdkTableModule,
     FormsModule,
     NgbModule.forRoot(),
-	AngularFirestoreModule,
+	  AngularFirestoreModule,
     AngularFireStorageModule,
+
   ],
   providers: [
     UserService,
@@ -77,7 +78,7 @@ import { UpdateproductComponent } from './updateproduct/updateproduct.component'
     NgbButtonLabel,
     NgbRadioGroup,
     NgbAlert,
-	CookieService,
+	  CookieService,
   ],
   bootstrap: [AppComponent]
 })

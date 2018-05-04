@@ -14,6 +14,7 @@ import { ViewChild } from '@angular/core';
   styleUrls: ['./addproduct.component.css']
 })
 export class AddproductComponent implements OnInit {
+
 	
 	task: AngularFireUploadTask;
 	percentage: Observable<number>;
@@ -38,8 +39,7 @@ export class AddproductComponent implements OnInit {
 	submitted = false;
 
 	onSubmit() {
-		
-		
+    
 		this.startUpload();
 		this.itemService.addItem(this.model);
 		this.model = new Item();
@@ -53,9 +53,8 @@ export class AddproductComponent implements OnInit {
 
 	addProduct() {
 
+
 	}
-	
-	
 	
 	toggleHover(event: boolean) {
     this.isHovering = event;
@@ -72,7 +71,7 @@ export class AddproductComponent implements OnInit {
 	startUpload() {
     
 	let file = this.selectedFiles.item(0);
-    const path = `products/${new Date().getTime()}_${file.name}`;
+   const path = `products/${new Date().getTime()}_${file.name}`;
 	
     
     // The main task
@@ -95,6 +94,7 @@ export class AddproductComponent implements OnInit {
     console.log(this.myInputVariable.nativeElement.files);
     this.myInputVariable.nativeElement.value = "";
     console.log(this.myInputVariable.nativeElement.files);
+
 	}
 	
 	

@@ -40,7 +40,7 @@
             required
             [(ngModel)]="model.count" name="count"
             >
-        </div>
+     </div>
 		
 		<div class="dropzone" 
 			dropZone
@@ -68,7 +68,6 @@
 		</progress>
 		{{ pct | number }}%
 	</div>
-		
 
         <button type="submit" [disabled]="!productForm.form.valid">Submit</button>
     </form>
