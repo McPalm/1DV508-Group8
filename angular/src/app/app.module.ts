@@ -14,6 +14,9 @@ import { UserService } from './services/user.service';
 import { CoreModule } from './core/core.module';
 import { CategoryService } from './services/category.service';
 
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireStorageModule } from 'angularfire2/storage';
+import { CookieService } from 'ngx-cookie-service';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -63,6 +66,9 @@ import { UpdateproductComponent } from './updateproduct/updateproduct.component'
     CdkTableModule,
     FormsModule,
     NgbModule.forRoot(),
+	  AngularFirestoreModule,
+    AngularFireStorageModule,
+
   ],
   providers: [
     UserService,
@@ -72,6 +78,7 @@ import { UpdateproductComponent } from './updateproduct/updateproduct.component'
     NgbButtonLabel,
     NgbRadioGroup,
     NgbAlert,
+	  CookieService,
   ],
   bootstrap: [AppComponent]
 })
