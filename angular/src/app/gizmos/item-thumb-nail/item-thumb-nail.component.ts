@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Item } from '../../services/item';
+import { CartService } from '../../services/cart.service'
 
 @Component({
   selector: 'app-item-thumb-nail',
@@ -13,16 +14,18 @@ export class ItemThumbNailComponent implements OnInit {
    * Use this to listen to clicks on this, returns a ref to the item you gave it.
    */
   @Output() callback: EventEmitter<Item> = new EventEmitter();
-
-  constructor() { }
+  constructor(private cartService: CartService) { }
 
   ngOnInit() {
-    
   }
 
   onClick() : void {
     if(this.callback != null)
       this.callback.emit(this.item);
+  }
+
+  addCart() : void {
+    this.cartService.addItem(this.item.uid);
   }
 }
 

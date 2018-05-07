@@ -36,6 +36,7 @@ import { NgbButtonLabel } from '@ng-bootstrap/ng-bootstrap/buttons/label';
 import { ItemThumbNailComponent } from './gizmos/item-thumb-nail/item-thumb-nail.component';
 import { DeleteproductComponent } from './deleteproduct/deleteproduct.component';
 import { UpdateproductComponent } from './updateproduct/updateproduct.component';
+import { CartService } from './services/cart.service';
 
 
 @NgModule({
@@ -78,7 +79,8 @@ import { UpdateproductComponent } from './updateproduct/updateproduct.component'
     NgbButtonLabel,
     NgbRadioGroup,
     NgbAlert,
-	  CookieService,
+    CookieService,
+    CartService,
   ],
   bootstrap: [AppComponent]
 })
