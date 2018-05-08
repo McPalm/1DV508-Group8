@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
 
 import * as firebase from 'firebase/app';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireDatabase } from 'angularfire2/database';
+import {AngularFireAuth} from 'angularfire2/auth';
+import {AngularFireDatabase} from 'angularfire2/database';
 
-import { Observable } from 'rxjs/Observable';
+import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap';
-import { CookieService } from 'ngx-cookie-service';
+import {CookieService} from 'ngx-cookie-service';
 
 interface User {
   uid: string;
@@ -76,8 +76,8 @@ export class AuthService {
 		var temp;
 		if(this.admincheck === 'true'){ temp = 'true';}
 		else {temp = 'false';}
-	 
-		
+
+
 	  const today = new Date();
 	  const data: User = {
       uid: user.uid,
@@ -86,24 +86,34 @@ export class AuthService {
       displayName: user.displayName,
 	  admin: temp.toString(),
     }
-	
+
 	window.location.reload();
     return userRef.update(data);
-	
+
 	});
-	
-			
+
+
 
   }
-   getUser(): Observable<User> {
-    let userAuth = this.afAuth.authState
-    .switchMap(userAuth => {
-      if (userAuth) {
-        return this.db.object(`users/${userAuth.uid}`).valueChanges();
+
+  /**
+   * Get current user. if not user is logged in, null
+   * is returned.
+   *
+   * @returns {Observable<User>} | null
+   */
+  getUser(): Observable<User> {
+    const authUser = this.afAuth.authState
+      .switchMap(userAuth => {
+        if (userAuth) {
+          return this.db.object(`users/${userAuth.uid}`).valueChanges();
+        }
+        else {
+          return Observable.of(null);
+        }
+      });
+    return authUser;
   }
-    })
-    return Observable.of(null)
-}
 
 // Signs out the user
   signOut() {
