@@ -1,4 +1,3 @@
-
 <div>
   <h1>{{cachedCategory.name}}</h1>
   <p>{{cachedCategory.description}}</p>
@@ -6,11 +5,19 @@
   <div class="container">
     <div class="text-center">
 
+      <!-- TODO relocate to navbar later! -->
+      <form class="form-inline my-2 my-lg-0" (submit)="onSearch()">
+        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" [ngModel]="search"
+               name="search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+      <mat-slider min="1" max="5" step="0.25" value="1" (change)="setScaleFactor($event)"></mat-slider>
+
+
       <!-- items being paged -->
       <mat-grid-list [cols]="this.breakpoint" rowHeight="1.0:1.0" (window:resize)="onResize($event)">
         <mat-grid-tile
           *ngFor="let item of tiles"
-
           [style.background]="item.color">
 
           <!-- Image and hyperlink -->
@@ -23,7 +30,10 @@
 
       </mat-grid-list>
 
-      <!-- pager -->
+      <ngb-pagination class="d-flex justify-content-center" [pageSize]="getNrElementOnPage()" [collectionSize]="cachedItems.length" [(page)]="pager.currentPage"
+                      [maxSize]="" aria-label="Default pagination" (pageChange)="setPage($event)" ></ngb-pagination>
+
+      <!-- pager
       <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
         <li [ngClass]="{disabled:pager.currentPage === 1}">
           <a (click)="setPage(1)">First</a>
@@ -41,6 +51,7 @@
           <a (click)="setPage(pager.totalPages)">Last</a>
         </li>
       </ul>
+       -->
     </div>
   </div>
 </div>
