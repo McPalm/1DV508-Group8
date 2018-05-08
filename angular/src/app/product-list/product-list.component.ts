@@ -74,7 +74,7 @@ export class ProductListComponent implements OnInit {
 
     /*  Compute the pager.  */
     const nrDisplayElements: number = this.getNrElementOnPage();
-    const nrElements: number = Math.floor((this.cachedItems.length / nrDisplayElements));
+    const nrElements: number = Math.ceil((this.cachedItems.length / nrDisplayElements));
 
     const indicesOffset = 1;
     for (let i = indicesOffset; i < nrElements + indicesOffset; i++) {
@@ -165,12 +165,11 @@ export class ProductListComponent implements OnInit {
     console.log("page " + newPage);
     this.pager.currentPage = newPage;
 
-
     /*  Update items list.  */
     if (this.cachedCategory != null) {
       /*  TODO add page offset and number of elements to extract. */
 
-      this.itemService.getItems(this.cachedCategory, 0, -1).subscribe(result => {
+      this.itemService.getItems(this.cachedCategory).subscribe(result => {
         console.log(result);
         this.cachedItems = result;
 
@@ -212,5 +211,10 @@ export class ProductListComponent implements OnInit {
    */
   private computeBreakPoints(width: number) {
     return width < 768 ? 1 : Math.floor((width - 320) / 220);
+  }
+
+
+  onSearch() {
+
   }
 }
