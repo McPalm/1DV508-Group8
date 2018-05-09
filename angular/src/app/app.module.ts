@@ -37,6 +37,7 @@ import { ItemThumbNailComponent } from './gizmos/item-thumb-nail/item-thumb-nail
 import { DeleteproductComponent } from './deleteproduct/deleteproduct.component';
 import { UpdateproductComponent } from './updateproduct/updateproduct.component';
 import { SearchService } from './services/search.service';
+import { CartService } from './services/cart.service';
 
 
 @NgModule({
@@ -81,6 +82,7 @@ import { SearchService } from './services/search.service';
     NgbAlert,
     CookieService,
     SearchService,
+    CartService,
   ],
   bootstrap: [AppComponent]
 })
