@@ -36,7 +36,11 @@ import { NgbButtonLabel } from '@ng-bootstrap/ng-bootstrap/buttons/label';
 import { ItemThumbNailComponent } from './gizmos/item-thumb-nail/item-thumb-nail.component';
 import { DeleteproductComponent } from './deleteproduct/deleteproduct.component';
 import { UpdateproductComponent } from './updateproduct/updateproduct.component';
+<<<<<<< HEAD
+import { SearchService } from './services/search.service';
+=======
 import { CartService } from './services/cart.service';
+>>>>>>> 9aab8a0b05ef6109d5a2500ff14c647cde915461
 
 
 @NgModule({
@@ -80,7 +84,11 @@ import { CartService } from './services/cart.service';
     NgbRadioGroup,
     NgbAlert,
     CookieService,
+<<<<<<< HEAD
+    SearchService,
+=======
     CartService,
+>>>>>>> 9aab8a0b05ef6109d5a2500ff14c647cde915461
   ],
   bootstrap: [AppComponent]
 })
