@@ -36,6 +36,7 @@ import { NgbButtonLabel } from '@ng-bootstrap/ng-bootstrap/buttons/label';
 import { ItemThumbNailComponent } from './gizmos/item-thumb-nail/item-thumb-nail.component';
 import { DeleteproductComponent } from './deleteproduct/deleteproduct.component';
 import { UpdateproductComponent } from './updateproduct/updateproduct.component';
+import { SearchService } from './services/search.service';
 import { CartService } from './services/cart.service';
 
 
@@ -80,6 +81,7 @@ import { CartService } from './services/cart.service';
     NgbRadioGroup,
     NgbAlert,
     CookieService,
+    SearchService,
     CartService,
   ],
   bootstrap: [AppComponent]
