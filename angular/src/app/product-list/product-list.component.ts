@@ -4,6 +4,7 @@ import {ItemService} from '../services/item.service';
 import {FlashMessagesService} from 'angular2-flash-messages';
 import {Item} from '../services/item';
 import {Category} from '../services/category';
+import {SearchService} from '../services/search.service';
 
 @Component({
   selector: 'app-product-list',
@@ -41,14 +42,12 @@ export class ProductListComponent implements OnInit {
   cacheSearch: string = null;
   breakpoint = 2;
   tiles;
-  /*  Constants.  */
-  MAXROW = 6;
-  MAXCOLUMN = 6;
 
   constructor(
     private categoryService: CategoryService,
     private itemService: ItemService,
     private flashMessage: FlashMessagesService,
+    private searchService: SearchService
   ) {
   }
 
@@ -89,7 +88,7 @@ export class ProductListComponent implements OnInit {
    * Get number of Column
    * @returns {number}
    */
-  getNumberCols() {
+  public getNumberCols() {
     return this.breakpoint * this.scaleFactor;
   }
 
@@ -97,28 +96,30 @@ export class ProductListComponent implements OnInit {
    * Get number of possible elements on the page.
    * @returns {number}
    */
-  getNrElementOnPage() {
+  public getNrElementOnPage() {
     return this.getNumberCols() * this.getNumberCols();
   }
 
   /**
    * Set the zoom factor.
-   * @param factor
+   * @param factor display factor.
    */
-  setScaleFactor(factor) {
+  public setScaleFactor(factor) {
     this.scaleFactor = factor;
   }
 
   /**
+   * Compute the items for display, based on the
+   * current pager.
    *
    * @returns {{text: string; cols: number; rows: number; color: string}[]}
    */
-  getItems() {
+  private computeItem() {
 
     const tiles = [];
-    /*  Temporarily const variables. TODO resolve */
+
     const offset = (this.pager.currentPage - 1) * this.getNrElementOnPage();
-    const nrElements = this.cachedItems.length - offset
+    const nrElements = this.cachedItems.length - offset;
 
     /*  Iterate through each element. */
     for (let i = 0; i < this.getNrElementOnPage() && i < nrElements; i++) {
@@ -136,7 +137,6 @@ export class ProductListComponent implements OnInit {
     return tiles;
   }
 
-
   /**
    * Reset pager to default.
    */
@@ -149,10 +149,10 @@ export class ProductListComponent implements OnInit {
   }
 
   /**
-   *
+   * Set current page.
    * @param {number} number
    */
-  setPage(number: number) {
+  public setPage(number: number) {
 
     /*  Compute the new valid page and compare with current.  */
     console.log("requesting page: " + number);
@@ -174,7 +174,7 @@ export class ProductListComponent implements OnInit {
         this.cachedItems = result;
 
         /*  */
-        this.tiles = this.getItems();
+        this.tiles = this.computeItem();
 
         /*  Update pager. */
         this.computePager();
@@ -188,8 +188,14 @@ export class ProductListComponent implements OnInit {
       });
     } else if (this.cacheSearch != null) {
 
-      /*  Only search.  */
+      /*  Only search by search input.  */
+      const result = this.searchService.search(this.cacheSearch);
+      console.log(result);
+      this.cachedItems = result;
+      this.tiles = this.computeItem();
 
+      /*  Update pager. */
+      this.computePager();
     }
 
     return true;
@@ -199,22 +205,27 @@ export class ProductListComponent implements OnInit {
    * Recompute number of column.
    * @param event
    */
-  onResize(event) {
+  protected onResize(event) {
     this.breakpoint = this.computeBreakPoints(event.target.innerWidth);
-    this.tiles = this.getItems();
+    this.tiles = this.computeItem();
   }
 
   /**
+   * Compute the column break point.
    *
-   * @param {number} width
-   * @returns {number}
+   * @param {number} width in pixels.
+   * @returns {number} number of column.
    */
   private computeBreakPoints(width: number) {
     return width < 768 ? 1 : Math.floor((width - 320) / 220);
   }
 
-
-  onSearch() {
-
+  /**
+   * Search.
+   */
+  protected onSearch() {
+    this.resetPager();
+    this.cachedCategory = null;
+    this.setPage(1);
   }
 }
