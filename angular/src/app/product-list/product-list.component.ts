@@ -29,8 +29,8 @@ export class ProductListComponent implements OnInit {
 
   // pager object
   pager: any = {
-    currentPage: -1,
-    totalPages: 0,
+    currentPage: -1, /*  [1, inf]*/
+    totalPages: 1, /*  [1, inf]*/
     pages: [],
   };
 
@@ -73,14 +73,15 @@ export class ProductListComponent implements OnInit {
     this.pager.pages = [];
 
     /*  Compute the pager.  */
-    const nrDisplayElements: number = this.getNumberCols() * this.getNumberCols();
-    const nrElements: number = Math.floor((this.cachedItems.length / nrDisplayElements));
+    const nrDisplayElements: number = this.getNrElementOnPage();
+    const nrElements: number = Math.ceil((this.cachedItems.length / nrDisplayElements));
 
-    for (let i = 1; i < nrElements + 1; i++) {
+    const indicesOffset = 1;
+    for (let i = indicesOffset; i < nrElements + indicesOffset; i++) {
       this.pager.pages.push(i);
     }
 
-    console.log(nrElements);
+    console.log("number of pages: " + nrElements);
     this.pager.totalPages = nrElements;
   }
 
@@ -93,12 +94,11 @@ export class ProductListComponent implements OnInit {
   }
 
   /**
-   *
+   * Get number of possible elements on the page.
    * @returns {number}
    */
-  getRowHeight() {
-    /*  TODO add some logic based on the resolution of the media. */
-    return 100 * this.scaleFactor;
+  getNrElementOnPage() {
+    return this.getNumberCols() * this.getNumberCols();
   }
 
   /**
@@ -117,8 +117,12 @@ export class ProductListComponent implements OnInit {
 
     const tiles = [];
     /*  Temporarily const variables. TODO resolve */
-    for (let i = 0; i < this.cachedItems.length; i++) {
-      const item: Item = this.cachedItems[i];
+    const offset = (this.pager.currentPage - 1) * this.getNrElementOnPage();
+    const nrElements = this.cachedItems.length - offset
+
+    /*  Iterate through each element. */
+    for (let i = 0; i < this.getNrElementOnPage() && i < nrElements; i++) {
+      const item: Item = this.cachedItems[offset + i];
 
       /*  Add item. */
       tiles.push(
@@ -139,7 +143,7 @@ export class ProductListComponent implements OnInit {
   private resetPager() {
     this.pager = {
       currentPage: -1,
-      totalPages: 0,
+      totalPages: 1,
       pages: [],
     };
   }
@@ -151,6 +155,7 @@ export class ProductListComponent implements OnInit {
   setPage(number: number) {
 
     /*  Compute the new valid page and compare with current.  */
+    console.log("requesting page: " + number);
     const newPage = Math.min(Math.max(number, 1), this.pager.totalPages);
     if (newPage === this.pager.currentPage) {
       return;
@@ -163,6 +168,7 @@ export class ProductListComponent implements OnInit {
     /*  Update items list.  */
     if (this.cachedCategory != null) {
       /*  TODO add page offset and number of elements to extract. */
+
       this.itemService.getItems(this.cachedCategory).subscribe(result => {
         console.log(result);
         this.cachedItems = result;
@@ -181,6 +187,8 @@ export class ProductListComponent implements OnInit {
         });
       });
     } else if (this.cacheSearch != null) {
+
+      /*  Only search.  */
 
     }
 
@@ -202,6 +210,11 @@ export class ProductListComponent implements OnInit {
    * @returns {number}
    */
   private computeBreakPoints(width: number) {
-    return width < 768 ? 1 : 1;
+    return width < 768 ? 1 : Math.floor((width - 320) / 220);
+  }
+
+
+  onSearch() {
+
   }
 }

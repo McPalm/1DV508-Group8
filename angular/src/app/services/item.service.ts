@@ -48,4 +48,13 @@ export class ItemService {
     ref.remove();
     console.log(`removed ${this.itemPath}/${id}`);
   }
+
+  /**
+   * Updates item information
+   * @param item 
+   */
+  updateItem(item : Item) : void {
+    let dbRef = this.db.database.ref(this.itemPath + "/" + item.uid);
+    dbRef.update(item);
+   }
 }

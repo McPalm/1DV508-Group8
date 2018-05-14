@@ -1,12 +1,13 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
 
 import * as firebase from 'firebase/app';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireDatabase } from 'angularfire2/database';
+import {AngularFireAuth} from 'angularfire2/auth';
+import {AngularFireDatabase} from 'angularfire2/database';
 
-import { Observable } from 'rxjs/Observable';
+import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap';
+import {CookieService} from 'ngx-cookie-service';
 
 interface User {
   uid: string;
@@ -21,6 +22,7 @@ interface User {
   lastName ?: string;
   city ?: string;
   postcode ?: number;
+  admin : string;
   /*  TODO add later */
   //privacy : Privacy;
   //privilege : Privilege;
@@ -31,10 +33,14 @@ export class AuthService {
 
   public user;
   public userReference;
+  public admincheck;
+  public cookieValue;
+  public tempadmin: boolean;
 
   constructor(private afAuth: AngularFireAuth,
               private db: AngularFireDatabase,
-              private router: Router) {
+              private router: Router,
+			  private cookieService: CookieService) {
 
       //// Get auth data, then get firestore user document || null
       this.user = this.afAuth.authState
@@ -63,30 +69,55 @@ export class AuthService {
   private updateUserData(user) {
     // Sets user data to firedatabase on login
     const userRef  = this.db.object(`users/${user.uid}`);
+	this.cookieService.set( 'UID', user.uid );
+    this.cookieValue = this.cookieService.get('UID');
+	this.db.object(`users/${user.uid}/admin`).valueChanges().subscribe((value) => {
+		this.admincheck = value;
+		var temp;
+		if(this.admincheck === 'true'){ temp = 'true';}
+		else {temp = 'false';}
 
 
-    const today = new Date();
-    const data: User = {
+	  const today = new Date();
+	  const data: User = {
       uid: user.uid,
       email: user.email,
       lastActive : today.toString(),
       displayName: user.displayName,
+	  admin: temp.toString(),
     }
-    return userRef.set(data);
+
+	window.location.reload();
+    return userRef.update(data);
+
+	});
+
+
+
   }
 
-   getUser(): Observable<User> {
-    let userAuth = this.afAuth.authState
-    .switchMap(userAuth => {
-      if (userAuth) {
-        return this.db.object(`users/${userAuth.uid}`).valueChanges()
+  /**
+   * Get current user. if not user is logged in, null
+   * is returned.
+   *
+   * @returns {Observable<User>} | null
+   */
+  getUser(): Observable<User> {
+    const authUser = this.afAuth.authState
+      .switchMap(userAuth => {
+        if (userAuth) {
+          return this.db.object(`users/${userAuth.uid}`).valueChanges();
+        }
+        else {
+          return Observable.of(null);
+        }
+      });
+    return authUser;
   }
-    })
-    return Observable.of(null)
-}
 
 // Signs out the user
   signOut() {
+	this.cookieService.deleteAll();
     this.afAuth.auth.signOut().then(() => {
         this.router.navigate(['/']);
         window.location.reload();
