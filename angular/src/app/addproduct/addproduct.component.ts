@@ -69,9 +69,12 @@ export class AddproductComponent implements OnInit {
 
 
 	startUpload() {
-    
+	
+	if(this.selectedFiles == null || this.selectedFiles.length == 0)
+		return;
+
 	let file = this.selectedFiles.item(0);
-   const path = `products/${new Date().getTime()}_${file.name}`;
+   	const path = `products/${new Date().getTime()}_${file.name}`;
 	
     
     // The main task
