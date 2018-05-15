@@ -10,7 +10,6 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { FrontpageComponent } from './frontpage/frontpage.component';
-import { UserService } from './services/user.service';
 import { CoreModule } from './core/core.module';
 import { CategoryService } from './services/category.service';
 
@@ -73,7 +72,6 @@ import { CartService } from './services/cart.service';
 
   ],
   providers: [
-    UserService,
     CategoryService,
     ItemService,
     NgbRadio,

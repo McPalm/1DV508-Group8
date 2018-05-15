@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../services/user.service';
-import { User } from '../services/user';
 import { AuthService } from '../core/auth.service';
 import { Observable } from 'rxjs/Observable';
 import { CategoryService } from '../services/category.service';
@@ -18,7 +16,6 @@ export class FrontpageComponent implements OnInit {
 
   constructor(
     public auth: AuthService,
-    private userService: UserService,
     private categoryService: CategoryService
   ) { }
 

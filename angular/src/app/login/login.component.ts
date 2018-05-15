@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { UserService } from '../services/user.service';
-import { User } from '../services/user';
+import {AuthService} from '../core/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -10,11 +9,11 @@ import { User } from '../services/user';
 })
 export class LoginComponent implements OnInit {
 
-  user: User;
+  user;
 
   constructor(
     private location: Location,
-    private userService: UserService
+    private auth: AuthService,
   ) { }
 
   ngOnInit() {
@@ -27,6 +26,6 @@ export class LoginComponent implements OnInit {
   }
 
   getUser(): void {
-    this.user = this.userService.getUser();
+    this.user = this.auth.getUser();
   }
 }
