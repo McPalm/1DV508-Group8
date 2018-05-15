@@ -15,12 +15,12 @@ export class FrontpageComponent implements OnInit {
   categoriesList: Category[];
 
   constructor(
-    public auth: AuthService,
+    private authService: AuthService,
     private categoryService: CategoryService
   ) { }
 
   getUser() {
-    this.user = this.auth.getUser().subscribe()
+    this.authService.getUser().subscribe(res => this.user = res);
   }
 
   ngOnInit() {

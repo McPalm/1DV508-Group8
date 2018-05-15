@@ -9,22 +9,22 @@
       <h1>Cuddly(tm)</h1>
     </div>
     <div class="col-md-3 nopadding">
-      <div *ngIf="auth.user | async; then loggedin else guest" class="loginlogout" > <!-- Templates replaces this tag -->
+      <div *ngIf="authService.user | async; then loggedin else guest" class="loginlogout" > <!-- Templates replaces this tag -->
       </div>
     </div>
   </div>
 
   <ng-template #guest>
     <div class="loginlogout">
-        <button (click)="auth.googleLogin()" type="button"> Log In </button>
+        <button (click)="authService.googleLogin()" type="button"> Log In </button>
         <p>You are logged out</p>
     </div>
   </ng-template>
 
   <ng-template #loggedin>
       <div class="loginlogout">
-          <button (click)="auth.signOut()" routerLink="" type="button"> Log Out </button>
-          <p>Logged in as <strong>Fix me!</strong></p>
+          <button (click)="authService.signOut()" routerLink="" type="button"> Log Out </button>
+          <p>Welcome {{user.displayName}}!</p>
       </div>
     </ng-template>
 </div>
