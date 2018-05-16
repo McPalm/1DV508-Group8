@@ -12,8 +12,8 @@
           <input ngbButton type="radio" value="Admin Controls" (click)="openAdmin()"> Admin Controls
         </label>
 
-        <label *ngIf="admin" class="btn btn-primary important">
-          <input ngbButton type="radio" value="New Orders" (click)="openOrders()"> New Orders
+        <label *ngIf="admin" class="btn btn-primary">
+          <input ngbButton type="radio" value="New Orders" (click)="openOrders()"><b class="bg-danger">&ensp;3&ensp;</b> New Orders 
         </label>
         <br *ngIf="admin">
 
