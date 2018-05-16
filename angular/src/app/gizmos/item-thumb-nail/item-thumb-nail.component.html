@@ -12,6 +12,7 @@
         <div class="addtocart" (click)="addCart()">
             <h4>Add to cart</h4>
         </div>
-        <img src="/assets/teddybear.jpg" title="{{item.description}}" alt="{{item.name}}" width="100%">
+      <!-- src="/assets/teddybear.jpg" -->
+        <img [src]=imageURL title="{{item.description}}" alt="{{item.name}}" width="100%">
     </a>
 </div>
