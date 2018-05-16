@@ -50,7 +50,7 @@ export class ItemThumbNailComponent implements OnInit {
   }
 
   addCart(): void {
-    this.cartService.addItem(this.item.uid);
+    this.cartService.addItem(this.item);
   }
 
   rateDown() : void {
