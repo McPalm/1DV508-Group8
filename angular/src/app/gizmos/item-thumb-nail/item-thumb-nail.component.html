@@ -13,6 +13,16 @@
             <h4>Add to cart</h4>
         </div>
       <!-- src="/assets/teddybear.jpg" -->
-        <img [src]=imageURL title="{{item.description}}" alt="{{item.name}}" width="100%">
+
+		<div class="rating">
+			<img class="img_thumbup" img src="/assets/thumb-up.png" width="15%" (click)="rateUp()">
+			{{votesUp}}
+			<img class="img_thumbdown" img src="/assets/thumb-down.png" width="15%" (click)="rateDown()">
+			{{votesDown}}
+		</div>
+
+        <img class="image" [src]=imageURL title="{{item.description}}" alt="{{item.name}}">
+
+
     </a>
 </div>
