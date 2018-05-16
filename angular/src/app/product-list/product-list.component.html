@@ -1,13 +1,14 @@
 <div>
-  <h1>{{cachedCategory.name}}</h1>
-  <p>{{cachedCategory.description}}</p>
+  <h1 *ngIf="cachedCategory">{{cachedCategory.name}}</h1>
+  <p *ngIf="cachedCategory">{{cachedCategory.description}}</p>
+
   <!-- -->
   <div class="container">
     <div class="text-center">
 
       <!-- TODO relocate to navbar later! -->
       <form class="form-inline my-2 my-lg-0" (submit)="onSearch()">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" [ngModel]="search"
+        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" [(ngModel)]="cacheSearch"
                name="search">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
