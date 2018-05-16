@@ -210,7 +210,7 @@ export class ProductListComponent implements OnInit {
    * @returns {number}
    */
   private computeBreakPoints(width: number) {
-    return width < 768 ? 1 : Math.floor((width - 320) / 220);
+    return width < 768 ? 1 : Math.floor((width - 320) / 640);
   }
 
 
