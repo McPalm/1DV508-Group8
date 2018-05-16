@@ -9,7 +9,11 @@
       >
        
         <label *ngIf="admin" class="btn btn-primary">
-          <input ngbButton type="radio" value="Admin Controls" (click)="onChange('admin')"> Admin Controls
+          <input ngbButton type="radio" value="Admin Controls" (click)="openAdmin()"> Admin Controls
+        </label>
+
+        <label *ngIf="admin" class="btn btn-primary">
+          <input ngbButton type="radio" value="New Orders" (click)="openOrders()"><b class="bg-danger">&ensp;3&ensp;</b> New Orders 
         </label>
         <br *ngIf="admin">
 
@@ -24,7 +28,8 @@
       <div class="main">
         
         <app-product-list *ngIf="category != null" [category]="category"></app-product-list>
-        <app-admin *ngIf="adminPage"></app-admin>
+        <app-admin *ngIf="page == 'admin'"></app-admin>
+        <app-order-catalog *ngIf="page == 'orders'"></app-order-catalog>
       </div>
     </div>
   </div>

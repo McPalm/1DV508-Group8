@@ -37,6 +37,7 @@ import { DeleteproductComponent } from './deleteproduct/deleteproduct.component'
 import { UpdateproductComponent } from './updateproduct/updateproduct.component';
 import { SearchService } from './services/search.service';
 import { CartService } from './services/cart.service';
+import { OrderCatalogComponent } from './order-catalog/order-catalog.component';
 
 
 @NgModule({
@@ -54,6 +55,7 @@ import { CartService } from './services/cart.service';
     ItemThumbNailComponent,
     DeleteproductComponent,
     UpdateproductComponent,
+    OrderCatalogComponent,
   ],
   imports: [
     BrowserModule,

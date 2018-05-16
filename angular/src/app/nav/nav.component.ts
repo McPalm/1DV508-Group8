@@ -9,7 +9,7 @@ import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
-  styleUrls: ['./nav.component.css']
+  styleUrls: ['./nav.component.css'],
 })
 export class NavComponent implements OnInit {
 
@@ -19,25 +19,23 @@ export class NavComponent implements OnInit {
 
   admin = false; // temp fix
   category: Category;
-  adminPage = false;
+  page = "";
 
   constructor(private categoryService : CategoryService ,
 			private cookieService: CookieService, 
-			private db: AngularFireDatabase,) { }
-
+      private db: AngularFireDatabase,
+    ) { }
 
   ngOnInit() {
     this.categories = this.categoryService.getCategories();
     this.categories.subscribe(blarg => this.categoryArray = blarg);
 
-	
-	const UID: string = this.cookieService.get('UID');
-	this.db.object(`users/` + UID + `/admin`).valueChanges().subscribe((value) => {
-		console.log(value);
+	  const UID: string = this.cookieService.get('UID');
+	  this.db.object(`users/` + UID + `/admin`).valueChanges().subscribe((value) => {
 	    if(value === 'true'){
-		this.adminTrue(); 
-	 }});
-
+		    this.adminTrue(); 
+      }
+    });
   }
 
   onChange(value) {
@@ -50,15 +48,19 @@ export class NavComponent implements OnInit {
       for(let c of this.categoryArray)
         if(c.name == value)
           this.category = c;
-      this.adminPage = false;
+      this.page = "";
     }
   }
 
   openAdmin() {
     this.category = null;
-    this.adminPage = true;
+    this.page = "admin";
   }
   
+  openOrders() {
+    this.category = null;
+    this.page = "orders";
+  }
   
 	 adminTrue() {
 		this.admin = true;
