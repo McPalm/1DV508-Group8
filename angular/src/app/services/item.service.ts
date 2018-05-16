@@ -36,6 +36,11 @@ export class ItemService {
    * @param item an item object to put in the database
    */
   addItem(item : Item) : void {
+	item.rateHigh = new Array();
+  	item.rateLow = new Array();
+  	item.rateHigh.push("0");
+  	item.rateLow.push("0");
+
     const obj = this.db.database.ref(this.itemPath);
     item.category = Number(item.category);
 	item.uid = this.db.database.ref().push().key;
@@ -51,7 +56,7 @@ export class ItemService {
 
   /**
    * Updates item information
-   * @param item 
+   * @param item
    */
   updateItem(item : Item) : void {
     let dbRef = this.db.database.ref(this.itemPath + "/" + item.uid);
