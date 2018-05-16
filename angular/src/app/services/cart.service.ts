@@ -2,15 +2,16 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Item } from './item';
-import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from '../core/auth.service';
+import { CartEntry } from './cart-entry';
 
 @Injectable()
 export class CartService {
   private user;
   private cart;
 
-  constructor(private db: AngularFireDatabase, private CookieService: CookieService) {
-    this.user = this.CookieService.get('UID');
+  constructor(private db: AngularFireDatabase, private auth: AuthService) {
+    this.auth.getUser().subscribe(res => this.user = res.uid);
     this.db.list(`users/${this.user}/cart`).valueChanges().subscribe(cartRef => {
       this.cart = cartRef;
     })
@@ -22,20 +23,20 @@ export class CartService {
   }
 
   // Adds the item to the cart
-  addItem(itemUID: string): void {
+  addItem(product : Item): void {
     if (this.user) {
-      let item;
       let newAmount = 0;
-      let dbRef = this.db.object(`users/${this.user}/cart/${itemUID}`).valueChanges().subscribe(itemRef => {
+      let item;
+      let dbRef = this.db.object(`users/${this.user}/cart/${product.uid}`).valueChanges().subscribe(itemRef => {
         item = itemRef;
         if (item) {
           newAmount = item.count;
         }
-        let data = {
-          id: itemUID,
+        let data : CartEntry = {
+          item: product,
           count: newAmount + 1,
         }
-        this.db.object(`users/${this.user}/cart/${itemUID}`).update(data);
+        this.db.object(`users/${this.user}/cart/${product.uid}`).update(data);
         dbRef.unsubscribe();
       })
     }
