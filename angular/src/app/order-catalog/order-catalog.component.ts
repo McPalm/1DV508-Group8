@@ -75,7 +75,9 @@ export class OrderCatalogComponent implements OnInit {
           keyword: "No",
           path: "",
           price: 50,
-          uid: "No"
+          uid: "No",
+          rateHigh : [],
+          rateLow: [],
         }, 
         count : 5,
       }, 
@@ -89,7 +91,9 @@ export class OrderCatalogComponent implements OnInit {
           keyword: "No",
           path: "",
           price: 50,
-          uid: "No"
+          uid: "No",
+          rateHigh : [],
+          rateLow: [],
         }, 
         count : 10,
       }, 
@@ -103,7 +107,9 @@ export class OrderCatalogComponent implements OnInit {
           keyword: "No",
           path: "",
           price: 50,
-          uid: "No"
+          uid: "No",
+          rateHigh : [],
+          rateLow: [],
         }, 
         count : 0,
       }, 
@@ -117,7 +123,9 @@ export class OrderCatalogComponent implements OnInit {
           keyword: "No",
           path: "",
           price: 50,
-          uid: "No"
+          uid: "No",
+          rateHigh : [],
+          rateLow: [],
         }, 
         count : 1,
       }, 
