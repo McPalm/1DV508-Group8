@@ -38,6 +38,7 @@ import { UpdateproductComponent } from './updateproduct/updateproduct.component'
 import { SearchService } from './services/search.service';
 import { CartService } from './services/cart.service';
 import { OrderCatalogComponent } from './order-catalog/order-catalog.component';
+import { OrderService } from './services/order.service';
 
 
 @NgModule({
@@ -83,6 +84,7 @@ import { OrderCatalogComponent } from './order-catalog/order-catalog.component';
     CookieService,
     SearchService,
     CartService,
+    OrderService,
   ],
   bootstrap: [AppComponent]
 })
