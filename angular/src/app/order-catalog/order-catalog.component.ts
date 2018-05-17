@@ -25,6 +25,9 @@ export class OrderCatalogComponent implements OnInit {
 
   ngOnInit() {
     this.orders = this.orderService.getOrders();
+    this.orderService.getObservable().subscribe( a => {
+      this.orders = a;
+    });
     // this.changeActive(this.orders[0]);
   }
 

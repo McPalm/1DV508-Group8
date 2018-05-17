@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Category } from '../services/category';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { CookieService } from 'ngx-cookie-service';
+import { OrderService } from '../services/order.service';
 
 
 @Component({
@@ -16,6 +17,7 @@ export class NavComponent implements OnInit {
   categories: Observable<Category[]>;
   categoryArray: Category[];
   model = "";
+  newOrders = 0;
 
   admin = false; // temp fix
   category: Category;
@@ -24,6 +26,7 @@ export class NavComponent implements OnInit {
   constructor(private categoryService : CategoryService ,
 			private cookieService: CookieService, 
       private db: AngularFireDatabase,
+      private orderService : OrderService,
     ) { }
 
   ngOnInit() {
@@ -36,6 +39,8 @@ export class NavComponent implements OnInit {
 		    this.adminTrue(); 
       }
     });
+
+    this.orderService.getObservable().subscribe( a => this.newOrders = a.length);
   }
 
   onChange(value) {
