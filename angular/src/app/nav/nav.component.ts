@@ -18,10 +18,13 @@ export class NavComponent implements OnInit {
   categoryArray: Category[];
   model = "";
   newOrders = 0;
+  loggedIn = false;
 
   admin = false; // temp fix
   category: Category;
   page = "";
+  itemAmount;
+  user;
 
  
  
@@ -29,7 +32,20 @@ export class NavComponent implements OnInit {
 			private cookieService: CookieService, 
       private db: AngularFireDatabase,
       private orderService : OrderService,
-    ) { }
+    ) { 
+	
+	this.user = this.cookieService.get('UID');
+	this.db.object(`users/${this.user}/itemcount`).valueChanges().subscribe((value) => { 
+	if(value){
+		this.itemAmount = value ;
+	}
+	else {
+		this.itemAmount = 0;
+	}
+	});
+
+	
+	}
 
   ngOnInit() {
     this.categories = this.categoryService.getCategories();
@@ -41,6 +57,10 @@ export class NavComponent implements OnInit {
 		    this.adminTrue(); 
       }
     });
+	
+	if(this.cookieService.check('UID')) {
+		this.loggedIn = true;
+	}
 
     this.orderService.getObservable().subscribe( a => this.newOrders = a.length);
   }
