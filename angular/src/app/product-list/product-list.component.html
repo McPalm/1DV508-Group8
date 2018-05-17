@@ -1,16 +1,22 @@
-
 <div>
-  <h1>{{cachedCategory.name}}</h1>
-  <p>{{cachedCategory.description}}</p>
+  <h1 *ngIf="cachedCategory">{{cachedCategory.name}}</h1>
+  <p *ngIf="cachedCategory">{{cachedCategory.description}}</p>
+
   <!-- -->
   <div class="container">
     <div class="text-center">
+
+      <!-- TODO relocate to navbar later! -->
+      <form class="form-inline my-2 my-lg-0" (submit)="onSearch()">
+        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" [(ngModel)]="cacheSearch"
+               name="search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
 
       <!-- items being paged -->
       <mat-grid-list [cols]="this.breakpoint" rowHeight="1.0:1.0" (window:resize)="onResize($event)">
         <mat-grid-tile
           *ngFor="let item of tiles"
-
           [style.background]="item.color">
 
           <!-- Image and hyperlink -->
@@ -23,24 +29,10 @@
 
       </mat-grid-list>
 
-      <!-- pager -->
-      <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
-        <li [ngClass]="{disabled:pager.currentPage === 1}">
-          <a (click)="setPage(1)">First</a>
-        </li>
-        <li [ngClass]="{disabled:pager.currentPage === 1}">
-          <a (click)="setPage(pager.currentPage - 1)">Previous</a>
-        </li>
-        <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
-          <a (click)="setPage(page)">{{page}}</a>
-        </li>
-        <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-          <a (click)="setPage(pager.currentPage + 1)">Next</a>
-        </li>
-        <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-          <a (click)="setPage(pager.totalPages)">Last</a>
-        </li>
-      </ul>
+      <ngb-pagination class="d-flex justify-content-center" [pageSize]="getNrElementOnPage()"
+                      [collectionSize]="cachedItems.length" [page]="pager.currentPage"
+                      aria-label="Default pagination" (pageChange)="setPage($event)"></ngb-pagination>
+
     </div>
   </div>
 </div>

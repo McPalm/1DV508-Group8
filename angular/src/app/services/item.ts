@@ -5,6 +5,8 @@ export class Item {
     price: number;
     category: number;
     keyword: string;
-	  count: number;
-	  path: string;
+    count: number;
+    path: string;
+    rateHigh: string[];
+    rateLow: string[];
   }

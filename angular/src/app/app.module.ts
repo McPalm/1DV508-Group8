@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { environment } from '../environments/environment';
 import {FlashMessagesModule, FlashMessagesService} from 'angular2-flash-messages';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 
 import { AppComponent } from './app.component';
@@ -10,7 +11,6 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { FrontpageComponent } from './frontpage/frontpage.component';
-import { UserService } from './services/user.service';
 import { CoreModule } from './core/core.module';
 import { CategoryService } from './services/category.service';
 
@@ -36,6 +36,12 @@ import { NgbButtonLabel } from '@ng-bootstrap/ng-bootstrap/buttons/label';
 import { ItemThumbNailComponent } from './gizmos/item-thumb-nail/item-thumb-nail.component';
 import { DeleteproductComponent } from './deleteproduct/deleteproduct.component';
 import { UpdateproductComponent } from './updateproduct/updateproduct.component';
+import { SearchService } from './services/search.service';
+import { CartService } from './services/cart.service';
+import { OrderCatalogComponent } from './order-catalog/order-catalog.component';
+import { OrderService } from './services/order.service';
+import { BasketComponent } from './basket/basket.component';
+import { EmailService } from './services/email.service';
 
 
 @NgModule({
@@ -53,6 +59,8 @@ import { UpdateproductComponent } from './updateproduct/updateproduct.component'
     ItemThumbNailComponent,
     DeleteproductComponent,
     UpdateproductComponent,
+    OrderCatalogComponent,
+    BasketComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,17 +76,22 @@ import { UpdateproductComponent } from './updateproduct/updateproduct.component'
     NgbModule.forRoot(),
 	  AngularFirestoreModule,
     AngularFireStorageModule,
+	HttpClientModule,
+
 
   ],
   providers: [
-    UserService,
     CategoryService,
     ItemService,
     NgbRadio,
     NgbButtonLabel,
     NgbRadioGroup,
     NgbAlert,
-	  CookieService,
+    CookieService,
+    SearchService,
+    CartService,
+    OrderService,
+	EmailService,
   ],
   bootstrap: [AppComponent]
 })

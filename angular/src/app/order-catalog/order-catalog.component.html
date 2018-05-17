@@ -1,0 +1,48 @@
+
+<div class="btn-group btn-group-toggle">
+  <label *ngFor="let order of activeOrders" class="btn btn-primary">
+    <input ngbButton type="radio" [value]="order.user" (click)="changeActive(order)"> {{order.user}}
+  </label>
+</div>
+
+<table width=100% class="table table-primary table-striped">
+  <tr class="bg-primary text-light">
+    <th>Product Name</th>
+    <th></th>
+    <th>Price</th>
+  </tr>
+  <tr *ngFor="let item of order.cart">
+    
+    <td>{{item.item.name}}</td>
+    <td>x{{item.count}}</td>
+    <td>{{item.item.price * item.count}} SEK</td>
+  </tr>
+  <tr>
+    <th>Total</th>
+    <th></th>
+    <th>{{totalPrice}} SEK</th>
+  </tr>
+</table>
+<div>
+  <p>Sunegatan 52, lght 165<br>
+  294 76<br>
+  Arboga</p>
+  <p>anon@gmail.com</p>
+  <button class="btn btn-outline-primary" (click)="showReject = !showReject">Reject</button>
+  <button class="btn btn-outline-primary" (click)="acceptOrder()">Accept</button>
+
+  <div id="rejectForm" [ngbCollapse]="!showReject">
+    <form (ngSubmit)="rejectOrder()">
+
+        <div class="form-group">
+            <label>Reason for Rejection</label><br>
+            <textarea name="reason" rows="5" cols="41"
+            required
+            [(ngModel)]="reason" name="reason"
+            ></textarea>
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
+  </div>
+</div>

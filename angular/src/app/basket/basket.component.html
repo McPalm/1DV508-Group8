@@ -1,0 +1,27 @@
+<h2>Basket</h2>
+
+<div style="display: inline;">
+
+<div *ngIf="!items"> 
+Empty :(
+</div>
+
+<div  style="display:inline-block;" *ngFor="let item of (items$ |async)">
+	<h5> Item: {{item.item.name}}      Amount: {{item.count}}       Price: {{item.item.price * item.count}} </h5>
+	<button type="radio" (click)="countUp(item.uid)">+</button>
+	<button type="radio" (click)="countDown(item.uid)">-</button>
+	<button type="radio" (click)="deleteItem(item.uid)">X</button>
+	
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+

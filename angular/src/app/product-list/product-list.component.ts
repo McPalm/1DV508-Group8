@@ -4,6 +4,7 @@ import {ItemService} from '../services/item.service';
 import {FlashMessagesService} from 'angular2-flash-messages';
 import {Item} from '../services/item';
 import {Category} from '../services/category';
+import {SearchService} from '../services/search.service';
 
 @Component({
   selector: 'app-product-list',
@@ -29,8 +30,8 @@ export class ProductListComponent implements OnInit {
 
   // pager object
   pager: any = {
-    currentPage: -1,
-    totalPages: 0,
+    currentPage: -1, /*  [1, inf]*/
+    totalPages: 1, /*  [1, inf]*/
     pages: [],
   };
 
@@ -41,14 +42,12 @@ export class ProductListComponent implements OnInit {
   cacheSearch: string = null;
   breakpoint = 2;
   tiles;
-  /*  Constants.  */
-  MAXROW = 6;
-  MAXCOLUMN = 6;
 
   constructor(
     private categoryService: CategoryService,
     private itemService: ItemService,
     private flashMessage: FlashMessagesService,
+    private searchService: SearchService
   ) {
   }
 
@@ -73,14 +72,15 @@ export class ProductListComponent implements OnInit {
     this.pager.pages = [];
 
     /*  Compute the pager.  */
-    const nrDisplayElements: number = this.getNumberCols() * this.getNumberCols();
-    const nrElements: number = Math.floor((this.cachedItems.length / nrDisplayElements));
+    const nrDisplayElements: number = this.getNrElementOnPage();
+    const nrElements: number = Math.ceil((this.cachedItems.length / nrDisplayElements));
 
-    for (let i = 1; i < nrElements + 1; i++) {
+    const indicesOffset = 1;
+    for (let i = indicesOffset; i < nrElements + indicesOffset; i++) {
       this.pager.pages.push(i);
     }
 
-    console.log(nrElements);
+    console.log("number of pages: " + nrElements);
     this.pager.totalPages = nrElements;
   }
 
@@ -88,37 +88,42 @@ export class ProductListComponent implements OnInit {
    * Get number of Column
    * @returns {number}
    */
-  getNumberCols() {
+  public getNumberCols() {
     return this.breakpoint * this.scaleFactor;
   }
 
   /**
-   *
+   * Get number of possible elements on the page.
    * @returns {number}
    */
-  getRowHeight() {
-    /*  TODO add some logic based on the resolution of the media. */
-    return 100 * this.scaleFactor;
+  public getNrElementOnPage() {
+    return this.getNumberCols() * this.getNumberCols();
   }
 
   /**
    * Set the zoom factor.
-   * @param factor
+   * @param factor display factor.
    */
-  setScaleFactor(factor) {
+  public setScaleFactor(factor) {
     this.scaleFactor = factor;
   }
 
   /**
+   * Compute the items for display, based on the
+   * current pager.
    *
    * @returns {{text: string; cols: number; rows: number; color: string}[]}
    */
-  getItems() {
+  private computeItem() {
 
     const tiles = [];
-    /*  Temporarily const variables. TODO resolve */
-    for (let i = 0; i < this.cachedItems.length; i++) {
-      const item: Item = this.cachedItems[i];
+
+    const offset = (this.pager.currentPage - 1) * this.getNrElementOnPage();
+    const nrElements = this.cachedItems.length - offset;
+
+    /*  Iterate through each element. */
+    for (let i = 0; i < this.getNrElementOnPage() && i < nrElements; i++) {
+      const item: Item = this.cachedItems[offset + i];
 
       /*  Add item. */
       tiles.push(
@@ -132,25 +137,25 @@ export class ProductListComponent implements OnInit {
     return tiles;
   }
 
-
   /**
    * Reset pager to default.
    */
   private resetPager() {
     this.pager = {
       currentPage: -1,
-      totalPages: 0,
+      totalPages: 1,
       pages: [],
     };
   }
 
   /**
-   *
+   * Set current page.
    * @param {number} number
    */
-  setPage(number: number) {
+  public setPage(number: number) {
 
     /*  Compute the new valid page and compare with current.  */
+    console.log("requesting page: " + number);
     const newPage = Math.min(Math.max(number, 1), this.pager.totalPages);
     if (newPage === this.pager.currentPage) {
       return;
@@ -163,12 +168,13 @@ export class ProductListComponent implements OnInit {
     /*  Update items list.  */
     if (this.cachedCategory != null) {
       /*  TODO add page offset and number of elements to extract. */
+
       this.itemService.getItems(this.cachedCategory).subscribe(result => {
         console.log(result);
         this.cachedItems = result;
 
         /*  */
-        this.tiles = this.getItems();
+        this.tiles = this.computeItem();
 
         /*  Update pager. */
         this.computePager();
@@ -182,6 +188,14 @@ export class ProductListComponent implements OnInit {
       });
     } else if (this.cacheSearch != null) {
 
+      /*  Only search by search input.  */
+      const result = this.searchService.search(this.cacheSearch);
+      console.log(result);
+      this.cachedItems = result;
+      this.tiles = this.computeItem();
+
+      /*  Update pager. */
+      this.computePager();
     }
 
     return true;
@@ -191,17 +205,27 @@ export class ProductListComponent implements OnInit {
    * Recompute number of column.
    * @param event
    */
-  onResize(event) {
+  protected onResize(event) {
     this.breakpoint = this.computeBreakPoints(event.target.innerWidth);
-    this.tiles = this.getItems();
+    this.tiles = this.computeItem();
   }
 
   /**
+   * Compute the column break point.
    *
-   * @param {number} width
-   * @returns {number}
+   * @param {number} width in pixels.
+   * @returns {number} number of column.
    */
   private computeBreakPoints(width: number) {
-    return width < 768 ? 1 : 1;
+    return width < 768 ? 1 : Math.floor((width - 320) / 640);
+  }
+
+  /**
+   * Search.
+   */
+  protected onSearch() {
+    this.resetPager();
+    this.cachedCategory = null;
+    this.setPage(1);
   }
 }
