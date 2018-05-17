@@ -22,6 +22,10 @@ export class OrderService {
     return this.orders;
   }
 
+  getObservable() : Observable<any[]> {
+    return this.db.list(`orders`).valueChanges();
+  }
+
   // Returns a list with all orders from specified user
   getUserOrders(userid : string) : Order[] {
     let userOrders = this.orders.filter(o => {

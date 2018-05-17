@@ -13,6 +13,10 @@
         </label>
 
         <label *ngIf="admin" class="btn btn-primary">
+          <input ngbButton type="radio" value="New Orders" (click)="openOrders()"><b *ngIf="newOrders > 0" class="bg-danger">&ensp;{{newOrders}}&ensp;</b> New Orders 
+        </label>
+
+        <label *ngIf="admin" class="btn btn-primary">
           <input ngbButton type="radio" value="New Orders" (click)="openOrders()"><b class="bg-danger">&ensp;3&ensp;</b> New Orders 
         </label>
         <br *ngIf="admin">

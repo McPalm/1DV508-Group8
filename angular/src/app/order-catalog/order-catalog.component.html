@@ -1,11 +1,11 @@
 
-<div class="btn-group btn-group-toggle">
-  <label *ngFor="let order of activeOrders" class="btn btn-primary">
-    <input ngbButton type="radio" [value]="order.user" (click)="changeActive(order)"> {{order.user}}
+<div class="btn-group btn-group-toggle" ngbRadioGroup name="userRadio" [(ngModel)]="userName">
+  <label *ngFor="let order of orders" class="btn btn-primary">
+    <input ngbButton type="radio" [value]="order.name" (click)="changeActive(order)"> {{order.name}}
   </label>
 </div>
 
-<table width=100% class="table table-primary table-striped">
+<table *ngIf="order"  width=100% class="table table-primary table-striped">
   <tr class="bg-primary text-light">
     <th>Product Name</th>
     <th></th>
@@ -23,11 +23,12 @@
     <th>{{totalPrice}} SEK</th>
   </tr>
 </table>
-<div>
-  <p>Sunegatan 52, lght 165<br>
-  294 76<br>
-  Arboga</p>
-  <p>anon@gmail.com</p>
+<div *ngIf="order">
+  <h3>{{order.name}}</h3>
+  <p>{{order.adress1}}, {{order.adress2}}<br>
+  {{order.zip}}<br>
+  {{order.city}}</p>
+  
   <button class="btn btn-outline-primary" (click)="showReject = !showReject">Reject</button>
   <button class="btn btn-outline-primary" (click)="acceptOrder()">Accept</button>
 

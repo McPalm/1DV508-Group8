@@ -54,8 +54,6 @@ export class CartService {
 		
 		dbRef2.unsubscribe();
 		})
-		
-		
         dbRef.unsubscribe();
       })
     }

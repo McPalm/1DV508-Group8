@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Category } from '../services/category';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { CookieService } from 'ngx-cookie-service';
+import { OrderService } from '../services/order.service';
 
 
 @Component({
@@ -16,46 +17,32 @@ export class NavComponent implements OnInit {
   categories: Observable<Category[]>;
   categoryArray: Category[];
   model = "";
-  loggedIn = false;
+  newOrders = 0;
 
   admin = false; // temp fix
   category: Category;
   page = "";
-  private itemAmount;
-  user;
 
  
  
   constructor(private categoryService : CategoryService ,
 			private cookieService: CookieService, 
       private db: AngularFireDatabase,
-    ) {
-		
-	this.user = this.cookieService.get('UID');
-	this.db.object(`users/${this.user}/itemcount`).valueChanges().subscribe((value) => { 
-	if(value){
-		this.itemAmount = value ;
-	}
-	else {
-		this.itemAmount = 0;
-	}
-	});
-	}
+      private orderService : OrderService,
+    ) { }
 
   ngOnInit() {
     this.categories = this.categoryService.getCategories();
     this.categories.subscribe(blarg => this.categoryArray = blarg);
 
-	  this.db.object(`users/${this.user}/admin`).valueChanges().subscribe((value) => {
+	  const UID: string = this.cookieService.get('UID');
+	  this.db.object(`users/` + UID + `/admin`).valueChanges().subscribe((value) => {
 	    if(value === 'true'){
 		    this.adminTrue(); 
       }
     });
-	
-	if(this.cookieService.check('UID')) {
-		this.loggedIn = true;
-	}
-	
+
+    this.orderService.getObservable().subscribe( a => this.newOrders = a.length);
   }
 
   onChange(value) {
