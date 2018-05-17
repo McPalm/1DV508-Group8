@@ -23,6 +23,8 @@ export class NavComponent implements OnInit {
   category: Category;
   page = "";
 
+ 
+ 
   constructor(private categoryService : CategoryService ,
 			private cookieService: CookieService, 
       private db: AngularFireDatabase,
@@ -65,6 +67,11 @@ export class NavComponent implements OnInit {
   openOrders() {
     this.category = null;
     this.page = "orders";
+  }
+  
+  openBasket() {
+	  this.category = null;
+	  this.page = "basket";  
   }
   
 	 adminTrue() {
