@@ -54,26 +54,26 @@ export class UpdateproductComponent implements OnInit {
   toggleHover(event: boolean) {
     this.isHovering = event;
   }
-  
+
 	chooseFiles(event) {
     this.selectedFiles = event.target.files;
   }
-   
+
 
   startUpload() {
     let file = this.selectedFiles.item(0);
      const path = `products/${new Date().getTime()}_${file.name}`;
-    
+
       // The main task
       this.task = this.storage.upload(path, file)
-  
+
       // Progress monitoring
       this.percentage = this.task.percentageChanges();
       this.snapshot   = this.task.snapshotChanges()
-    
+
     this.model.path = 'gs://dv508-project-8.appspot.com/' + path;
     }
-  
+
   selectProduct() {
     this.model.name = this.selectedProduct.name;
     this.model.price = this.selectedProduct.price;
@@ -81,6 +81,8 @@ export class UpdateproductComponent implements OnInit {
     this.model.description = this.selectedProduct.description;
     this.model.uid = this.selectedProduct.uid;
     this.model.count = this.selectedProduct.count;
+	this.model.rateHigh = this.selectedProduct.rateHigh;
+	this.model.rateLow = this.selectedProduct.rateLow;
   }
 
    // Determines if the upload task is active
@@ -93,4 +95,3 @@ export class UpdateproductComponent implements OnInit {
     this.selectedFiles = null;
 	}
 }
-
