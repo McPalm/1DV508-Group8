@@ -13,7 +13,7 @@ import { AuthService } from '../../core/auth.service';
 export class ItemThumbNailComponent implements OnInit {
 
   @Input() item: Item;
-  imageURL;
+  imageURL = "./assets/loading.gif";
   user;
   votesUp;
   votesDown;
@@ -33,7 +33,6 @@ export class ItemThumbNailComponent implements OnInit {
     /*  Load image from storage by bucket path. */
     const storage = this.firebase.storage();
     storage.refFromURL(this.item.path).getDownloadURL().then(result => {
-      console.log(result);
       this.imageURL = result;
     });
 
@@ -50,7 +49,7 @@ export class ItemThumbNailComponent implements OnInit {
   }
 
   addCart(): void {
-    this.cartService.addItem(this.item.uid);
+    this.cartService.addItem(this.item);
   }
 
   rateDown() : void {
