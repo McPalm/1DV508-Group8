@@ -22,23 +22,43 @@ export class ItemService {
    */
   getItems(category: Category): Observable<any[]> {
 
+    /*  Filtered from category. */
     const items = this.db.list(this.itemPath ,
       ref => ref.orderByChild('category').equalTo(category.uid)
     ).valueChanges();
 
-    const pathresolved = items.map((item: Item[]) => {
-      console.log(item);
-      for (const stateItem of item) {
-        this.storage.refFromURL(stateItem.path).getDownloadURL().then(path => {
-            console.log(path);
-            stateItem.path = path;
-          }).catch(error => {
-            console.log(error);
-        });
-        return item;
-        }
-    });
+    return this.resolvePath(items);
+  }
 
+  /**
+   *
+   * @param {Observable<Item[]>} list
+   * @returns {Observable<Item[]>}
+   */
+  private resolvePath(list: Observable<Item[]>): Observable<Item[]> {
+    const pathresolved = list.map((item: Item[]) => {
+      /*  Iterate through each item.  */
+      return item.map(item1 => {
+        /*  Ignore if path is already a valid URL.  */
+        if ( item1.path.startsWith('https://') ) {
+          return;
+        }
+
+        /*  Cache the bucket path and give the item a tmp path. */
+        const cache = item1.path;
+        item1.path = '';
+
+        /*  Get Downloadable URL. */
+        this.storage.refFromURL(cache).getDownloadURL().then(path => {
+          console.log('new path: ' + path);
+          item1.path = path;
+        }).catch(error => {
+          console.log(error);
+        });
+
+        return item1;
+      });
+    });
     return pathresolved;
   }
 
@@ -47,7 +67,7 @@ export class ItemService {
    * @param category
    */
   getItemsAll() : Observable<any[]> {
-    return this.db.list(this.itemPath).valueChanges();
+    return this.resolvePath( this.db.list(this.itemPath).valueChanges());
   }
 
   /**
