@@ -18,16 +18,34 @@ export class NavComponent implements OnInit {
   categoryArray: Category[];
   model = "";
   newOrders = 0;
+  loggedIn = false;
 
   admin = false; // temp fix
   category: Category;
   page = "";
+  itemAmount;
+  user;
 
+ 
+ 
   constructor(private categoryService : CategoryService ,
 			private cookieService: CookieService, 
       private db: AngularFireDatabase,
       private orderService : OrderService,
-    ) { }
+    ) { 
+	
+	this.user = this.cookieService.get('UID');
+	this.db.object(`users/${this.user}/itemcount`).valueChanges().subscribe((value) => { 
+	if(value){
+		this.itemAmount = value ;
+	}
+	else {
+		this.itemAmount = 0;
+	}
+	});
+
+	
+	}
 
   ngOnInit() {
     this.categories = this.categoryService.getCategories();
@@ -39,6 +57,10 @@ export class NavComponent implements OnInit {
 		    this.adminTrue(); 
       }
     });
+	
+	if(this.cookieService.check('UID')) {
+		this.loggedIn = true;
+	}
 
     this.orderService.getObservable().subscribe( a => this.newOrders = a.length);
   }
@@ -65,6 +87,11 @@ export class NavComponent implements OnInit {
   openOrders() {
     this.category = null;
     this.page = "orders";
+  }
+  
+  openBasket() {
+	  this.category = null;
+	  this.page = "basket";  
   }
   
 	 adminTrue() {

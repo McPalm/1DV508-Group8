@@ -13,7 +13,7 @@ import { AuthService } from '../../core/auth.service';
 export class ItemThumbNailComponent implements OnInit {
 
   @Input() item: Item;
-  imageURL;
+  imageURL = "./assets/loading.gif";
   user;
   votesUp;
   votesDown;

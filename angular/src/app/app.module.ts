@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { environment } from '../environments/environment';
 import {FlashMessagesModule, FlashMessagesService} from 'angular2-flash-messages';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 
 import { AppComponent } from './app.component';
@@ -39,6 +40,8 @@ import { SearchService } from './services/search.service';
 import { CartService } from './services/cart.service';
 import { OrderCatalogComponent } from './order-catalog/order-catalog.component';
 import { OrderService } from './services/order.service';
+import { EmailService } from './services/email.service';
+import { BasketComponent } from './basket/basket.component';
 
 
 @NgModule({
@@ -57,6 +60,7 @@ import { OrderService } from './services/order.service';
     DeleteproductComponent,
     UpdateproductComponent,
     OrderCatalogComponent,
+    BasketComponent,
   ],
   imports: [
     BrowserModule,
@@ -72,6 +76,7 @@ import { OrderService } from './services/order.service';
     NgbModule.forRoot(),
 	  AngularFirestoreModule,
     AngularFireStorageModule,
+	HttpClientModule,
 
   ],
   providers: [
@@ -85,6 +90,7 @@ import { OrderService } from './services/order.service';
     SearchService,
     CartService,
     OrderService,
+	EmailService,
   ],
   bootstrap: [AppComponent]
 })

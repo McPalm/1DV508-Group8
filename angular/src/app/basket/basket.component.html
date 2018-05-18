@@ -1,0 +1,41 @@
+<h2>Basket</h2>
+
+<div *ngIf="!items"> 
+Empty :(
+</div>
+
+<table  *ngIf="items" width=100% class="table table-primary table-striped">
+  <tr class="bg-primary text-light">
+    <th>Product Name</th>
+    <th></th>
+    <th>Price</th>
+	<th></th>
+	<th></th>
+  </tr>
+  <tr *ngFor="let item of (items$ |async)">
+    <td>{{item.item.name}}</td>
+    <td>x{{item.count}}</td>
+    <td>{{item.item.price * item.count}} SEK</td>
+	<td align="right">
+		<button type="button" class="btn btn-secondary" (click)="countUp(item.item.uid)">+</button>
+		<button type="button" class="btn btn-secondary" (click)="countDown(item.item.uid)">-</button>
+		<button type="button" class="btn btn-secondary" (click)="deleteItem(item.item.uid)">delete</button>
+	</td>
+	<td></td>
+  </tr>
+  <tr>
+    <th>Total</th>
+    <th></th>
+    <th>please help me fix</th>
+	<th></th>
+	<th></th>
+  </tr>
+</table>
+
+
+
+
+
+
+
+
