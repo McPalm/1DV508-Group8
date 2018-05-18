@@ -17,6 +17,8 @@ export class ItemThumbNailComponent implements OnInit {
   user;
   votesUp;
   votesDown;
+  thumbUpUrl;
+  thumbDownUrl;
 
   /**
    * Use this to listen to clicks on this, returns a ref to the item you gave it.
@@ -37,9 +39,8 @@ export class ItemThumbNailComponent implements OnInit {
     });
 
 	/* Get user details */
-	this.authService.getUser().subscribe(res => this.user = res)
-
-	this.updateVoteCount();
+	this.authService.getUser().subscribe(res => {this.user = res;
+												 this.updateVoteCount();});
   }
 
   onClick(): void {
@@ -67,8 +68,6 @@ export class ItemThumbNailComponent implements OnInit {
 			  }
 
 			  this.itemService.updateItem(this.item);
-
-			  this.updateVoteCount();
 		  }
 		  else{
 			  console.log("Duplicate rating");
@@ -90,8 +89,6 @@ export class ItemThumbNailComponent implements OnInit {
 			  }
 
 			  this.itemService.updateItem(this.item);
-
-			  this.updateVoteCount();
 		  }
 		  else{
 			  console.log("Duplicate rating");
@@ -102,6 +99,18 @@ export class ItemThumbNailComponent implements OnInit {
   updateVoteCount() : void {
 	  this.votesUp = (this.item.rateHigh.length -1);
 	  this.votesDown = (this.item.rateLow.length -1);
+
+	  this.thumbUpUrl = "./assets/thumb-up.png";
+	  this.thumbDownUrl = "./assets/thumb-down.png";
+
+	  if(this.user != null){
+		  if(this.item.rateHigh.indexOf(this.user.uid) != -1){
+			  this.thumbUpUrl = "./assets/thumb-up-filled.png";
+		  }
+		  if(this.item.rateLow.indexOf(this.user.uid) != -1){
+			  this.thumbDownUrl = "./assets/thumb-down-filled.png";
+		  }
+	  }
   }
 }
 
