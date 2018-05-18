@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Item} from '../../services/item';
 import {CartService} from '../../services/cart.service';
-import {FirebaseApp} from 'angularfire2';
 import { ItemService } from '../../services/item.service';
 import { AuthService } from '../../core/auth.service';
 
@@ -26,18 +25,10 @@ export class ItemThumbNailComponent implements OnInit {
   @Output() callback: EventEmitter<Item> = new EventEmitter();
 
   constructor(private cartService: CartService,
-              private firebase: FirebaseApp,
 			  private itemService : ItemService,
 		      private authService: AuthService) {}
 
   ngOnInit() {
-
-    /*  Load image from storage by bucket path. */
-    const storage = this.firebase.storage();
-    storage.refFromURL(this.item.path).getDownloadURL().then(result => {
-      this.imageURL = result;
-    });
-
 	/* Get user details */
 	this.authService.getUser().subscribe(res => {this.user = res;
 												 this.updateVoteCount();});
