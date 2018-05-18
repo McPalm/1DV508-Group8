@@ -3,24 +3,43 @@ import { Category } from './category';
 import { AngularFireList, AngularFireDatabase } from 'angularfire2/database';
 import { Item } from './item';
 import { Observable } from 'rxjs/Observable';
+import {FirebaseApp} from "angularfire2";
 
 @Injectable()
 export class ItemService {
 
   private itemPath = "/items";
+  private storage;
 
-  constructor(private db : AngularFireDatabase) { }
+  constructor(private db : AngularFireDatabase,
+              private firebase: FirebaseApp) {
+    this.storage = this.firebase.storage();
+  }
 
   /**
    * Get all items in a specified category
    * @param category
    */
-  getItems(category : Category) : Observable<any[]> {
+  getItems(category: Category): Observable<any[]> {
 
-    return this.db.list(this.itemPath ,
+    const items = this.db.list(this.itemPath ,
       ref => ref.orderByChild('category').equalTo(category.uid)
     ).valueChanges();
 
+    const pathresolved = items.map((item: Item[]) => {
+      console.log(item);
+      for (const stateItem of item) {
+        this.storage.refFromURL(stateItem.path).getDownloadURL().then(path => {
+            console.log(path);
+            stateItem.path = path;
+          }).catch(error => {
+            console.log(error);
+        });
+        return item;
+        }
+    });
+
+    return pathresolved;
   }
 
   /**
