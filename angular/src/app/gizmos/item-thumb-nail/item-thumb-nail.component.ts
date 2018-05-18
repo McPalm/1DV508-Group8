@@ -33,10 +33,12 @@ export class ItemThumbNailComponent implements OnInit {
   ngOnInit() {
 
     /*  Load image from storage by bucket path. */
+    /*
     const storage = this.firebase.storage();
     storage.refFromURL(this.item.path).getDownloadURL().then(result => {
       this.imageURL = result;
     });
+    */
 
 	/* Get user details */
 	this.authService.getUser().subscribe(res => {this.user = res;
