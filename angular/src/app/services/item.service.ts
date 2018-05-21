@@ -101,4 +101,15 @@ export class ItemService {
     let dbRef = this.db.database.ref(this.itemPath + "/" + item.uid);
     dbRef.update(item);
    }
+
+   /**
+    * Get specified number of the most recent items in a list, in the order oldest to newest 
+    * @param amount amount of items requested
+    */
+   getRecentItems(amount : number) {
+    const items = this.db.list(this.itemPath ,
+      ref => ref.limitToLast(amount)
+    ).valueChanges();
+    this.resolvePath(items);
+   }
 }
