@@ -16,23 +16,27 @@ Empty :(
     <td>{{item.item.name}}</td>
     <td>x{{item.count}}</td>
     <td>{{item.item.price * item.count}} SEK</td>
+	<td>
+	</td>
 	<td align="right">
 		<button type="button" class="btn btn-secondary" (click)="countUp(item.item.uid)">+</button>
 		<button type="button" class="btn btn-secondary" (click)="countDown(item.item.uid)">-</button>
 		<button type="button" class="btn btn-secondary" (click)="deleteItem(item.item.uid)">delete</button>
 	</td>
-	<td></td>
   </tr>
   <tr>
-    <th>Items</th>
+    <th>Total:</th>
     <th>x{{itemCount}}</th>
-    <th></th>
-	<th>Total:</th>
-	<th>{{ sum }}</th>
+    <th>{{ sum }} SEK</th>
+	<th></th>
+	<th></th>
   </tr>
 </table>
 
 
+<div *ngIf="items" class="right"> 
+	<button type="button" class="btn btn-secondary" (click)="checkOut()" >Checkout</button>
+</div>
 
 
 

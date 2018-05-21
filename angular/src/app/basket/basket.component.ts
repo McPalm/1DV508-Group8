@@ -7,6 +7,7 @@ import { EmailService } from '../services/email.service';
 import {FirebaseApp} from 'angularfire2';
 import { CartEntry } from '../services/cart-entry'
 import { Item } from '../services/item';
+import { OrderService } from '../services/order.service';
 
 
 
@@ -18,31 +19,32 @@ import { Item } from '../services/item';
 })
 export class BasketComponent implements OnInit {
 	
-	
+  private name;
   items$: Observable<any[]>;
   private user;
   private items = false;
   orders : Array<CartEntry>
   sum = 0;
   itemCount = 0;
+  private orders$
   
-  constructor(private db: AngularFireDatabase, private CookieService: CookieService, private cs: EmailService, private firebase: FirebaseApp,) { 
+  constructor(private db: AngularFireDatabase, private CookieService: CookieService, private cs: EmailService, private firebase: FirebaseApp,
+  private orderService : OrderService,) { 
 	this.user = this.CookieService.get('UID');
 	
-
- 
+	this.orders$ = this.db.list(`orders`);
+	
 	this.items$ = this.db.list(`users/${this.user}/cart`).valueChanges();
 	this.db.object(`users/${this.user}/cart`).valueChanges().subscribe((value) => { 
-		if(value) {
-			this.items = true;
-		}
+		if(value) { this.items = true;} 
+		else{ this.items = false;}
 	});
 	
   }
 
   ngOnInit() {
 
-	let data;
+  let data;
   this.db.list(`users/${this.user}/cart`).valueChanges().subscribe( (value : Array<CartEntry>)  => {
 	  
 	  data = value;
@@ -53,16 +55,21 @@ export class BasketComponent implements OnInit {
 	  this.sum = 0;
 	  this.itemCount = 0;
 	  
-	  for(let entry of this.orders){
-		this.sum += entry.item.price * entry.count;
-		this.itemCount += entry.count;
+	  for(let data of this.orders){
+		this.sum += data.item.price * data.count;
+		this.itemCount += data.count;
 	  }
 
 	  
 	  
     });
 	
-	
+	this.db.object(`users/${this.user}`).valueChanges().subscribe((value) => {
+		
+		data = value;
+		this.name = data.displayName;
+		
+	});
 	
 
   }
@@ -203,17 +210,82 @@ export class BasketComponent implements OnInit {
 	  
   }
   
-  countSum(data) {
+  checkOut() {
 	  
-	console.log(data.count);
 	  
-	let sum = 0;
-    for(let entry of data)
-      this.sum += entry.item.price * entry.count;
+	  let currentTime = new Date();
+	  
+		let data = {
+			name: this.name,
+			adress1: "tmp",
+			zip: 100,
+			city: "test",
+			cart: this.orders,
+			userid: this.user,
+			status: 0,
+			time: currentTime.toString(),
+			uid: this.db.database.ref(`orders`).push().key,
+			
+		  }
+		  
+		  
+		this.checkStock();
+		  
+		this.db.database.ref(`orders/${data.uid}`).set(data)
 
-  
-	console.log(sum);  
+		this.db.object(`users/${this.user}/cart/`).remove();
+		this.db.object(`users/${this.user}`).update({ itemcount: 0});
+
+	  
 	}
+	
+	
+	checkStock() {
+		
+	  let change = 0;
+	  let uid;
+	  let item;
+	  let tmp = 0;
+	  
+	  for(let data of this.orders){
+		  
+		  
+			change = data.count;
+			uid = data.item.uid;
+			
+			this.removeStock(uid, change);
+			
+			
+	  }
+	  
+	}
+	  
+	  
+	  
+	removeStock(id: string, change: number) {
+		
+		let tmp;
+		let item;
+		  
+		  let dbRef = this.db.object(`items/${id}`).valueChanges().subscribe((value) => {
+
+			item = value;
+			
+			tmp = item.count;
+			
+			tmp -= change;
+			
+			
+			this.db.object(`items/${id}`).update({ count: tmp})
+			
+			
+			dbRef.unsubscribe();
+			});
+		    
+	  }
+		
+		
+	
 
 
 }
