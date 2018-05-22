@@ -1,10 +1,10 @@
 <div class="thumbnail">
     <a class="thumb-link" (click)="onClick()">
         <div class="caption">
-            <h4 class="">{{item.name}}</h4>
+            <h4 class="" (click)="openDetails()">{{item.name}}</h4>
         </div>
         <div class="pricetag">
-            <h5 class="">{{item.price}} SEK</h5>
+            <h5 class="" (click)="openDetails()">{{item.price}} SEK</h5>
         </div>
         <div class="addtocart" (click)="addCart()">
             <h4>Add to cart</h4>
@@ -17,6 +17,7 @@
 			<img class="img_thumbdown" [src]=thumbDownUrl width="15%" (click)="rateDown()">
 			{{votesDown}}
 		</div>
-        <img class="image" [src]=item.path title="{{item.description}}" alt="{{item.name}}">
+
+        <img class="image" [src]=item.path title="{{item.description}}" alt="{{item.name}}" (click)="openDetails()">
     </a>
 </div>

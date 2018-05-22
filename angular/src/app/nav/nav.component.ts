@@ -5,6 +5,7 @@ import { Category } from '../services/category';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { CookieService } from 'ngx-cookie-service';
 import { OrderService } from '../services/order.service';
+import { Item } from '../services/item';
 
 
 @Component({
@@ -25,17 +26,17 @@ export class NavComponent implements OnInit {
   page = "";
   itemAmount;
   user;
+  selectedItem;
 
- 
- 
+
   constructor(private categoryService : CategoryService ,
-			private cookieService: CookieService, 
+			private cookieService: CookieService,
       private db: AngularFireDatabase,
       private orderService : OrderService,
-    ) { 
-	
+    ) {
+
 	this.user = this.cookieService.get('UID');
-	this.db.object(`users/${this.user}/itemcount`).valueChanges().subscribe((value) => { 
+	this.db.object(`users/${this.user}/itemcount`).valueChanges().subscribe((value) => {
 	if(value){
 		this.itemAmount = value ;
 	}
@@ -44,7 +45,7 @@ export class NavComponent implements OnInit {
 	}
 	});
 
-	
+
 	}
 
   ngOnInit() {
@@ -54,10 +55,10 @@ export class NavComponent implements OnInit {
 	  const UID: string = this.cookieService.get('UID');
 	  this.db.object(`users/` + UID + `/admin`).valueChanges().subscribe((value) => {
 	    if(value === 'true'){
-		    this.adminTrue(); 
+		    this.adminTrue();
       }
     });
-	
+
 	if(this.cookieService.check('UID')) {
 		this.loggedIn = true;
 	}
@@ -83,19 +84,33 @@ export class NavComponent implements OnInit {
     this.category = null;
     this.page = "admin";
   }
-  
+
   openOrders() {
     this.category = null;
     this.page = "orders";
   }
-  
+
   openBasket() {
 	  this.category = null;
-	  this.page = "basket";  
+	  this.page = "basket";
   }
-  
+
+  openDetails() {
+	  this.category = null;
+	  this.page = "details";
+  }
+
+  setSelectedItem(item: Item){
+	  this.selectedItem = item;
+	  this.openDetails();
+  }
+
+  getSelectedItem() : Item {
+	  return this.selectedItem;
+  }
+
 	 adminTrue() {
 		this.admin = true;
 	}
-  
+
 }

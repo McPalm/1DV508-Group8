@@ -3,6 +3,7 @@ import {Item} from '../../services/item';
 import {CartService} from '../../services/cart.service';
 import { ItemService } from '../../services/item.service';
 import { AuthService } from '../../core/auth.service';
+import { NavComponent } from '../../nav/nav.component';
 
 @Component({
   selector: 'app-item-thumb-nail',
@@ -25,8 +26,9 @@ export class ItemThumbNailComponent implements OnInit {
   @Output() callback: EventEmitter<Item> = new EventEmitter();
 
   constructor(private cartService: CartService,
-			  private itemService : ItemService,
-		      private authService: AuthService) {}
+			  private itemService: ItemService,
+		      private authService: AuthService,
+		      private nav: NavComponent) {}
 
   ngOnInit() {
 	/* Get user details */
@@ -42,6 +44,10 @@ export class ItemThumbNailComponent implements OnInit {
 
   addCart(): void {
     this.cartService.addItem(this.item);
+  }
+
+  openDetails(): void {
+	  this.nav.setSelectedItem(this.item);
   }
 
   rateDown() : void {
