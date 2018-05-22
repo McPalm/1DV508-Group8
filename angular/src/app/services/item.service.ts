@@ -20,7 +20,7 @@ export class ItemService {
    * Get all items in a specified category
    * @param category
    */
-  getItems(category: Category): Observable<any[]> {
+  getItems(category: Category): Observable<Item[]> {
 
     /*  Filtered from category. */
     const items = this.db.list(this.itemPath ,
@@ -35,10 +35,10 @@ export class ItemService {
    * @param {Observable<Item[]>} list
    * @returns {Observable<Item[]>}
    */
-  private resolvePath(list: Observable<Item[]>): Observable<Item[]> {
+  private resolvePath(list: Observable<any[]>): Observable<Item[]> {
     const pathresolved = list.map((item: Item[]) => {
       /*  Iterate through each item.  */
-      return item.map(item1 => {
+      return item.map((item1: Item) => {
         /*  Ignore if path is already a valid URL.  */
         if ( item1.path.startsWith('https://') ) {
           return;
@@ -66,7 +66,7 @@ export class ItemService {
    * Get all items currently on the server
    * @param category
    */
-  getItemsAll() : Observable<any[]> {
+  getItemsAll(): Observable<Item[]> {
     return this.resolvePath( this.db.list(this.itemPath).valueChanges());
   }
 
