@@ -33,6 +33,19 @@ export class CartService {
         if (item) {
           newAmount = item.count;
         }
+		
+		let dbRef3 = this.db.object(`items/${product.uid}`).valueChanges().subscribe(itemRef3 => { 
+		
+		item = itemRef3;
+		
+		if (newAmount + 1 > item.count) {
+			
+			alert('Out of stock');
+		}
+		
+		else {
+		
+		
         let data : CartEntry = {
           item: product,
           count: newAmount + 1,
@@ -49,11 +62,15 @@ export class CartService {
 		itemAmount +=1;
 		
 		this.db.object(`users/${this.user}`).update({ itemcount: itemAmount})
-		
-		dbRef2.unsubscribe();
-		})
-        dbRef.unsubscribe();
+	
+			dbRef2.unsubscribe();
+		});
+		}
+        
+		dbRef3.unsubscribe();
       })
+		dbRef.unsubscribe();
+	 })
     }
   }
 
