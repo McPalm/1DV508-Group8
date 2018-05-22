@@ -42,6 +42,7 @@ import { OrderCatalogComponent } from './order-catalog/order-catalog.component';
 import { OrderService } from './services/order.service';
 import { EmailService } from './services/email.service';
 import { BasketComponent } from './basket/basket.component';
+import { AdressService } from './services/adress.service';
 
 
 @NgModule({
@@ -87,6 +88,7 @@ import { BasketComponent } from './basket/basket.component';
     NgbRadioGroup,
     NgbAlert,
     CookieService,
+    AdressService,
     SearchService,
     CartService,
     OrderService,
