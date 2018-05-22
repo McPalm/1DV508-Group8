@@ -40,8 +40,8 @@ import { SearchService } from './services/search.service';
 import { CartService } from './services/cart.service';
 import { OrderCatalogComponent } from './order-catalog/order-catalog.component';
 import { OrderService } from './services/order.service';
-import { BasketComponent } from './basket/basket.component';
 import { EmailService } from './services/email.service';
+import { BasketComponent } from './basket/basket.component';
 
 
 @NgModule({
@@ -77,7 +77,6 @@ import { EmailService } from './services/email.service';
 	  AngularFirestoreModule,
     AngularFireStorageModule,
 	HttpClientModule,
-
 
   ],
   providers: [

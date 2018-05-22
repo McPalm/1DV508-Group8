@@ -15,24 +15,17 @@
         <label *ngIf="admin" class="btn btn-primary">
           <input ngbButton type="radio" value="New Orders" (click)="openOrders()"><b *ngIf="newOrders > 0" class="bg-danger">&ensp;{{newOrders}}&ensp;</b> New Orders 
         </label>
-
-        <label *ngIf="admin" class="btn btn-primary">
-          <input ngbButton type="radio" value="New Orders" (click)="openOrders()"><b class="bg-danger">&ensp;3&ensp;</b> New Orders 
-        </label>
         <br *ngIf="admin">
 		
 		<label  *ngIf="loggedIn" class="btn btn-primary">
           <input ngbButton type="radio" value="Basket" (click)="openBasket()"><b class="bg-danger">&ensp;{{ itemAmount }}&ensp;</b> Basket
         </label>
-		
 		<br>
-		
-		
+
         <label *ngFor="let cat of categories | async" class="btn btn-primary">
           <input ngbButton type="radio" [value]="cat.name" (click)="onChange(cat.name)"> {{cat.name}}
         </label>
 
-		
         
       </div>
     </div>

@@ -5,7 +5,6 @@ import { Order } from '../services/order';
 import { OrderService } from '../services/order.service';
 import { Observable } from 'rxjs/Observable';
 
-
 @Component({
   selector: 'app-order-catalog',
   templateUrl: './order-catalog.component.html',
@@ -15,7 +14,6 @@ export class OrderCatalogComponent implements OnInit {
 
   
   // cart : CartEntry[];
-
   orders : Array<Order>
   order : Order;
   totalPrice : number;
@@ -31,14 +29,12 @@ export class OrderCatalogComponent implements OnInit {
       this.orders = a;
     });
     // this.changeActive(this.orders[0]);
-
   }
 
   changeActive(order : Order) {
     this.order = order;
     this.totalPrice = this.totalPriceOf(this.order);
   }
-
 
   acceptOrder() {
     console.log("Yay, we accept the order!");
@@ -59,4 +55,3 @@ export class OrderCatalogComponent implements OnInit {
   }
   
 }
-

@@ -1,6 +1,3 @@
-<!-- <img class="logo" src="/assets/teddybear.jpg"> -->
-
-
 <div class="thumbnail">
     <a class="thumb-link" (click)="onClick()">
         <div class="caption">
@@ -15,14 +12,11 @@
       <!-- src="/assets/teddybear.jpg" -->
 
 		<div class="rating">
-			<img class="img_thumbup" img src="/assets/thumb-up.png" width="15%" (click)="rateUp()">
+			<img class="img_thumbup" [src]=thumbUpUrl width="15%" (click)="rateUp()">
 			{{votesUp}}
-			<img class="img_thumbdown" img src="/assets/thumb-down.png" width="15%" (click)="rateDown()">
+			<img class="img_thumbdown" [src]=thumbDownUrl width="15%" (click)="rateDown()">
 			{{votesDown}}
 		</div>
-
-        <img class="image" [src]=imageURL title="{{item.description}}" alt="{{item.name}}">
-
-
+        <img class="image" [src]=item.path title="{{item.description}}" alt="{{item.name}}">
     </a>
 </div>

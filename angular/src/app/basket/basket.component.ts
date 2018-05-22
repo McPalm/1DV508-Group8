@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { CookieService } from 'ngx-cookie-service';
 import { EmailService } from '../services/email.service';
+import {FirebaseApp} from 'angularfire2';
+
 
 
 
@@ -19,7 +21,7 @@ export class BasketComponent implements OnInit {
   private user;
   private items = false;
 
-  constructor(private db: AngularFireDatabase, private CookieService: CookieService, private cs: EmailService) { 
+  constructor(private db: AngularFireDatabase, private CookieService: CookieService, private cs: EmailService, private firebase: FirebaseApp,) { 
   
 	this.user = this.CookieService.get('UID');
 	this.items$ = this.db.list(`users/${this.user}/cart`).valueChanges();
@@ -54,12 +56,9 @@ export class BasketComponent implements OnInit {
 			
 			data = value3;
 		
-			if(data.itemcount) {
-				itemAmount = data.itemcount;	
-				}
+			if(data.itemcount) {itemAmount = data.itemcount;}
 				
-		
-			itemAmount -=1;
+			if(itemAmount > 0){itemAmount -=1;}
 				
 			this.db.object(`users/${this.user}/cart/${id}`).update({ count: change })
 			this.db.object(`users/${this.user}`).update({ itemcount: itemAmount})
@@ -134,9 +133,7 @@ export class BasketComponent implements OnInit {
   }
   
   deleteItem(id) {
-	  
-	//this.cs.sendEmail();
-	
+
 	
 	let change = 0;
 	let data;
@@ -155,9 +152,14 @@ export class BasketComponent implements OnInit {
 				if(data.itemcount) {
 				itemAmount = data.itemcount;	
 				}
-		
+
+				
+				if(itemAmount >= tmp){
 				itemAmount -= tmp;
-		
+				}
+				else {
+				itemAmount = 0;
+				}
 		
 				this.db.object(`users/${this.user}`).update({ itemcount: itemAmount})		
 				this.db.object(`users/${this.user}/cart/${id}`).remove();
@@ -171,5 +173,7 @@ export class BasketComponent implements OnInit {
 	
 	  
   }
+  
+ 
 
 }

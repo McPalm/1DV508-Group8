@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Item} from '../../services/item';
 import {CartService} from '../../services/cart.service';
-import {FirebaseApp} from 'angularfire2';
 import { ItemService } from '../../services/item.service';
 import { AuthService } from '../../core/auth.service';
 
@@ -13,10 +12,12 @@ import { AuthService } from '../../core/auth.service';
 export class ItemThumbNailComponent implements OnInit {
 
   @Input() item: Item;
-  imageURL;
+  imageURL = "./assets/loading.gif";
   user;
   votesUp;
   votesDown;
+  thumbUpUrl;
+  thumbDownUrl;
 
   /**
    * Use this to listen to clicks on this, returns a ref to the item you gave it.
@@ -24,22 +25,13 @@ export class ItemThumbNailComponent implements OnInit {
   @Output() callback: EventEmitter<Item> = new EventEmitter();
 
   constructor(private cartService: CartService,
-              private firebase: FirebaseApp,
 			  private itemService : ItemService,
 		      private authService: AuthService) {}
 
   ngOnInit() {
-
-    /*  Load image from storage by bucket path. */
-    const storage = this.firebase.storage();
-    storage.refFromURL(this.item.path).getDownloadURL().then(result => {
-      this.imageURL = result;
-    });
-
 	/* Get user details */
-	this.authService.getUser().subscribe(res => this.user = res)
-
-	this.updateVoteCount();
+	this.authService.getUser().subscribe(res => {this.user = res;
+												 this.updateVoteCount();});
   }
 
   onClick(): void {
@@ -67,8 +59,6 @@ export class ItemThumbNailComponent implements OnInit {
 			  }
 
 			  this.itemService.updateItem(this.item);
-
-			  this.updateVoteCount();
 		  }
 		  else{
 			  console.log("Duplicate rating");
@@ -90,8 +80,6 @@ export class ItemThumbNailComponent implements OnInit {
 			  }
 
 			  this.itemService.updateItem(this.item);
-
-			  this.updateVoteCount();
 		  }
 		  else{
 			  console.log("Duplicate rating");
@@ -102,6 +90,18 @@ export class ItemThumbNailComponent implements OnInit {
   updateVoteCount() : void {
 	  this.votesUp = (this.item.rateHigh.length -1);
 	  this.votesDown = (this.item.rateLow.length -1);
+
+	  this.thumbUpUrl = "./assets/thumb-up.png";
+	  this.thumbDownUrl = "./assets/thumb-down.png";
+
+	  if(this.user != null){
+		  if(this.item.rateHigh.indexOf(this.user.uid) != -1){
+			  this.thumbUpUrl = "./assets/thumb-up-filled.png";
+		  }
+		  if(this.item.rateLow.indexOf(this.user.uid) != -1){
+			  this.thumbDownUrl = "./assets/thumb-down-filled.png";
+		  }
+	  }
   }
 }
 

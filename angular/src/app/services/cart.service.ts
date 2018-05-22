@@ -26,8 +26,8 @@ export class CartService {
   addItem(product : Item): void {
     if (this.user) {
       let newAmount = 0;
-	  let itemAmount = 0;
       let item;
+	  let itemAmount = 0;
       let dbRef = this.db.object(`users/${this.user}/cart/${product.uid}`).valueChanges().subscribe(itemRef => {
         item = itemRef;
         if (item) {
@@ -38,8 +38,6 @@ export class CartService {
           count: newAmount + 1,
         }
         this.db.object(`users/${this.user}/cart/${product.uid}`).update(data);
-		this.db.object(`users/${this.user}/cart/${product.uid}`).update({ uid: product.uid })
-		
 		let dbRef2 = this.db.object(`users/${this.user}`).valueChanges().subscribe(itemRef2 => {
 			
 		item = itemRef2;
