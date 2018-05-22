@@ -27,6 +27,7 @@ export class BasketComponent implements OnInit {
   sum = 0;
   itemCount = 0;
   private orders$
+  itemArray : Array<any>;
   
   constructor(private db: AngularFireDatabase, private CookieService: CookieService, private cs: EmailService, private firebase: FirebaseApp,
   private orderService : OrderService,) { 
@@ -43,13 +44,18 @@ export class BasketComponent implements OnInit {
   }
 
   ngOnInit() {
-
+	  
+  
+  
   let data;
+  
+  this.db.list(`items`).valueChanges().subscribe((value : Array<any>) => {
+	  	  this.itemArray = value;
+	   }); 
+  
   this.db.list(`users/${this.user}/cart`).valueChanges().subscribe( (value : Array<CartEntry>)  => {
 	  
 	  data = value;
-	  
-	  
 	  this.orders = data;
 	   
 	  this.sum = 0;
@@ -59,8 +65,6 @@ export class BasketComponent implements OnInit {
 		this.sum += data.item.price * data.count;
 		this.itemCount += data.count;
 	  }
-
-	  
 	  
     });
 	
@@ -71,10 +75,12 @@ export class BasketComponent implements OnInit {
 		
 	});
 	
-
+	
   }
   
   countDown(id) {
+	  
+	  
 	  
 	  let change = 0;
 	  let data;
@@ -213,6 +219,18 @@ export class BasketComponent implements OnInit {
   checkOut() {
 	  
 	  
+	  
+	 if(!this.countStock()) {
+		  
+		  if(this.itemCount <= 0) {
+		  
+		  alert('No items in order');
+		  
+	  }
+	  
+	  else {
+	  
+	  
 	  let currentTime = new Date();
 	  
 		let data = {
@@ -229,18 +247,31 @@ export class BasketComponent implements OnInit {
 		  }
 		  
 		  
-		this.checkStock();
+		this.fixStock();
 		  
 		this.db.database.ref(`orders/${data.uid}`).set(data)
 
 		this.db.object(`users/${this.user}/cart/`).remove();
 		this.db.object(`users/${this.user}`).update({ itemcount: 0});
-
+		this.cs.sendEmail(data.uid);
+		
+	  }
+		  
+		  
+		  
+	  }
+	  
+	  
+	  else {
+	  
+		alert("There are items in your inventory that are out of stock");
+	
+	  }
 	  
 	}
 	
 	
-	checkStock() {
+	fixStock() {
 		
 	  let change = 0;
 	  let uid;
@@ -283,6 +314,34 @@ export class BasketComponent implements OnInit {
 			});
 		    
 	  }
+		
+		
+	countStock(){
+		
+		let change;
+		let uid;
+		
+		for(let data of this.orders){
+				change = data.count;
+				uid = data.item.uid;
+			
+			for(let data2 of this.itemArray) {
+				if(uid == data2.uid){
+					if(change > data2.count) {
+						return true;
+						
+					}
+				}
+			
+			}
+	
+	  }
+	  
+	return false;
+		
+		
+		
+	}
 		
 		
 	
