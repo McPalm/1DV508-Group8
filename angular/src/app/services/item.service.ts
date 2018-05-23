@@ -51,9 +51,7 @@ export class ItemService {
         }
 
         /*  Ignore if path is already a valid URL.  */
-        if (item.path.startsWith('https://') || item.path.length === 0) {
-          return;
-        if ( item.path.startsWith('https://') ) {
+        if ( item.path.startsWith('https://') || item.path.length === 0 ) {
           return item;
         }
 
