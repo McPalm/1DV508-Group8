@@ -13,33 +13,47 @@ import {SearchService} from '../services/search.service';
 })
 export class ProductListComponent implements OnInit {
 
-  /*  For listening to search query.  */
+  /**
+   * For listening to search query.
+   * @param {string} value
+   */
   @Input() set search(value: string) {
-    this.cacheSearch = value;
+    this._search = value;
     this.resetPager();
     this.setPage(1);
   }
 
-  /*  listening for external category changes.  */
+  /**
+   * listening for external category changes.
+   * @param {Category} value
+   */
   @Input() set category(value: Category) {
-    this.cachedCategory = value;
+    this._category = value;
     /*  Reset pager.  */
     this.resetPager();
     this.setPage(1);
   }
 
+  /**
+   * Listening for external scale factor.
+   * @param {number} scale
+   */
+  @Input() set scale(scale: number) {
+    this.setScaleFactor(scale);
+  }
+
   // pager object
-  pager: any = {
+  private pager: any = {
     currentPage: -1, /*  [1, inf]*/
     totalPages: 1, /*  [1, inf]*/
-    pages: [],
+    pages: [], /* Pages as their page number. [1,2,3,...,n] */
   };
 
   /*  */
-  cachedItems: Item[] = [];
-  cachedCategory: Category = null;
+  _items: Item[] = [];
+  _category: Category = null;
   scaleFactor = 1.0;
-  cacheSearch: string = null;
+  _search: string = null;
   breakpoint = 2;
   tiles;
 
@@ -73,14 +87,14 @@ export class ProductListComponent implements OnInit {
 
     /*  Compute the pager.  */
     const nrDisplayElements: number = this.getNrElementOnPage();
-    const nrElements: number = Math.ceil((this.cachedItems.length / nrDisplayElements));
+    const nrElements: number = Math.ceil((this._items.length / nrDisplayElements));
 
     const indicesOffset = 1;
     for (let i = indicesOffset; i < nrElements + indicesOffset; i++) {
       this.pager.pages.push(i);
     }
 
-    console.log("number of pages: " + nrElements);
+    console.log('number of pages: ' + nrElements);
     this.pager.totalPages = nrElements;
   }
 
@@ -104,8 +118,16 @@ export class ProductListComponent implements OnInit {
    * Set the zoom factor.
    * @param factor display factor.
    */
-  public setScaleFactor(factor) {
-    this.scaleFactor = factor;
+  private setScaleFactor(factor) {
+    this.scaleFactor = Math.min(Math.max(factor, 1.0), 10.0);
+  }
+
+  /**
+   * Get scale factor.
+   * @returns {number}
+   */
+  protected getScaleFactor() {
+    return this.scaleFactor;
   }
 
   /**
@@ -119,11 +141,11 @@ export class ProductListComponent implements OnInit {
     const tiles = [];
 
     const offset = (this.pager.currentPage - 1) * this.getNrElementOnPage();
-    const nrElements = this.cachedItems.length - offset;
+    const nrElements = this._items.length - offset;
 
     /*  Iterate through each element. */
     for (let i = 0; i < this.getNrElementOnPage() && i < nrElements; i++) {
-      const item: Item = this.cachedItems[offset + i];
+      const item: Item = this._items[offset + i];
 
       /*  Add item. */
       tiles.push(
@@ -155,23 +177,23 @@ export class ProductListComponent implements OnInit {
   public setPage(number: number) {
 
     /*  Compute the new valid page and compare with current.  */
-    console.log("requesting page: " + number);
+    console.log('requesting page: ' + number);
     const newPage = Math.min(Math.max(number, 1), this.pager.totalPages);
     if (newPage === this.pager.currentPage) {
       return;
     }
 
     /*  Set new page log it.  */
-    console.log("page " + newPage);
+    console.log('page ' + newPage);
     this.pager.currentPage = newPage;
 
     /*  Update items list.  */
-    if (this.cachedCategory != null) {
+    if (this._category != null) {
       /*  TODO add page offset and number of elements to extract. */
 
-      this.itemService.getItems(this.cachedCategory).subscribe(result => {
+      this.itemService.getItems(this._category).subscribe(result => {
         console.log(result);
-        this.cachedItems = result;
+        this._items = result;
 
         /*  */
         this.tiles = this.computeItem();
@@ -186,12 +208,12 @@ export class ProductListComponent implements OnInit {
           timeout: 3000
         });
       });
-    } else if (this.cacheSearch != null) {
+    } else if (this._search != null) {
 
       /*  Only search by search input.  */
-      const result = this.searchService.search(this.cacheSearch);
+      const result = this.searchService.search(this._search);
       console.log(result);
-      this.cachedItems = result;
+      this._items = result;
       this.tiles = this.computeItem();
 
       /*  Update pager. */
@@ -217,7 +239,7 @@ export class ProductListComponent implements OnInit {
    * @returns {number} number of column.
    */
   private computeBreakPoints(width: number) {
-    return width < 768 ? 1 : Math.floor((width - 320) / 640);
+    return width < 768 ? 1 : Math.floor(this.getScaleFactor() * (width - 320) / 640);
   }
 
   /**
@@ -225,7 +247,7 @@ export class ProductListComponent implements OnInit {
    */
   protected onSearch() {
     this.resetPager();
-    this.cachedCategory = null;
+    this._category = null;
     this.setPage(1);
   }
 }

@@ -1,6 +1,6 @@
 <div>
-  <h1 *ngIf="cachedCategory">{{cachedCategory.name}}</h1>
-  <p *ngIf="cachedCategory">{{cachedCategory.description}}</p>
+  <h1 *ngIf="_category">{{_category.name}}</h1>
+  <p *ngIf="_category">{{_category.description}}</p>
 
   <!-- -->
   <div class="container">
@@ -8,7 +8,7 @@
 
       <!-- TODO relocate to navbar later! -->
       <form class="form-inline my-2 my-lg-0" (submit)="onSearch()">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" [(ngModel)]="cacheSearch"
+        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" [(ngModel)]="_search"
                name="search">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
@@ -29,8 +29,8 @@
 
       </mat-grid-list>
 
-      <ngb-pagination class="d-flex justify-content-center" [pageSize]="getNrElementOnPage()"
-                      [collectionSize]="cachedItems.length" [page]="pager.currentPage"
+      <ngb-pagination *ngIf="_items.length > 0" class="d-flex justify-content-center" [pageSize]="getNrElementOnPage()"
+                      [collectionSize]="_items.length" [page]="pager.currentPage"
                       aria-label="Default pagination" (pageChange)="setPage($event)"></ngb-pagination>
 
     </div>

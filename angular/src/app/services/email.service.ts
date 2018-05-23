@@ -15,12 +15,12 @@ export class EmailService {
 	this.user = this.CookieService.get('UID');
   }
   
-  sendEmail() {
+  sendEmail(oID) {
 	  
 	  let info;
 	  let email;
 	  let name;
-	  let orderid = "tmp";
+	  let orderid = oID;
 	  
 	  let dbRef = this.db.object(`users/${this.user}`).valueChanges().subscribe((value) => {
 		   

@@ -5,14 +5,15 @@ import { CategoryService } from '../services/category.service';
 import { Category } from '../services/category';
 
 @Component({
-  selector: 'app-frontpage',
+  selector: 'app-frontpage ngbd-dropdown-basic',
   templateUrl: './frontpage.component.html',
-  styleUrls: ['./frontpage.component.css']
+  styleUrls: ['./frontpage.component.css'],
 })
 export class FrontpageComponent implements OnInit {
   user;
   categories: Observable<Category[]>;
   categoriesList: Category[];
+  whereto = "nav";
 
   constructor(
     private authService: AuthService,

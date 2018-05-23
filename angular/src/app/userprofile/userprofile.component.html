@@ -1,0 +1,17 @@
+<h2>User Profile</h2>
+<h3>Shipping Adress Management</h3>
+<ngb-accordion  [closeOthers]="true">
+  <ngb-panel id="static-1" title="New Adress">
+		<ng-template ngbPanelContent>
+			<p>Here is a thing!</p>
+		</ng-template>
+  </ngb-panel>
+  <ngb-panel *ngFor="let a of adresses" [title]="a.address1">
+    <ng-template ngbPanelContent>
+      <p>{{a.address1}}</p>
+      <p>{{a.address2}}</p>
+      <p>{{a.zip}}</p>
+      <p>{{a.city}}</p>
+		</ng-template>
+  </ngb-panel>
+</ngb-accordion>
