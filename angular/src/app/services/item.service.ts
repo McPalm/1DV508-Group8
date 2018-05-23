@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { Category } from './category';
-import { AngularFireList, AngularFireDatabase } from 'angularfire2/database';
-import { Item } from './item';
-import { Observable } from 'rxjs/Observable';
+import {Injectable} from '@angular/core';
+import {Category} from './category';
+import {AngularFireDatabase} from 'angularfire2/database';
+import {Item} from './item';
+import {Observable} from 'rxjs/Observable';
 import {FirebaseApp} from "angularfire2";
 
 @Injectable()
@@ -11,7 +11,7 @@ export class ItemService {
   private itemPath = "/items";
   private storage;
 
-  constructor(private db : AngularFireDatabase,
+  constructor(private db: AngularFireDatabase,
               private firebase: FirebaseApp) {
     this.storage = this.firebase.storage();
   }
@@ -23,10 +23,9 @@ export class ItemService {
   getItems(category: Category): Observable<Item[]> {
 
     /*  Filtered from category. */
-    const items = this.db.list(this.itemPath ,
+    const items = this.db.list(this.itemPath,
       ref => ref.orderByChild('category').equalTo(category.uid)
     ).valueChanges();
-
     return this.resolvePath(items);
   }
 
@@ -36,28 +35,39 @@ export class ItemService {
    * @returns {Observable<Item[]>}
    */
   private resolvePath(list: Observable<any[]>): Observable<Item[]> {
-    const pathresolved = list.map((item: Item[]) => {
+    const pathresolved = list.map((items: Item[]) => {
+
+      /*  Error checking. */
+      if (items === undefined) {
+        throw new Error('Internal error with fetching https path url for items.');
+      }
+
       /*  Iterate through each item.  */
-      return item.map((item1: Item) => {
+      return items.map((item: Item) => {
+
+        /*  Error checking. */
+        if (item === undefined) {
+          throw new Error('Internal error with fetching https path url for items.');
+        }
+
         /*  Ignore if path is already a valid URL.  */
-        if ( item1.path.startsWith('https://') ) {
+        if (item.path.startsWith('https://') || item.path.length === 0) {
           return;
         }
 
         /*  Cache the bucket path and give the item a tmp path. */
-        const cache = item1.path;
-        item1.path = '';
+        const cache = item.path;
+        item.path = '';
 
         /*  Get Downloadable URL. */
         this.storage.refFromURL(cache).getDownloadURL().then(path => {
           console.log('new path: ' + path);
-          item1.path = path;
+          item.path = path;
         }).catch(error => {
-          item1.path = '';
           console.log(error);
         });
 
-        return item1;
+        return item;
       });
     });
     return pathresolved;
@@ -68,7 +78,7 @@ export class ItemService {
    * @param category
    */
   getItemsAll(): Observable<Item[]> {
-    return this.resolvePath( this.db.list(this.itemPath).valueChanges());
+    return this.resolvePath(this.db.list(this.itemPath).valueChanges());
   }
 
   /**
