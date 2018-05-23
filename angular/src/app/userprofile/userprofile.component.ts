@@ -13,8 +13,27 @@ export class UserprofileComponent implements OnInit {
 
   adresses : Adress[];
 
+  a1 = "";
+  a2 = "";
+  zip: number;
+  city = "";
+
   ngOnInit() {
     this.adrs.getAdresses().subscribe(a => this.adresses = a);
+  }
+
+  onSubmit()
+  {
+    let adress : Adress = 
+    {
+      address1: this.a1.trim(),
+      zip: this.zip,
+      city: this.city.trim(),
+    }
+    if(this.a2.trim().length > 0)
+      adress.address2 = this.a2.trim();
+
+      console.log(adress)
   }
 
 }
