@@ -45,6 +45,7 @@ import { AdressService } from './services/adress.service';
 import { ItemdetailsComponent } from './itemdetails/itemdetails.component';
 import { UserprofileComponent } from './userprofile/userprofile.component';
 import {ItemCarouselComponent} from './item-carousel/item-carousel.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 
 @NgModule({
@@ -65,6 +66,7 @@ import {ItemCarouselComponent} from './item-carousel/item-carousel.component';
     BasketComponent,
     ItemdetailsComponent,
     UserprofileComponent,
+    NavbarComponent,
     ItemCarouselComponent
   ],
   imports: [
