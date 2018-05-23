@@ -16,7 +16,7 @@ export class ItemCarouselComponent implements OnInit {
    * Set a array of elements for display.
    * @param {Item[]} valid item array.
    */
-  @Input() set items(item: ItemCarousel[]) {
+  @Input() set items(item: ItemCarousel) {
 
     if (item === null) {
       throw ReferenceError('Invalid argument!');
