@@ -117,10 +117,10 @@ export class ItemService {
     * Get specified number of the most recent items in a list, in the order oldest to newest
     * @param amount amount of items requested
     */
-   getRecentItems(amount : number) {
-    const items = this.db.list(this.itemPath ,
-      ref => ref.limitToLast(amount)
-    ).valueChanges();
-    this.resolvePath(items);
+   public getRecentItems(amount: number): Observable<Item[]> {
+     const items = this.db.list(this.itemPath,
+       ref => ref.limitToLast(amount)
+     ).valueChanges();
+     return this.resolvePath(items);
    }
 }
