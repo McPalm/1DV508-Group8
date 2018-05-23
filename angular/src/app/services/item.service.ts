@@ -31,7 +31,7 @@ export class ItemService {
   }
 
   /**
-   *
+   * Resolve the image path for each item elements.
    * @param {Observable<Item[]>} list
    * @returns {Observable<Item[]>}
    */
@@ -53,6 +53,7 @@ export class ItemService {
           console.log('new path: ' + path);
           item1.path = path;
         }).catch(error => {
+          item1.path = '';
           console.log(error);
         });
 
@@ -103,7 +104,7 @@ export class ItemService {
    }
 
    /**
-    * Get specified number of the most recent items in a list, in the order oldest to newest 
+    * Get specified number of the most recent items in a list, in the order oldest to newest
     * @param amount amount of items requested
     */
    getRecentItems(amount : number) {
