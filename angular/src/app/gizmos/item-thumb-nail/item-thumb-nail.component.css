@@ -40,9 +40,3 @@
     height:auto;
     width:auto;
 }
-
-.rating {
-  position: relative;
-  z-index: 1;
-  left: -100px;
-}

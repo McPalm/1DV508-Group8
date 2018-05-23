@@ -1,8 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Item} from '../../services/item';
 import {CartService} from '../../services/cart.service';
-import { ItemService } from '../../services/item.service';
-import { AuthService } from '../../core/auth.service';
 import { NavComponent } from '../../nav/nav.component';
 
 @Component({
@@ -14,11 +12,6 @@ export class ItemThumbNailComponent implements OnInit {
 
   @Input() item: Item;
   imageURL = "./assets/loading.gif";
-  user;
-  votesUp;
-  votesDown;
-  thumbUpUrl;
-  thumbDownUrl;
 
   /**
    * Use this to listen to clicks on this, returns a ref to the item you gave it.
@@ -26,14 +19,9 @@ export class ItemThumbNailComponent implements OnInit {
   @Output() callback: EventEmitter<Item> = new EventEmitter();
 
   constructor(private cartService: CartService,
-			  private itemService: ItemService,
-		      private authService: AuthService,
 		      private nav: NavComponent) {}
 
   ngOnInit() {
-	/* Get user details */
-	this.authService.getUser().subscribe(res => {this.user = res;
-												 this.updateVoteCount();});
   }
 
   onClick(): void {
@@ -48,66 +36,6 @@ export class ItemThumbNailComponent implements OnInit {
 
   openDetails(): void {
 	  this.nav.setSelectedItem(this.item);
-  }
-
-  rateDown() : void {
-	  if(this.user != null){
-
-		  // Check for duplicate vote
-		  if(this.item.rateLow.indexOf(this.user.uid) == -1){
-			  this.item.rateLow.push(this.user.uid);
-			  console.log(`Added ${this.user.uid} to rate low`);
-
-			  // Check if user has voted in the other array
-			  if(this.item.rateHigh.indexOf(this.user.uid) != -1){
-				  console.log("Duplicate in other array");
-				  this.item.rateHigh.splice(this.item.rateHigh.indexOf(this.user.uid),1);
-			  }
-
-			  this.itemService.updateItem(this.item);
-		  }
-		  else{
-			  console.log("Duplicate rating");
-		  }
-	  }
-  }
-
-  rateUp() : void {
-	  if(this.user != null){
-		  // Check for duplicate vote
-		  if(this.item.rateHigh.indexOf(this.user.uid) == -1){
-			  this.item.rateHigh.push(this.user.uid);
-			  console.log(`Added ${this.user.uid} to rate high`);
-
-			  // Check if user has voted in the other array
-			  if(this.item.rateLow.indexOf(this.user.uid) != -1){
-				  console.log("Duplicate in other array");
-				  this.item.rateLow.splice(this.item.rateLow.indexOf(this.user.uid),1);
-			  }
-
-			  this.itemService.updateItem(this.item);
-		  }
-		  else{
-			  console.log("Duplicate rating");
-		  }
-	  }
-  }
-
-  updateVoteCount() : void {
-	  this.votesUp = (this.item.rateHigh.length -1);
-	  this.votesDown = (this.item.rateLow.length -1);
-
-	  this.thumbUpUrl = "./assets/thumb-up.png";
-	  this.thumbDownUrl = "./assets/thumb-down.png";
-
-	  if(this.user != null){
-		  if(this.item.rateHigh.indexOf(this.user.uid) != -1){
-			  this.thumbUpUrl = "./assets/thumb-up-filled.png";
-		  }
-		  if(this.item.rateLow.indexOf(this.user.uid) != -1){
-			  this.thumbDownUrl = "./assets/thumb-down-filled.png";
-		  }
-	  }
   }
 }
 
