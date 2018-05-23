@@ -23,7 +23,7 @@ export class ItemService {
   getItems(category: Category): Observable<Item[]> {
 
     /*  Filtered from category. */
-    const items = this.db.list(this.itemPath ,
+    let items = this.db.list(this.itemPath ,
       ref => ref.orderByChild('category').equalTo(category.uid)
     ).valueChanges();
 
@@ -36,27 +36,27 @@ export class ItemService {
    * @returns {Observable<Item[]>}
    */
   private resolvePath(list: Observable<any[]>): Observable<Item[]> {
-    const pathresolved = list.map((item: Item[]) => {
+    let pathresolved = list.map((items: Item[]) => {
       /*  Iterate through each item.  */
-      return item.map((item1: Item) => {
+      return items.map((item: Item) => {
         /*  Ignore if path is already a valid URL.  */
-        if ( item1.path.startsWith('https://') ) {
-          return;
+        if ( item.path.startsWith('https://') ) {
+          return item;
         }
 
         /*  Cache the bucket path and give the item a tmp path. */
-        const cache = item1.path;
-        item1.path = '';
+        let cache = item.path;
+        item.path = '';
 
         /*  Get Downloadable URL. */
         this.storage.refFromURL(cache).getDownloadURL().then(path => {
           console.log('new path: ' + path);
-          item1.path = path;
+          item.path = path;
         }).catch(error => {
           console.log(error);
         });
 
-        return item1;
+        return item;
       });
     });
     return pathresolved;
