@@ -191,7 +191,7 @@ export class ProductListComponent implements OnInit {
     if (this._category != null) {
       /*  TODO add page offset and number of elements to extract. */
 
-      this.itemService.getItems(this._category).subscribe(result => {
+      this.itemService.getItems(this._category).subscribe((result: Item[]) => {
         console.log(result);
         this._items = result;
 
