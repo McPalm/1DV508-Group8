@@ -32,9 +32,12 @@
     <div class="col-md-9">
       <div class="main">
 
+        <router-outlet></router-outlet>
+        <!--
         <app-product-list *ngIf="category != null" [category]="category"></app-product-list>
         <app-admin *ngIf="page == 'admin'"></app-admin>
         <app-order-catalog *ngIf="page == 'orders'"></app-order-catalog>
+        --->
 		<app-basket *ngIf="page == 'basket'"></app-basket>
 		<app-itemdetails *ngIf="page == 'details'"></app-itemdetails>
       </div>
