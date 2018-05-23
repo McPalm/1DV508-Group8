@@ -29,7 +29,7 @@
 
       </mat-grid-list>
 
-      <ngb-pagination class="d-flex justify-content-center" [pageSize]="getNrElementOnPage()"
+      <ngb-pagination *ngIf="_items.length > 0" class="d-flex justify-content-center" [pageSize]="getNrElementOnPage()"
                       [collectionSize]="_items.length" [page]="pager.currentPage"
                       aria-label="Default pagination" (pageChange)="setPage($event)"></ngb-pagination>
 
