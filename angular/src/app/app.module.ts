@@ -44,6 +44,7 @@ import { BasketComponent } from './basket/basket.component';
 import { AdressService } from './services/adress.service';
 import { ItemdetailsComponent } from './itemdetails/itemdetails.component';
 import { UserprofileComponent } from './userprofile/userprofile.component';
+import {ItemCarouselComponent} from './item-carousel/item-carousel.component';
 
 
 @NgModule({
@@ -64,6 +65,7 @@ import { UserprofileComponent } from './userprofile/userprofile.component';
     BasketComponent,
     ItemdetailsComponent,
     UserprofileComponent,
+    ItemCarouselComponent
   ],
   imports: [
     BrowserModule,
