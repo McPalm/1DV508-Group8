@@ -53,6 +53,8 @@ export class ItemService {
         /*  Ignore if path is already a valid URL.  */
         if (item.path.startsWith('https://') || item.path.length === 0) {
           return;
+        if ( item.path.startsWith('https://') ) {
+          return item;
         }
 
         /*  Cache the bucket path and give the item a tmp path. */
