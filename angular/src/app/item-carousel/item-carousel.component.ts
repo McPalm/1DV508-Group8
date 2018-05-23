@@ -9,7 +9,7 @@ import {ItemCarousel} from './ItemCarousel';
 })
 export class ItemCarouselComponent implements OnInit {
 
-  localitems: ItemCarousel[] = undefined;
+  _items: ItemCarousel = undefined;
   private _columns = 0;
 
   /**
@@ -22,14 +22,14 @@ export class ItemCarouselComponent implements OnInit {
       throw ReferenceError('Invalid argument!');
     }
 
-    this.localitems = item;
+    this._items = item;
   }
 
   /**
    *
    * @param {number} columns
    */
-  @Input() set columns(columns: number) {
+  @Input('columns') set columns(columns: number) {
     if (columns < 1) {
       throw ReferenceError('Invalid argument!');
     }
