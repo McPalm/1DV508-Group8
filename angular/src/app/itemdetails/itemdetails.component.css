@@ -1,6 +1,19 @@
-.image{
+.details{
 	max-height:500px;
     max-width:500px;
 	height:auto;
+    width:50%;
+	float:left;
+	padding: 5px;
+}
+
+.rating{
+	max-height:200px;
+    max-width:200px;
+    height:auto;
     width:auto;
+}
+
+.description{
+	margin-bottom: 1em;
 }

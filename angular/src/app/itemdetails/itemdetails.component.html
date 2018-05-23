@@ -1,13 +1,24 @@
-<img class="image" [src]=item.path title="{{item.description}}" alt="{{item.name}}">
-<div class="name">
-Product name: {{item.name}}
-</div>
-<div class="price">
-Price: {{item.price}}
-</div>
-<div class="count">
-Amount in stock: {{item.count}}
-</div>
-<div class="description">
-Description: {{item.description}}
+<div class="row">
+	<img class="details" [src]=item.path title="{{item.description}}" alt="{{item.name}}">
+
+	<div class="details">
+		<div class="name">
+		Product name: {{item.name}}
+		</div>
+		<div class="price">
+		Price: {{item.price}}
+		</div>
+		<div class="count">
+		Amount in stock: {{item.count}}
+		</div>
+		<div class="description">
+		Description: {{item.description}}
+		</div>
+		<div class="rating">
+			<img class="img_thumbup" [src]=thumbUpUrl width="15%" (click)="rateUp()">
+			{{votesUp}}
+			<img class="img_thumbdown" [src]=thumbDownUrl width="15%" (click)="rateDown()">
+			{{votesDown}}
+		</div>
+	</div>
 </div>
