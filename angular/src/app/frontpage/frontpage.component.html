@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-3 nopadding">
-      <a routerLink="/frontpage">
+      <a routerLink="/frontpage" (click)="whereto = 'nav'">
         <img class="logo" src="/assets/logo.png">
       </a>
     </div>
@@ -16,20 +16,29 @@
 
   <ng-template #guest>
     <div class="loginlogout">
-        <button (click)="authService.googleLogin()" type="button"> Log In </button>
+        <img src="/assets/person_outline.png" (click)="authService.googleLogin()">
+      <!-- <button (click)="authService.googleLogin()" type="button"> Log In </button> -->
         <p>You are logged out</p>
     </div>
   </ng-template>
 
   <ng-template #loggedin>
       <div class="loginlogout">
-          <button (click)="authService.signOut()" routerLink="" type="button"> Log Out </button>
-          <p>Welcome {{user.displayName}}!</p>
+          <div ngbDropdown class="d-inline-block">
+            <button class="btn btn-sm btn-outline-light" id="dropdownBasic1" ngbDropdownToggle> <img src="/assets/person_green.png"></button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <label class="dropdown-header">Logged in as {{user.displayName}}</label>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item" (click)="whereto = 'profile'">Profile</button>
+              <button class="dropdown-item" (click)="authService.signOut()">Sign Out</button>
+            </div>
+          </div>
       </div>
     </ng-template>
 </div>
 
-<app-nav></app-nav>
+<app-nav *ngIf="whereto == 'nav'"></app-nav>
+<app-userprofile *ngIf="whereto == 'profile'"></app-userprofile>
 <!--
 <app-product-list></app-product-list>
 
