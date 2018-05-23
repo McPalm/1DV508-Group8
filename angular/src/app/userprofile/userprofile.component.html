@@ -1,5 +1,5 @@
 <h2>User Profile</h2>
-<h3>Shipping Adress Management</h3>
+<h3>Shipping Address Management</h3>
 <ngb-accordion  [closeOthers]="true">
   <ngb-panel id="static-1" title="New Adress">
 		<ng-template ngbPanelContent>
@@ -44,6 +44,7 @@
   </ngb-panel>
   <ngb-panel *ngFor="let a of adresses" [title]="a.address1">
     <ng-template ngbPanelContent>
+      <button class="btn float-right btn-danger" (click)="onDelete(a)">Delete</button>
       <p>{{a.address1}}</p>
       <p>{{a.address2}}</p>
       <p>{{a.zip}}</p>
