@@ -28,6 +28,14 @@ export class ProductListComponent implements OnInit {
     this.setPage(1);
   }
 
+  /**
+   *
+   * @param {number} scale
+   */
+  @Input() set scale(scale: number) {
+    this.setScaleFactor(scale);
+  }
+
   // pager object
   pager: any = {
     currentPage: -1, /*  [1, inf]*/
