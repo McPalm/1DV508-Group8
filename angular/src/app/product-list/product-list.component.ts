@@ -46,7 +46,7 @@ export class ProductListComponent implements OnInit {
   private pager: any = {
     currentPage: -1, /*  [1, inf]*/
     totalPages: 1, /*  [1, inf]*/
-    pages: [],
+    pages: [], /* Pages as their page number. [1,2,3,...,n] */
   };
 
   /*  */
@@ -239,7 +239,7 @@ export class ProductListComponent implements OnInit {
    * @returns {number} number of column.
    */
   private computeBreakPoints(width: number) {
-    return width < 768 ? 1 : Math.floor((width - 320) / 640);
+    return width < 768 ? 1 : Math.floor(this.getScaleFactor() * (width - 320) / 640);
   }
 
   /**
