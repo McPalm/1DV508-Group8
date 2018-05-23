@@ -21,7 +21,6 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { ItemService } from './services/item.service';
-import { UserProfileComponent } from './user-profile/user-profile.component';
 import { AddcategoryComponent } from './addcategory/addcategory.component';
 import { AdminComponent } from './admin/admin.component';
 import { AddproductComponent } from './addproduct/addproduct.component';
@@ -53,7 +52,6 @@ import { UserprofileComponent } from './userprofile/userprofile.component';
     LoginComponent,
     DashboardComponent,
     FrontpageComponent,
-    UserProfileComponent,
     AddcategoryComponent,
     AdminComponent,
     AddproductComponent,
