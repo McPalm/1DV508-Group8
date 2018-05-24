@@ -1,5 +1,9 @@
 <h2>Basket</h2>
 
+
+
+
+
 <div *ngIf="!items"> 
 Empty :(
 </div>
@@ -34,9 +38,24 @@ Empty :(
 </table>
 
 
-<div *ngIf="items" class="right"> 
-	<button type="button" class="btn btn-secondary" (click)="checkOut()" >Checkout</button>
+<div *ngIf="items"> 
+
+		<form (ngSubmit)="checkOut()" #productForm="ngForm">
+
+				<div class="form-group">
+					<label for="address">Address</label>
+					<select class="form-control" id="address"
+					required
+					[(ngModel)]="address" name="address"
+					>
+						<option *ngFor="let address of address$ | async" [value]="address.uid">{{address.address1}}, {{address.zip}}, {{address.city}}, {{address.address2}}</option>
+					</select>
+				</div>
+			 <button type="submit" class="btn btn-secondary right" [disabled]="!productForm.form.valid">Checkout</button>
+		</form>
+
 </div>
+
 
 
 

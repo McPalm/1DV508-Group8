@@ -11,14 +11,14 @@ import { OrderService } from '../services/order.service';
 
 
 
-
 @Component({
   selector: 'app-basket',
   templateUrl: './basket.component.html',
   styleUrls: ['./basket.component.css']
 })
 export class BasketComponent implements OnInit {
-	
+
+  address$: Observable<any[]>;
   private name;
   items$: Observable<any[]>;
   private user;
@@ -28,10 +28,14 @@ export class BasketComponent implements OnInit {
   itemCount = 0;
   private orders$
   itemArray : Array<any>;
+  address: String;
   
   constructor(private db: AngularFireDatabase, private CookieService: CookieService, private cs: EmailService, private firebase: FirebaseApp,
   private orderService : OrderService,) { 
 	this.user = this.CookieService.get('UID');
+	
+	this.address$ = this.db.list(`users/${this.user}/addresses`).valueChanges();
+	
 	
 	this.orders$ = this.db.list(`orders`);
 	
@@ -45,8 +49,7 @@ export class BasketComponent implements OnInit {
 
   ngOnInit() {
 	  
-  
-  
+
   let data;
   
   this.db.list(`items`).valueChanges().subscribe((value : Array<any>) => {
@@ -119,7 +122,7 @@ export class BasketComponent implements OnInit {
   
     countUp(id) {
 			
-		  	
+		  
 		  let change = 0;
 		  let data;
 		  let tmp = 0;
@@ -217,8 +220,8 @@ export class BasketComponent implements OnInit {
   }
   
   checkOut() {
-	  
-	  
+	  	 
+	 let addr
 	  
 	 if(!this.countStock()) {
 		  
@@ -230,14 +233,19 @@ export class BasketComponent implements OnInit {
 	  
 	  else {
 	  
+	  let dbRef = this.db.object(`users/${this.user}/addresses/${this.address}`).valueChanges().subscribe((value) => {
+		  
+	  addr = value;
+	  
 	  
 	  let currentTime = new Date();
 	  
 		let data = {
 			name: this.name,
-			adress1: "tmp",
-			zip: 100,
-			city: "test",
+			adress1: addr.address1,
+			adress2: "",
+			zip: addr.zip,
+			city: addr.city,
 			cart: this.orders,
 			userid: this.user,
 			status: 0,
@@ -245,6 +253,10 @@ export class BasketComponent implements OnInit {
 			uid: this.db.database.ref(`orders`).push().key,
 			
 		  }
+		  
+		  if(addr.address2){
+			  data.adress2 = addr.address2;
+ 		  }
 		  
 		  
 		this.fixStock();
@@ -254,6 +266,8 @@ export class BasketComponent implements OnInit {
 		this.db.object(`users/${this.user}/cart/`).remove();
 		this.db.object(`users/${this.user}`).update({ itemcount: 0});
 		this.cs.sendEmail(data.uid);
+		
+	  });
 		
 	  }
 		  
