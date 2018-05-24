@@ -3,6 +3,7 @@ import { Item } from '../services/item';
 import { NavComponent } from '../nav/nav.component';
 import { ItemService } from '../services/item.service';
 import { AuthService } from '../core/auth.service';
+import {ActivatedRoute} from "@angular/router";
 import { CartService } from '../services/cart.service';
 
 @Component({
@@ -12,7 +13,7 @@ import { CartService } from '../services/cart.service';
 })
 export class ItemdetailsComponent implements OnInit {
 
-  item;
+  item: Item = {};
   user;
   votesUp;
   votesDown;
@@ -23,10 +24,20 @@ export class ItemdetailsComponent implements OnInit {
   constructor(private cartService: CartService,
 	  		  private nav: NavComponent,
 			  private itemService: ItemService,
-			  private authService: AuthService) { }
+			  private authService: AuthService,
+              private route: ActivatedRoute) {
+
+  }
 
   ngOnInit() {
-	  this.item = this.nav.getSelectedItem();
+
+    /*  Load the item assoicated with the url.  */
+    this.route.params.subscribe(params => {
+      this.itemService.getItem(params['uid']).subscribe(item => {
+        console.log(item);
+        this.item = item[0];
+      });
+    });
 
 	  /* Get user details */
       this.authService.getUser().subscribe(res => {

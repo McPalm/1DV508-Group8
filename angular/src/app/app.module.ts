@@ -45,7 +45,9 @@ import { AdressService } from './services/adress.service';
 import { ItemdetailsComponent } from './itemdetails/itemdetails.component';
 import { UserprofileComponent } from './userprofile/userprofile.component';
 import {ItemCarouselComponent} from './item-carousel/item-carousel.component';
+import { NavbarComponent } from './navbar/navbar.component';
 import { HighlightButtonComponent } from './highlight-button/highlight-button.component';
+import {ProductPageComponent} from "./product-page/product-page.component";
 
 
 @NgModule({
@@ -67,7 +69,12 @@ import { HighlightButtonComponent } from './highlight-button/highlight-button.co
     ItemdetailsComponent,
     UserprofileComponent,
     ItemCarouselComponent,
-    HighlightButtonComponent
+    HighlightButtonComponent,
+    NavbarComponent,
+    FrontpageComponent,
+    ProductPageComponent,
+    ItemCarouselComponent,
+    HighlightButtonComponent,
   ],
   imports: [
     BrowserModule,

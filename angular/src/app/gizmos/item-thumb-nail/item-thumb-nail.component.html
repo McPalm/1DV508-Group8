@@ -1,5 +1,5 @@
 <div class="thumbnail">
-    <a class="thumb-link" (click)="onClick()">
+    <a class="thumb-link"[routerLink]="['/main/product', item.uid]" >
         <div class="caption">
             <h4 class="" (click)="openDetails()">{{item.name}}</h4>
         </div>
