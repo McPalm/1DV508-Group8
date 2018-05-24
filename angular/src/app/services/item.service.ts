@@ -117,10 +117,38 @@ export class ItemService {
     * Get specified number of the most recent items in a list, in the order oldest to newest
     * @param amount amount of items requested
     */
-   getRecentItems(amount : number) {
-    const items = this.db.list(this.itemPath ,
-      ref => ref.limitToLast(amount)
+   public getRecentItems(amount: number): Observable<Item[]> {
+     const items = this.db.list(this.itemPath,
+       ref => ref.limitToLast(amount)
+     ).valueChanges();
+     return this.resolvePath(items);
+   }
+
+   /**
+    * Toggle item highlight
+    * @param uid uid for the item to toggle hightlight status
+    */
+   toggleHighlight(uid: string) : void {
+     let item;
+     let dbRef = this.db.object(`${this.itemPath}/${uid}`).valueChanges().subscribe(i => {
+       item = i;
+       if(item.highlighted) {
+         item.highlighted = false;
+       } else {
+         item.highlighted = true;
+       }
+       this.db.object(`${this.itemPath}/${uid}`).update(item);
+       dbRef.unsubscribe();
+     })
+   }
+
+   /**
+    * Get all highlighted items
+    */
+   getHighlightedItems() : Observable<Item[]> {
+    const items = this.db.list(this.itemPath,
+      ref => ref.orderByChild('highlighted').equalTo(true)
     ).valueChanges();
-    this.resolvePath(items);
+    return this.resolvePath(items);
    }
 }
