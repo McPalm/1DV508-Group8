@@ -40,7 +40,8 @@ export class AdressService {
   }
 
   public deleteAdress(adress: Adress) {
-    
+    var ref = this.db.database.ref().child(`users/${this.user}/addresses/${adress.uid}`);
+    ref.remove();
   }
 
   getMock() : Adress[] {
