@@ -11,6 +11,8 @@ import {AdminComponent} from "./admin/admin.component";
 import {OrderCatalogComponent} from "./order-catalog/order-catalog.component";
 import {ProductListComponent} from "./product-list/product-list.component";
 import {ItemdetailsComponent} from "./itemdetails/itemdetails.component";
+import {ProductPageComponent} from "./product-page/product-page.component";
+import {BasketComponent} from "./basket/basket.component";
 
 
 const routes: Routes = [
@@ -21,8 +23,9 @@ const routes: Routes = [
     {path: 'profile', component: UserprofileComponent},
     {path: 'admin', component: AdminComponent},
     {path: 'order', component: OrderCatalogComponent},
-    {path: 'product', component: ProductListComponent},
-    {path: 'product/:id', component: ItemdetailsComponent},
+    {path: 'basket', component: BasketComponent},
+    {path: 'product', component: ProductPageComponent},
+//    {path: 'product/:id', component: ItemdetailsComponent},
     ]},
   // { path: 'test', component: LoginComponent, canActivate: [AuthGuard]} // AuthGuard example
 ]

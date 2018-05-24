@@ -9,16 +9,16 @@
       >
 
         <label *ngIf="admin" class="btn btn-primary">
-          <input ngbButton type="radio" value="Admin Controls" (click)="openAdmin()"> Admin Controls
+          <input ngbButton type="radio" value="Admin Controls" [routerLink]="['admin']"> Admin Controls
         </label>
 
         <label *ngIf="admin" class="btn btn-primary">
-          <input ngbButton type="radio" value="New Orders" (click)="openOrders()"><b *ngIf="newOrders > 0" class="bg-danger">&ensp;{{newOrders}}&ensp;</b> New Orders
+          <input ngbButton type="radio" value="New Orders" [routerLink]="['order']"><b *ngIf="newOrders > 0" class="bg-danger">&ensp;{{newOrders}}&ensp;</b> New Orders
         </label>
         <br *ngIf="admin">
 
 		<label  *ngIf="loggedIn" class="btn btn-primary">
-          <input ngbButton type="radio" value="Basket" (click)="openBasket()"><b class="bg-danger">&ensp;{{ itemAmount }}&ensp;</b> Basket
+          <input ngbButton type="radio" value="Basket" [routerLink]="['basket']"><b class="bg-danger">&ensp;{{ itemAmount }}&ensp;</b> Basket
         </label>
 		<br>
 
@@ -33,13 +33,9 @@
       <div class="main">
 
         <router-outlet></router-outlet>
-        <!--
-        <app-product-list *ngIf="category != null" [category]="category"></app-product-list>
-        <app-admin *ngIf="page == 'admin'"></app-admin>
-        <app-order-catalog *ngIf="page == 'orders'"></app-order-catalog>
-        --->
 		<app-basket *ngIf="page == 'basket'"></app-basket>
 		<app-itemdetails *ngIf="page == 'details'"></app-itemdetails>
+
       </div>
     </div>
   </div>
