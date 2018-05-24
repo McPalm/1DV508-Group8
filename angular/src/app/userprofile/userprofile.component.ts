@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Adress } from '../services/adress';
 import { AdressService } from '../services/adress.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-userprofile',
@@ -11,7 +12,7 @@ export class UserprofileComponent implements OnInit {
 
   constructor(private adrs : AdressService) { }
 
-  adresses : Adress[];
+  adresses : Observable<Adress[]>;
 
   a1 = "";
   a2 = "";
@@ -19,7 +20,7 @@ export class UserprofileComponent implements OnInit {
   city = "";
 
   ngOnInit() {
-    this.adrs.getAdresses().subscribe(a => this.adresses = a);
+    this.adresses = this.adrs.getAdresses();
   }
 
   onSubmit()

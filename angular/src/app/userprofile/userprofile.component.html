@@ -42,7 +42,7 @@
       </div>
 		</ng-template>
   </ngb-panel>
-  <ngb-panel *ngFor="let a of adresses" [title]="a.address1">
+  <ngb-panel *ngFor="let a of adresses | async" [title]="a.address1">
     <ng-template ngbPanelContent>
       <button class="btn float-right btn-danger" (click)="onDelete(a)">Delete</button>
       <p>{{a.address1}}</p>
