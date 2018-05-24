@@ -72,9 +72,9 @@ import {ProductPageComponent} from "./product-page/product-page.component";
     HighlightButtonComponent,
     NavbarComponent,
     FrontpageComponent,
-    ProductPageComponent
+    ProductPageComponent,
     ItemCarouselComponent,
-    HighlightButtonComponent
+    HighlightButtonComponent,
   ],
   imports: [
     BrowserModule,
