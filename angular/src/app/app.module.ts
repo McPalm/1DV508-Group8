@@ -46,6 +46,7 @@ import { ItemdetailsComponent } from './itemdetails/itemdetails.component';
 import { UserprofileComponent } from './userprofile/userprofile.component';
 import {ItemCarouselComponent} from './item-carousel/item-carousel.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { HighlightButtonComponent } from './highlight-button/highlight-button.component';
 
 
 @NgModule({
@@ -66,8 +67,9 @@ import { NavbarComponent } from './navbar/navbar.component';
     BasketComponent,
     ItemdetailsComponent,
     UserprofileComponent,
+    ItemCarouselComponent,
+    HighlightButtonComponent,
     NavbarComponent,
-    ItemCarouselComponent
   ],
   imports: [
     BrowserModule,

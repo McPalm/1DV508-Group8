@@ -9,4 +9,5 @@ export class Item {
     path: string;
     rateHigh: string[];
     rateLow: string[];
+    highlighted?: boolean;
   }
