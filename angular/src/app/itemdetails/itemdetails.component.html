@@ -20,5 +20,6 @@
 			<img class="img_thumbdown" [src]=thumbDownUrl width="15%" (click)="rateDown()">
 			{{votesDown}}
 		</div>
+		<app-highlight-button *ngIf="admin === 'true'"[item]="item"></app-highlight-button>
 	</div>
 </div>

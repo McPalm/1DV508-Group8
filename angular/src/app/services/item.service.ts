@@ -123,4 +123,32 @@ export class ItemService {
      ).valueChanges();
      return this.resolvePath(items);
    }
+
+   /**
+    * Toggle item highlight
+    * @param uid uid for the item to toggle hightlight status
+    */
+   toggleHighlight(uid: string) : void {
+     let item;
+     let dbRef = this.db.object(`${this.itemPath}/${uid}`).valueChanges().subscribe(i => {
+       item = i;
+       if(item.highlighted) {
+         item.highlighted = false;
+       } else {
+         item.highlighted = true;
+       }
+       this.db.object(`${this.itemPath}/${uid}`).update(item);
+       dbRef.unsubscribe();
+     })
+   }
+
+   /**
+    * Get all highlighted items
+    */
+   getHighlightedItems() : Observable<Item[]> {
+    const items = this.db.list(this.itemPath,
+      ref => ref.orderByChild('highlighted').equalTo(true)
+    ).valueChanges();
+    return this.resolvePath(items);
+   }
 }
