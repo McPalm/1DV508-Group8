@@ -32,8 +32,7 @@ export class UserprofileComponent implements OnInit {
     }
     if(this.a2.trim().length > 0)
       adress.address2 = this.a2.trim();
-
-      console.log(adress)
+    this.adrs.addAdress(adress);
   }
 
   onDelete(adress : Adress) {

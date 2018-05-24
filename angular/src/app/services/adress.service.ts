@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Adress } from './adress';
+import { AngularFireDatabase } from 'angularfire2/database';
+import { AuthService } from '../core/auth.service';
 
 @Injectable()
 export class AdressService {
+  
+  private user : string;
 
-  constructor() { }
-
-
+  constructor(private db : AngularFireDatabase, private auth : AuthService)
+  {
+    auth.getUser().subscribe(u => this.user = u.uid);
+  }
 
   /**
    * Get all the adresses registered on my account
@@ -19,6 +24,17 @@ export class AdressService {
       observer.next(this.getMock())    
     });
     return temp;
+  }
+
+  public addAdress(adress: Adress) {
+    if(adress.uid == null)
+      adress.uid = this.db.database.ref().push().key
+    const ref = this.db.database.ref(`users/${this.user}/addresses`);
+    ref.child(adress.uid).set(adress);
+  }
+
+  public deleteAdress(adress: Adress) {
+    
   }
 
   getMock() : Adress[] {
