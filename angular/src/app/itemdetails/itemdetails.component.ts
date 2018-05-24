@@ -3,6 +3,7 @@ import { Item } from '../services/item';
 import { NavComponent } from '../nav/nav.component';
 import { ItemService } from '../services/item.service';
 import { AuthService } from '../core/auth.service';
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-itemdetails',
@@ -17,9 +18,9 @@ export class ItemdetailsComponent implements OnInit {
   votesDown;
   thumbUpUrl;
   thumbDownUrl;
-  private admin = 'false';
 
-  constructor(private nav: NavComponent,
+  constructor(private cartService: CartService,
+	  		  private nav: NavComponent,
 			  private itemService: ItemService,
 			  private authService: AuthService) { }
 
@@ -27,13 +28,18 @@ export class ItemdetailsComponent implements OnInit {
 	  this.item = this.nav.getSelectedItem();
 
 	  /* Get user details */
-	  this.authService.getUser().subscribe(res => {
-		  this.user = res;
-		  this.admin = res.admin;
-		  this.updateVoteCount();
-		});
+      this.authService.getUser().subscribe(res => {this.user = res;
+  												 this.updateVoteCount();});
   }
-  
+
+  download() : void {
+	  window.open(this.item.path);
+  }
+
+  addCart() : void {
+    this.cartService.addItem(this.item);
+  }
+
   rateDown() : void {
 	  if(this.user != null){
 

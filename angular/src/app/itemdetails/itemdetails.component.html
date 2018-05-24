@@ -2,24 +2,35 @@
 	<img class="details" [src]=item.path title="{{item.description}}" alt="{{item.name}}">
 
 	<div class="details">
+		<div class="rating">
+			<img class="rating_1" [src]=thumbUpUrl (click)="rateUp()">
+			<p class="rating_1" style="color:DodgerBlue;"><strong>{{votesUp}}</strong></p>
+			<img class="rating_1" [src]=thumbDownUrl (click)="rateDown()">
+			<p class="rating_1" style="color:Tomato;"><strong>{{votesDown}}</strong></p>
+			<div class="clearfix">
+		</div>
+
 		<div class="name">
-		Product name: {{item.name}}
+			<b>Product name:</b> {{item.name}}
 		</div>
 		<div class="price">
-		Price: {{item.price}} SEK
+			<b>Price:</b> {{item.price}} SEK
 		</div>
 		<div class="count">
-		Amount in stock: {{item.count}}
+			<b>Amount in stock:</b> {{item.count}}
 		</div>
 		<div class="description">
-		Description: {{item.description}}
+			<b>Description:</b> {{item.description}}
 		</div>
-		<div class="rating">
-			<img class="img_thumbup" [src]=thumbUpUrl width="15%" (click)="rateUp()">
-			{{votesUp}}
-			<img class="img_thumbdown" [src]=thumbDownUrl width="15%" (click)="rateDown()">
-			{{votesDown}}
+		<div class="addtocart">
+			<button type="submit" (click)="addCart()">Add to cart</button>
 		</div>
-		<app-highlight-button *ngIf="admin === 'true'"[item]="item"></app-highlight-button>
+
+		<div class="attachment">
+			<b>Attached file:</b> {{item.path}}
+		</div>
+		<div class="attachment">
+			<button type="submit" (click)="download()">Download</button>
+		</div>
 	</div>
 </div>
