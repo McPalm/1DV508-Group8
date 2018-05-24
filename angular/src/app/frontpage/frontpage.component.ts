@@ -10,7 +10,7 @@ import {ItemCarousel} from '../item-carousel/ItemCarousel';
   styleUrls: ['./frontpage.component.css'],
 })
 export class FrontpageComponent implements OnInit {
-  dailyitem: ItemCarousel = {};
+  _items: ItemCarousel = new ItemCarousel();
 
   constructor(
     private authService: AuthService,
@@ -20,10 +20,15 @@ export class FrontpageComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.itemService.getRecentItems(10).subscribe(items => {
-      this.dailyitem.items = items;
-      this.dailyitem.type = '';
-      console.log(this.dailyitem);
+      /*  */
+      const elements: ItemCarousel = {
+        items: items,
+        type: ''
+      };
+
+      this._items = elements;
     });
   }
 }

@@ -1,29 +1,11 @@
-<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-
-  <!-- carousel indices.  -->
-  <ol class="carousel-indicators">
-    <li *ngFor="let item of _items.items; let i = index" data-target="#carousel" [attr.data-slide]="i" [class]="i == 0 ? 'active' : ''"></li>
-  </ol>
-  <div class="carousel-inner" style=" width:100%; height: 500px !important;">
-
-    <!-- carousel objects -->
-    <div *ngFor="let item of _items.items; let i = index" [class]="i == 0 ? 'carousel-item active' : 'carousel-item'" id="latestItem" [id]="getItemIntresstedLevel(item)" style="height: 100%;">
-      <a [routerLink]="['/main/product', item.uid]">
-        <img class="d-block w-100" [src]="item.path" [alt]="item.name" style="height: 100%;" >
-      </a>
-      <div class="carousel-caption d-none d-md-block">
-        <h5>{{item.name}}</h5>
-        <p>...</p>
-      </div>
+<ngb-carousel *ngIf="_items.items">
+  <ng-template *ngFor="let item of _items.items;" ngbSlide  style=" width:100%; height: 500px !important;">
+    <a [routerLink]="['/main/product', item.uid]">
+    <img [src]="item.path" alt="Random first slide" style="width: 100%; height: auto;">
+    </a>
+    <div class="carousel-caption">
+      <h3>{{item.name}}</h3>
+      <p>{{item.description}}.</p>
     </div>
-  </div>
-  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div>
-
+  </ng-template>
+</ngb-carousel>
