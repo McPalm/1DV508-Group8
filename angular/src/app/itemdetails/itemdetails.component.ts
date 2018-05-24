@@ -13,7 +13,7 @@ import { CartService } from '../services/cart.service';
 })
 export class ItemdetailsComponent implements OnInit {
 
-  item: Item = {};
+  item: Item;
   user;
   votesUp;
   votesDown;
@@ -34,7 +34,6 @@ export class ItemdetailsComponent implements OnInit {
     /*  Load the item assoicated with the url.  */
     this.route.params.subscribe(params => {
       this.itemService.getItem(params['uid']).subscribe(item => {
-        console.log(item);
         this.item = item[0];
       });
     });
@@ -63,19 +62,14 @@ export class ItemdetailsComponent implements OnInit {
 		  // Check for duplicate vote
 		  if(this.item.rateLow.indexOf(this.user.uid) == -1){
 			  this.item.rateLow.push(this.user.uid);
-			  console.log(`Added ${this.user.uid} to rate low`);
 
 			  // Check if user has voted in the other array
 			  if(this.item.rateHigh.indexOf(this.user.uid) != -1){
-				  console.log("Duplicate in other array");
 				  this.item.rateHigh.splice(this.item.rateHigh.indexOf(this.user.uid),1);
 			  }
 
 			  this.itemService.updateItem(this.item);
 			  this.updateVoteCount();
-		  }
-		  else{
-			  console.log("Duplicate rating");
 		  }
 	  }
   }
@@ -85,19 +79,14 @@ export class ItemdetailsComponent implements OnInit {
 		  // Check for duplicate vote
 		  if(this.item.rateHigh.indexOf(this.user.uid) == -1){
 			  this.item.rateHigh.push(this.user.uid);
-			  console.log(`Added ${this.user.uid} to rate high`);
 
 			  // Check if user has voted in the other array
 			  if(this.item.rateLow.indexOf(this.user.uid) != -1){
-				  console.log("Duplicate in other array");
 				  this.item.rateLow.splice(this.item.rateLow.indexOf(this.user.uid),1);
 			  }
 
 			  this.itemService.updateItem(this.item);
 			  this.updateVoteCount();
-		  }
-		  else{
-			  console.log("Duplicate rating");
 		  }
 	  }
   }

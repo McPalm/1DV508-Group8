@@ -94,7 +94,6 @@ export class ProductListComponent implements OnInit {
       this.pager.pages.push(i);
     }
 
-    console.log('number of pages: ' + nrElements);
     this.pager.totalPages = nrElements;
   }
 
@@ -177,14 +176,12 @@ export class ProductListComponent implements OnInit {
   public setPage(number: number) {
 
     /*  Compute the new valid page and compare with current.  */
-    console.log('requesting page: ' + number);
     const newPage = Math.min(Math.max(number, 1), this.pager.totalPages);
     if (newPage === this.pager.currentPage) {
       return;
     }
 
     /*  Set new page log it.  */
-    console.log('page ' + newPage);
     this.pager.currentPage = newPage;
 
     /*  Update items list.  */
@@ -192,7 +189,6 @@ export class ProductListComponent implements OnInit {
       /*  TODO add page offset and number of elements to extract. */
 
       this.itemService.getItems(this._category).subscribe((result: Item[]) => {
-        console.log(result);
         this._items = result;
 
         /*  */
