@@ -13,7 +13,7 @@ import { CartService } from '../services/cart.service';
 })
 export class ItemdetailsComponent implements OnInit {
 
-  item: Item = {};
+  item: Item;
   user;
   votesUp;
   votesDown;
