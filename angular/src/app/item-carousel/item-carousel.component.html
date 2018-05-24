@@ -1,7 +1,7 @@
-<ngb-carousel *ngIf="_items.items">
-  <ng-template *ngFor="let item of _items.items;" ngbSlide  style=" width:100%; height: 500px !important;">
+<ngb-carousel *ngIf="_items.items" style="height: 500px; overflow: hidden;">
+  <ng-template *ngFor="let item of _items.items;" ngbSlide  style=" width:100%;">
     <a [routerLink]="['/main/product', item.uid]">
-    <img [src]="item.path" alt="Random first slide" style="width: 100%; height: auto;">
+    <img [src]="item.path" class="carousel-picture" alt="Random first slide">
     </a>
     <div class="carousel-caption">
       <h3>{{item.name}}</h3>

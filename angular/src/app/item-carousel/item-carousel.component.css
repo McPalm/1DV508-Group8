@@ -9,3 +9,11 @@
   border: 20px solid #0f69ad;
   padding: 0px;
 }
+
+.carousel-picture{
+  width: 100%;
+  height: auto;
+  position: relative;
+  top: 50%;
+  transform: translateY(-30%);
+}
