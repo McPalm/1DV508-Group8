@@ -2,12 +2,12 @@
 
   <!-- carousel indices.  -->
   <ol class="carousel-indicators">
-    <li *ngFor="let item of localitems.items; let i = index" data-target="#carousel"  [attr.data-slide]="i" [class]="i == 0 ? 'active' : ''"></li>
+    <li *ngFor="let item of _items.items; let i = index" data-target="#carousel" [attr.data-slide]="i" [class]="i == 0 ? 'active' : ''"></li>
   </ol>
   <div class="carousel-inner" style=" width:100%; height: 500px !important;">
 
     <!-- carousel objects -->
-    <div *ngFor="let item of localitems; let i = index" class="carousel-item" [class]="i == 0 ? 'carousel-item active' : 'carousel-item'" id="latestItem" [id]="getItemIntresstedLevel(item)" style="height: 100%;">
+    <div *ngFor="let item of _items.items; let i = index" class="carousel-item" [class]="i == 0 ? 'carousel-item active' : 'carousel-item'" id="latestItem" [id]="getItemIntresstedLevel(item)" style="height: 100%;">
       <a [routerLink]="['/product/' + item.uid]">
         <img class="d-block w-100" [src]="item.path" [alt]="item.name" style="height: 100%;" >
       </a>
