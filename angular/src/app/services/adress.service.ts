@@ -9,15 +9,16 @@ import { AuthService } from '../core/auth.service';
 export class AdressService {
   
   private user : string;
-  private obs : Observable<any[]>
-  private eventStream = new Subject<any[]>();
+  private eventStream = new Subject<Adress[]>();
+  private cache: Adress[] = [];
 
   constructor(private db : AngularFireDatabase, private auth : AuthService)
   {
     auth.getUser().subscribe(u => {
       this.user = u.uid,
-      this.db.list(`users/${this.user}/addresses`).valueChanges().subscribe( list => {
+      this.db.list(`users/${this.user}/addresses`).valueChanges().subscribe( (list : Adress[]) => {
         this.eventStream.next(list);
+        this.cache = list;
       });
     });
   }
@@ -25,7 +26,8 @@ export class AdressService {
   /**
    * Get all the adresses registered on my account
    */
-  public getAdresses() : Observable<any[]> {
+  public getAdresses() : Observable<Adress[]> {
+    setTimeout(() => this.eventStream.next(this.cache), 1); // Hack
     return this.eventStream;
     //if(this.user == null)
     //  return this.obs;
@@ -40,7 +42,8 @@ export class AdressService {
   }
 
   public deleteAdress(adress: Adress) {
-    
+    var ref = this.db.database.ref().child(`users/${this.user}/addresses/${adress.uid}`);
+    ref.remove();
   }
 
   getMock() : Adress[] {

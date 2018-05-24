@@ -38,8 +38,7 @@ export class UserprofileComponent implements OnInit {
 
   onDelete(adress : Adress) {
     if(confirm("Are you sure to delete " + adress.address1)) {
-      console.log("Deleting adress");
-      console.log(adress);
+      this.adrs.deleteAdress(adress);
     }
   }
 }
