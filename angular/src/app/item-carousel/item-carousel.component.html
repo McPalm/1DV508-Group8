@@ -7,8 +7,8 @@
   <div class="carousel-inner" style=" width:100%; height: 500px !important;">
 
     <!-- carousel objects -->
-    <div *ngFor="let item of _items.items; let i = index" class="carousel-item" [class]="i == 0 ? 'carousel-item active' : 'carousel-item'" id="latestItem" [id]="getItemIntresstedLevel(item)" style="height: 100%;">
-      <a [routerLink]="['/product/' + item.uid]">
+    <div *ngFor="let item of _items.items; let i = index" [class]="i == 0 ? 'carousel-item active' : 'carousel-item'" id="latestItem" [id]="getItemIntresstedLevel(item)" style="height: 100%;">
+      <a [routerLink]="['/main/product', item.uid]">
         <img class="d-block w-100" [src]="item.path" [alt]="item.name" style="height: 100%;" >
       </a>
       <div class="carousel-caption d-none d-md-block">
