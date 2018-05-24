@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../core/auth.service';
-import { Observable } from 'rxjs/Observable';
-import { CategoryService } from '../services/category.service';
-import { Category } from '../services/category';
+import {Component, OnInit} from '@angular/core';
+import {AuthService} from '../core/auth.service';
+import {CategoryService} from '../services/category.service';
+import {ItemService} from '../services/item.service';
+import {ItemCarousel} from '../item-carousel/ItemCarousel';
 
 @Component({
   selector: 'app-frontpage ngbd-dropdown-basic',
@@ -10,25 +10,20 @@ import { Category } from '../services/category';
   styleUrls: ['./frontpage.component.css'],
 })
 export class FrontpageComponent implements OnInit {
-  user;
-  categories: Observable<Category[]>;
-  categoriesList: Category[];
-  whereto = "nav";
+  dailyitem: ItemCarousel = {};
 
   constructor(
     private authService: AuthService,
-    private categoryService: CategoryService
-  ) { }
-
-  getUser() {
-    this.authService.getUser().subscribe(res => this.user = res);
+    private categoryService: CategoryService,
+    private itemService: ItemService
+  ) {
   }
 
   ngOnInit() {
-    this.getUser();
-    this.categories = this.categoryService.getCategories();
-      this.categories.subscribe(list => {
-        this.categoriesList = list;
-    })
+    this.itemService.getRecentItems(10).subscribe(items => {
+      this.dailyitem.items = items;
+      this.dailyitem.type = '';
+      console.log(this.dailyitem);
+    });
   }
 }
