@@ -4,4 +4,5 @@ export class Adress {
     address2?: string;
     zip: number;
     city: string;
+    uid?: string;
 }
