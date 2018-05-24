@@ -17,6 +17,7 @@ export class ItemdetailsComponent implements OnInit {
   votesDown;
   thumbUpUrl;
   thumbDownUrl;
+  private admin = 'false';
 
   constructor(private nav: NavComponent,
 			  private itemService: ItemService,
@@ -26,10 +27,13 @@ export class ItemdetailsComponent implements OnInit {
 	  this.item = this.nav.getSelectedItem();
 
 	  /* Get user details */
-      this.authService.getUser().subscribe(res => {this.user = res;
-  												 this.updateVoteCount();});
+	  this.authService.getUser().subscribe(res => {
+		  this.user = res;
+		  this.admin = res.admin;
+		  this.updateVoteCount();
+		});
   }
-
+  
   rateDown() : void {
 	  if(this.user != null){
 
