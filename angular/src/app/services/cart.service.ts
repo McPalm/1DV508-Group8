@@ -11,7 +11,7 @@ export class CartService {
   private cart;
 
   constructor(private db: AngularFireDatabase, private auth: AuthService) {
-    this.auth.getUser().subscribe(res => this.user = res.uid);
+    this.auth.getUser().subscribe(res => this.user = (res != null ) ? res.uid : null);
     this.db.list(`users/${this.user}/cart`).valueChanges().subscribe(cartRef => {
       this.cart = cartRef;
     })
