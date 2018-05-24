@@ -4,6 +4,7 @@ import { NavComponent } from '../nav/nav.component';
 import { ItemService } from '../services/item.service';
 import { AuthService } from '../core/auth.service';
 import {ActivatedRoute} from "@angular/router";
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-itemdetails',
@@ -20,7 +21,8 @@ export class ItemdetailsComponent implements OnInit {
   thumbDownUrl;
   private admin = 'false';
 
-  constructor(private nav: NavComponent,
+  constructor(private cartService: CartService,
+	  		  private nav: NavComponent,
 			  private itemService: ItemService,
 			  private authService: AuthService,
               private route: ActivatedRoute) {
@@ -38,11 +40,21 @@ export class ItemdetailsComponent implements OnInit {
     });
 
 	  /* Get user details */
-	  this.authService.getUser().subscribe(res => {
-		  this.user = res;
-		  this.admin = res.admin;
-		  this.updateVoteCount();
-		});
+      this.authService.getUser().subscribe(res => {
+		  if(res != null){
+			  this.user = res;
+		  	  this.admin = res.admin;
+	      }
+  	      this.updateVoteCount();
+	  });
+  }
+
+  download() : void {
+	  window.open(this.item.path);
+  }
+
+  addCart() : void {
+    this.cartService.addItem(this.item);
   }
 
   rateDown() : void {
