@@ -17,6 +17,19 @@ export class ItemService {
   }
 
   /**
+   * Get item based on the uid.
+   * @param {string} uid
+   * @returns {Observable<Item[]>}
+   */
+  public getItem(uid: string) {
+    console.log(uid);
+    const items = this.db.list(this.itemPath,
+      ref => ref.orderByChild('uid').equalTo(uid)
+    ).valueChanges();
+    return this.resolvePath(items);
+  }
+
+  /**
    * Get all items in a specified category
    * @param category
    */
