@@ -30,6 +30,10 @@
 	font-size: xx-large;
 }
 
+.attachment{
+	margin-bottom: 1em;
+}
+
 .clearfix {
     overflow: auto;
 }

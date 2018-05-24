@@ -18,6 +18,7 @@ export class ItemdetailsComponent implements OnInit {
   votesDown;
   thumbUpUrl;
   thumbDownUrl;
+  private admin = 'false';
 
   constructor(private cartService: CartService,
 	  		  private nav: NavComponent,
@@ -29,7 +30,8 @@ export class ItemdetailsComponent implements OnInit {
 
 	  /* Get user details */
       this.authService.getUser().subscribe(res => {this.user = res;
-  												 this.updateVoteCount();});
+		  										   this.admin = res.admin;
+  												   this.updateVoteCount();});
   }
 
   download() : void {

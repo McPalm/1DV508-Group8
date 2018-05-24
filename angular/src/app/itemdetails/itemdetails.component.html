@@ -22,6 +22,7 @@
 		<div class="description">
 			<b>Description:</b> {{item.description}}
 		</div>
+
 		<div class="addtocart">
 			<button type="submit" (click)="addCart()">Add to cart</button>
 		</div>
@@ -31,6 +32,10 @@
 		</div>
 		<div class="attachment">
 			<button type="submit" (click)="download()">Download</button>
+		</div>
+
+		<div class="highlightbutton">
+			<app-highlight-button *ngIf="admin === 'true'"[item]="item"></app-highlight-button>
 		</div>
 	</div>
 </div>
