@@ -4,9 +4,10 @@ export class Item {
     description: string;
     price: number;
     category: number;
-    keyword: string;
+    keyword?: string;
     count: number;
     path: string;
     rateHigh: string[];
     rateLow: string[];
+    highlighted?: boolean;
   }
