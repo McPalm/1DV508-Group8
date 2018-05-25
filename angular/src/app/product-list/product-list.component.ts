@@ -198,7 +198,7 @@ export class ProductListComponent implements OnInit {
     this.pager.currentPage = newPage;
 
     /*  Update items list.  */
-    if (this._category != null && this._search.length == 0) {
+    if (this._category != null && this._search.length === 0) {
       /*  TODO add page offset and number of elements to extract. */
 
       this.itemService.getItems(this._category).subscribe((result: Item[]) => {
