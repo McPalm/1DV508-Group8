@@ -25,15 +25,15 @@ export class ItemThumbNailComponent implements OnInit {
   ngOnInit() {
     let temp = this.item.path;
     if(temp.length > 10)
-      this.imageURL = temp;
-    setTimeout( () => {
-      temp = this.item.path;
-      if(temp.length > 10)
-        this.imageURL = temp;
-      else
-      this.imageURL = this.imageDefault;
-    }, 550);
-    console.log(temp);
+      imageExists(temp, (b) => {this.imageURL = (b) ? temp : this.imageDefault});
+    else
+      setTimeout( () => {
+        temp = this.item.path;
+        if(temp.length > 10)
+          imageExists(temp, (b) => {this.imageURL = (b) ? temp : this.imageDefault});
+        else
+          this.imageURL = this.imageDefault;
+      }, 550);
   }
 
   onClick(): void {
@@ -52,6 +52,14 @@ export class ItemThumbNailComponent implements OnInit {
 }
 
 
+// The "callback" argument is called with either true or false
+// depending on whether the image at "url" exists or not.
+function imageExists(url, callback) {
+  var img = new Image();
+  img.onload = function() { callback(true); };
+  img.onerror = function() { callback(false); };
+  img.src = url;
+}
 
 /**
  * Example of use of this comoponent
