@@ -12,6 +12,7 @@ export class ItemThumbNailComponent implements OnInit {
 
   @Input() item: Item;
   imageURL = "./assets/loading.gif";
+  imageDefault = "./assets/logo.png";
 
   /**
    * Use this to listen to clicks on this, returns a ref to the item you gave it.
@@ -22,6 +23,17 @@ export class ItemThumbNailComponent implements OnInit {
 		      private nav: NavComponent) {}
 
   ngOnInit() {
+    let temp = this.item.path;
+    if(temp.length > 10)
+      this.imageURL = temp;
+    setTimeout( () => {
+      temp = this.item.path;
+      if(temp.length > 10)
+        this.imageURL = temp;
+      else
+      this.imageURL = this.imageDefault;
+    }, 550);
+    console.log(temp);
   }
 
   onClick(): void {
