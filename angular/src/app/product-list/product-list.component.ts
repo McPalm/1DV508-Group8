@@ -235,7 +235,7 @@ export class ProductListComponent implements OnInit {
    * @returns {number} number of column.
    */
   private computeBreakPoints(width: number) {
-    return width < 768 ? 1 : Math.floor(this.getScaleFactor() * (width - 320) / 640);
+    return width < 768 ? 1 : Math.floor(this.getScaleFactor() * (width - 320) / 440);
   }
 
   /**
