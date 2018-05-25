@@ -13,12 +13,36 @@ import {SearchService} from '../services/search.service';
 })
 export class ProductListComponent implements OnInit {
 
+  // pager object
+  private pager: any = {
+    currentPage: -1, /*  [1, inf]*/
+    totalPages: 1, /*  [1, inf]*/
+    pages: [], /* Pages as their page number. [1,2,3,...,n] */
+  };
+
+  /*  */
+  _items: Item[] = [];
+  _category: Category = null;
+  scaleFactor = 1.0;
+  _search: string = null;
+  breakpoint = 2;
+  tiles;
+
   /**
    * For listening to search query.
    * @param {string} value
    */
   @Input() set search(value: string) {
-    this._search = value;
+    this.setSearch(value);
+  }
+
+  /**
+   * Set current search string internally.
+   * @param {string} search
+   */
+  private setSearch(search: string) {
+    console.log(search);
+    this._search = search;
     this.resetPager();
     this.setPage(1);
   }
@@ -42,21 +66,6 @@ export class ProductListComponent implements OnInit {
     this.setScaleFactor(scale);
   }
 
-  // pager object
-  private pager: any = {
-    currentPage: -1, /*  [1, inf]*/
-    totalPages: 1, /*  [1, inf]*/
-    pages: [], /* Pages as their page number. [1,2,3,...,n] */
-  };
-
-  /*  */
-  _items: Item[] = [];
-  _category: Category = null;
-  scaleFactor = 1.0;
-  _search: string = null;
-  breakpoint = 2;
-  tiles;
-
   constructor(
     private categoryService: CategoryService,
     private itemService: ItemService,
@@ -76,6 +85,10 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit() {
     this.breakpoint = this.computeBreakPoints(window.innerWidth);
+    this.searchService.currentSearch.subscribe((search: string) => {
+      console.log(search);
+      this.setSearch(search);
+    });
   }
 
   /**
@@ -185,7 +198,7 @@ export class ProductListComponent implements OnInit {
     this.pager.currentPage = newPage;
 
     /*  Update items list.  */
-    if (this._category != null) {
+    if (this._category != null && this._search.length == 0) {
       /*  TODO add page offset and number of elements to extract. */
 
       this.itemService.getItems(this._category).subscribe((result: Item[]) => {
@@ -242,8 +255,7 @@ export class ProductListComponent implements OnInit {
    * Search.
    */
   protected onSearch() {
-    this.resetPager();
-    this._category = null;
-    this.setPage(1);
+    /*  TODO relocate!  */
+    this.setSearch(this._search);
   }
 }

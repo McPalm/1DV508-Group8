@@ -1,16 +1,26 @@
-import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from 'angularfire2/database';
-import { Item } from './item';
-import { ItemService } from './item.service';
+import {Injectable} from '@angular/core';
+import {AngularFireDatabase} from 'angularfire2/database';
+import {Item} from './item';
+import {ItemService} from './item.service';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class SearchService {
 
+  private items: Item[];
+  private searchSource = new BehaviorSubject<string>('');
+  currentSearch = this.searchSource.asObservable();
 
-  private items : Item[];
+  constructor(private db: AngularFireDatabase, private is: ItemService) {
+    is.getItemsAll().subscribe(i => this.items = i);
+  }
 
-  constructor(private db : AngularFireDatabase, private is : ItemService) {
-    is.getItemsAll().subscribe( i => this.items = i);
+  /**
+   * Set current search query.
+   * @param {string} search
+   */
+  public changeSearch(search: string) {
+    this.searchSource.next(search);
   }
 
   search(param: string) : Item[] {
