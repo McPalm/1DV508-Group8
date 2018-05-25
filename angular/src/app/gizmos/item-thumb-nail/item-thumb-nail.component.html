@@ -1,16 +1,14 @@
-<div class="thumbnail">
-    <a class="thumb-link"[routerLink]="['/main/product', item.uid]" >
+<div class="thumbnail" style="height: 300px">
+    <a class="thumb-link"[routerLink]="['/main/product', item.uid]" style="height: 100%;">
         <div class="caption">
-            <h4 class="" (click)="openDetails()">{{item.name}}</h4>
-        </div>
-        <div class="pricetag">
-            <h5 class="" (click)="openDetails()">{{item.price}} SEK</h5>
+            <h5 class="text-dark" (click)="openDetails()">{{item.price}} SEK</h5>
+            <h4 class="text-dark" (click)="openDetails()">{{item.name}}</h4>
         </div>
         <div class="addtocart" (click)="addCart()">
             <h4>Add to cart</h4>
         </div>
-      <!-- src="/assets/teddybear.jpg" -->
-
-        <img class="image" [src]=item.path title="{{item.description}}" alt="{{item.name}}" (click)="openDetails()">
+        <div style="height: 85%">
+            <img class="image" [src]=item.path title="{{item.description}}" alt="{{item.name}}" (click)="openDetails()">
+        </div>
     </a>
 </div>
