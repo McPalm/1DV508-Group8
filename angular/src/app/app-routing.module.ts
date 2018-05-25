@@ -25,6 +25,8 @@ const routes: Routes = [
     {path: 'order', component: OrderCatalogComponent},
     {path: 'basket', component: BasketComponent},
     {path: 'product', component: ProductPageComponent},
+    {path: 'product-list', component: ProductListComponent},
+    {path: 'product-list/:category', component: ProductListComponent},
     {path: 'product/:uid', component: ItemdetailsComponent},
     ]},
   // { path: 'test', component: LoginComponent, canActivate: [AuthGuard]} // AuthGuard example

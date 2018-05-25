@@ -7,11 +7,13 @@
     <div class="text-center">
 
       <!-- TODO relocate to navbar later! -->
+      <!--
       <form class="form-inline my-2 my-lg-0" (submit)="onSearch()">
         <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" [(ngModel)]="_search"
                name="search">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
+      -->
 
       <!-- items being paged -->
       <mat-grid-list [cols]="this.breakpoint" rowHeight="1.0:1.0" (window:resize)="onResize($event)">
