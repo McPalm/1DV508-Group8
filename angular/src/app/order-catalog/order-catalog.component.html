@@ -1,7 +1,7 @@
 
 <div class="btn-group btn-group-toggle" ngbRadioGroup name="userRadio" [(ngModel)]="userName">
   <label *ngFor="let order of orders" class="btn btn-primary">
-    <input ngbButton type="radio" [value]="order.name" (click)="changeActive(order)"> {{order.name}}
+    <input ngbButton type="radio" [value]="order.name" (click)="changeActive(order)"> Order: {{order.ordernumber}}
   </label>
 </div>
 

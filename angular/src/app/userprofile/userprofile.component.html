@@ -6,7 +6,7 @@
 			<div>
         <form (ngSubmit)="onSubmit()" #productForm="ngForm">
             <div class="form-group">
-                <label for="adress1">Adress 1</label>
+                <label for="adress1">Address 1</label>
                 <input type="text" class="form-control" id="adress1"
                 required
                 [(ngModel)]="a1" name="adress1"
@@ -14,14 +14,14 @@
             </div>
     
             <div class="form-group">
-                <label for="adress2">Adress 2</label>
+                <label for="adress2">Address 2</label>
                 <input type="text" class="form-control" id="adress2"
                 [(ngModel)]="a2" name="address2"
                 >
             </div>
     
             <div class="form-group">
-              <label for="zip">Zip</label>
+              <label for="zip">Zip Code</label>
               <input type="number" class="form-control" id="zip"
               required
               [(ngModel)]="zip" name="zip"
