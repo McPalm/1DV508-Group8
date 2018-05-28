@@ -239,7 +239,6 @@ export class BasketComponent implements OnInit {
 	  
 	  
 	  let currentTime = new Date();
-	  
 		let data = {
 			name: this.name,
 			adress1: addr.address1,
@@ -250,6 +249,7 @@ export class BasketComponent implements OnInit {
 			userid: this.user,
 			status: 0,
 			time: currentTime.toString(),
+			ordernumber: this.orderService.getOrders().length + 1,
 			uid: this.db.database.ref(`orders`).push().key,
 			
 		  }

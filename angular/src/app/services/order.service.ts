@@ -42,6 +42,7 @@ export class OrderService {
       data.userid = this.user;
       data.status = 0;
       data.time = currentTime.toString();
+      data.ordernumber = this.orders.length + 1;
       data.uid = this.db.database.ref(`orders`).push().key;
       
       return this.db.database.ref(`orders/${data.uid}`).set(data).then(resolve => {

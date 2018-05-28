@@ -11,4 +11,5 @@ export class Order {
     time?: string;
     userid?: string;
     status?: number;
+    ordernumber?: number;
   }
