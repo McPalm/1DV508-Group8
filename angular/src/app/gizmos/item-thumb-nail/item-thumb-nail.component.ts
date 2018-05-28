@@ -12,7 +12,6 @@ export class ItemThumbNailComponent implements OnInit {
 
   @Input()
   set item(item: Item) {
-    console.log(item);
     this._item = item;
     let temp = item.path;
     if(temp.length > 10)
