@@ -23,7 +23,7 @@
 		<br>
 
         <label *ngFor="let cat of categories | async" class="btn btn-primary">
-          <input ngbButton type="radio" [value]="cat.name" (click)="onChange(cat.name)" [routerLink]="['/main/product-list', cat.uid]"> {{cat.name}}
+          <input ngbButton type="radio" [value]="cat.name"  [routerLink]="['/main/product-list', cat]"> {{cat.name}}
         </label>
 
 
@@ -33,8 +33,6 @@
       <div class="main">
 
         <router-outlet></router-outlet>
-<!--        <app-product-list [category]="category"></app-product-list> -->
-<!--        <app-itemdetails *ngIf="page == 'details'"></app-itemdetails>-->
       </div>
     </div>
   </div>
