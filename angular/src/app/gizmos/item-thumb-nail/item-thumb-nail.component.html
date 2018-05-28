@@ -4,16 +4,16 @@
         <div class="addtocart" (click)="addCart()">
             <h4 class="text-dark">Add to cart</h4>
         </div>
-        <div *ngIf="item.highlighted" class="pricetag">
+        <div *ngIf="_item.highlighted" class="pricetag">
             <h5 class="text-dark">Hot!</h5>
         </div>
-        <a class="thumb-link"[routerLink]="['/main/product', item.uid]" style="height: 100%;">
+        <a class="thumb-link"[routerLink]="['/main/product', _item.uid]" style="height: 100%;">
         <div style="height: 70%">
             <div class="caption">
-                <h5 class="text-dark" (click)="openDetails()">{{item.price}} SEK</h5>
-                <h4 class="text-dark" (click)="openDetails()">{{item.name}}</h4>
+                <h5 class="text-dark" (click)="openDetails()">{{_item.price}} SEK</h5>
+                <h4 class="text-dark" (click)="openDetails()">{{_item.name}}</h4>
             </div>
-            <img class="image" [src]=imageURL title="{{item.description}}" alt="{{item.name}}" (click)="openDetails()">
+            <img class="image" [src]=imageURL title="{{_item.description}}" alt="{{_item.name}}" (click)="openDetails()">
         </div>
     </a>
 </div>

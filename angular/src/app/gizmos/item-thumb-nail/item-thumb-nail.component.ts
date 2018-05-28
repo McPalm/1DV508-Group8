@@ -10,7 +10,25 @@ import { NavComponent } from '../../nav/nav.component';
 })
 export class ItemThumbNailComponent implements OnInit {
 
-  @Input() item: Item;
+  @Input()
+  set item(item: Item) {
+    console.log(item);
+    this._item = item;
+    let temp = item.path;
+    if(temp.length > 10)
+      imageExists(temp, (b) => {this.imageURL = (b) ? temp : this.imageDefault});
+    else
+    {
+      // It aint pretty, but it works..  srsly tho, never do it like this.
+      let interval = setInterval(() =>{
+        if(item.path.length > 10) {
+          imageExists(item.path, (b) => {this.imageURL = (b) ? item.path : this.imageDefault});
+          clearInterval(interval);
+        }
+      }, 150);
+    }
+  }
+  _item: Item;
   imageURL = "./assets/loading.gif";
   imageDefault = "./assets/logo.png";
 
@@ -23,17 +41,7 @@ export class ItemThumbNailComponent implements OnInit {
 		      private nav: NavComponent) {}
 
   ngOnInit() {
-    let temp = this.item.path;
-    if(temp.length > 10)
-      imageExists(temp, (b) => {this.imageURL = (b) ? temp : this.imageDefault});
-    else
-      setTimeout( () => {
-        temp = this.item.path;
-        if(temp.length > 10)
-          imageExists(temp, (b) => {this.imageURL = (b) ? temp : this.imageDefault});
-        else
-          this.imageURL = this.imageDefault;
-      }, 550);
+    
   }
 
   onClick(): void {
