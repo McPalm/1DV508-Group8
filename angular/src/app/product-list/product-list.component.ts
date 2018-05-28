@@ -5,6 +5,7 @@ import {FlashMessagesService} from 'angular2-flash-messages';
 import {Item} from '../services/item';
 import {Category} from '../services/category';
 import {SearchService} from '../services/search.service';
+import {ActivatedRoute, ActivationEnd, Router} from "@angular/router";
 
 @Component({
   selector: 'app-product-list',
@@ -24,7 +25,7 @@ export class ProductListComponent implements OnInit {
   _items: Item[] = [];
   _category: Category = null;
   scaleFactor = 1.0;
-  _search: string = null;
+  _search = '';
   breakpoint = 2;
   tiles;
 
@@ -41,6 +42,11 @@ export class ProductListComponent implements OnInit {
    * @param {string} search
    */
   private setSearch(search: string) {
+
+    /*  */
+    if (this.pager.currentPage === 1 && search === this._search)
+      return;
+
     console.log(search);
     this._search = search;
     this.resetPager();
@@ -52,6 +58,19 @@ export class ProductListComponent implements OnInit {
    * @param {Category} value
    */
   @Input() set category(value: Category) {
+    this.setCategory(value);
+  }
+
+  /**
+   * Set category.
+   * @param {Category} value
+   */
+  private setCategory(value: Category) {
+
+    /*  */
+    if (this.pager.currentPage === 1 && value === this._category)
+      return;
+
     this._category = value;
     /*  Reset pager.  */
     this.resetPager();
@@ -70,8 +89,25 @@ export class ProductListComponent implements OnInit {
     private categoryService: CategoryService,
     private itemService: ItemService,
     private flashMessage: FlashMessagesService,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private route: ActivatedRoute,
+    private router: Router,
   ) {
+
+    this.router.events.subscribe((event: ActivationEnd) => {
+      if (event instanceof ActivationEnd) {
+        /*  Load the category associated with the url.  */
+        console.log(event.snapshot.params);
+        if (event.snapshot.params.hasOwnProperty('uid')) {
+          let cat: Category = new Category();
+          /*  TODO fix this ugly code!  */
+          cat.description = event.snapshot.params.description;
+          cat.uid = +event.snapshot.params.uid;
+          cat.name = event.snapshot.params.name;
+          this.setCategory(cat);
+        }
+      }
+    });
   }
 
   /**
@@ -198,7 +234,7 @@ export class ProductListComponent implements OnInit {
     this.pager.currentPage = newPage;
 
     /*  Update items list.  */
-    if (this._category != null && this._search.length === 0) {
+    if (this._category !== null && this._search.length < 1) {
       /*  TODO add page offset and number of elements to extract. */
 
       this.itemService.getItems(this._category).subscribe((result: Item[]) => {
@@ -218,6 +254,8 @@ export class ProductListComponent implements OnInit {
         });
       });
     } else if (this._search != null) {
+
+      console.log(this._search);
 
       /*  Only search by search input.  */
       const result = this.searchService.search(this._search);
