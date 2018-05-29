@@ -122,6 +122,7 @@ export class BasketComponent implements OnInit {
   
     countUp(id) {
 			
+			console.log(Date.now());
 		  
 		  let change = 0;
 		  let data;
@@ -239,23 +240,23 @@ export class BasketComponent implements OnInit {
 	  
 	  
 	  let currentTime = new Date();
-	  
 		let data = {
 			name: this.name,
-			adress1: addr.address1,
-			adress2: "",
+			address1: addr.address1,
+			address2: "",
 			zip: addr.zip,
 			city: addr.city,
 			cart: this.orders,
 			userid: this.user,
 			status: 0,
 			time: currentTime.toString(),
+			ordernumber: this.orderService.getOrders().length + 1,
 			uid: this.db.database.ref(`orders`).push().key,
 			
 		  }
 		  
 		  if(addr.address2){
-			  data.adress2 = addr.address2;
+			  data.address2 = addr.address2;
  		  }
 		  
 		  
@@ -265,7 +266,7 @@ export class BasketComponent implements OnInit {
 
 		this.db.object(`users/${this.user}/cart/`).remove();
 		this.db.object(`users/${this.user}`).update({ itemcount: 0});
-		this.cs.sendEmail(data.uid);
+		this.cs.sendEmail(data.ordernumber);
 		
 	  });
 		
