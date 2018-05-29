@@ -1,7 +1,7 @@
 
 <div class="btn-group btn-group-toggle" ngbRadioGroup name="userRadio" [(ngModel)]="userName">
   <label *ngFor="let order of orders" class="btn btn-primary">
-    <input ngbButton type="radio" [value]="order.name" (click)="changeActive(order)"> {{order.name}}
+    <input ngbButton type="radio" [value]="order.name" (click)="changeActive(order)"> Order: {{order.ordernumber}}
   </label>
 </div>
 
@@ -25,7 +25,7 @@
 </table>
 <div *ngIf="order">
   <h3>{{order.name}}</h3>
-  <p>{{order.adress1}}, {{order.adress2}}<br>
+  <p>{{order.address1}}, {{order.address2}}<br>
   {{order.zip}}<br>
   {{order.city}}</p>
   
