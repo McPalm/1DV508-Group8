@@ -16,8 +16,8 @@ import {BasketComponent} from "./basket/basket.component";
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/frontpage', pathMatch: 'full'},
-  { path: 'frontpage', component: FrontpageComponent },
+  { path: '', redirectTo: '/main/front', pathMatch: 'full'},
+  { path: 'frontpage', redirectTo: '/main/front'},
   { path: 'login', component: LoginComponent },
   { path: 'main', component: NavComponent, children: [
     {path: 'profile', component: UserprofileComponent},
@@ -28,6 +28,7 @@ const routes: Routes = [
     {path: 'product-list', component: ProductListComponent},
     {path: 'product-list/:category', component: ProductListComponent},
     {path: 'product/:uid', component: ItemdetailsComponent},
+    {path: 'front', component: FrontpageComponent },
     ]},
   // { path: 'test', component: LoginComponent, canActivate: [AuthGuard]} // AuthGuard example
 ]

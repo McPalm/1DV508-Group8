@@ -34,6 +34,10 @@ export class SearchService {
             prio += 1;
           if(i.description.toLocaleLowerCase().search(p) != -1)
             prio += 0.5;
+          if(i.keyword != null) {
+            if(i.keyword.toLocaleLowerCase().search(p) != -1)
+              prio += 0.5;
+          }
         }
         (i as any).prio = prio;
         return i;     
