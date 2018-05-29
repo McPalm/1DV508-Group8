@@ -10,6 +10,8 @@ export class EmailService {
 	private user;
 	endpoint = 'https://us-central1-fuck-6c7c8.cloudfunctions.net/httpEmail';
 	endpoint2 = 'https://us-central1-fuck-6c7c8.cloudfunctions.net/httpEmailCustom';
+	endpoint3 = 'https://us-central1-fuck-6c7c8.cloudfunctions.net/httpEmailRej';
+	endpoint4 = 'https://us-central1-fuck-6c7c8.cloudfunctions.net/httpEmailAcc';
 	
   constructor(private db: AngularFireDatabase, private CookieService: CookieService, private http: HttpClient) {
 	this.user = this.CookieService.get('UID');
@@ -62,5 +64,17 @@ export class EmailService {
 	  
 	  this.http.post(this.endpoint2, data).subscribe()
   }
+  
+  rejectEmail(data) {
+	  
+	  this.http.post(this.endpoint3, data).subscribe()
+  }
+  
+  accEmail(data) {
+	  
+	  this.http.post(this.endpoint4, data).subscribe()
+	  
+  }
+  
 
 }
