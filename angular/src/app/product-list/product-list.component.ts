@@ -22,10 +22,10 @@ export class ProductListComponent implements OnInit {
   };
 
   /*  */
-  _items: Item[] = [];
-  _category: Category = null;
+  protected _items: Item[] = [];
+  private _category: Category = null;
+  private _search = '';
   scaleFactor = 1.0;
-  _search = '';
   breakpoint = 2;
   tiles;
 
@@ -66,6 +66,12 @@ export class ProductListComponent implements OnInit {
    * @param {Category} value
    */
   private setCategory(value: Category) {
+
+    if(!value.hasOwnProperty('uid'))
+      return;
+
+    if(value.uid === NaN|| value.name === undefined || value.description == undefined)
+      return;
 
     /*  */
     if (this.pager.currentPage === 1 && value === this._category)
@@ -237,6 +243,7 @@ export class ProductListComponent implements OnInit {
     if (this._category !== null && this._search.length < 1) {
       /*  TODO add page offset and number of elements to extract. */
 
+      console.log(this._category);
       this.itemService.getItems(this._category).subscribe((result: Item[]) => {
         this._items = result;
 
