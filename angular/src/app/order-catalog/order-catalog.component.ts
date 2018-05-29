@@ -140,7 +140,6 @@ export class OrderCatalogComponent implements OnInit {
 	  
 	  let dbRef = this.db.object(`users/${userID}/email`).valueChanges().subscribe((value) => {
 		  
-		  console.log(userID);
 		  
 		let data = {
 			toEmail : value,
@@ -148,8 +147,7 @@ export class OrderCatalogComponent implements OnInit {
 			toText : 'Order with Order ID ' + orderid + 'has been ' + opt + ' please proceed accordingly',
 			
 		}
-	  
-		console.log('tt');
+
 		this.es.sendCustomEmail(data);
 		
 		dbRef.unsubscribe();
