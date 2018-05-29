@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CategoryService} from '../services/category.service';
 import {AuthService} from '../core/auth.service';
 import {Observable} from 'rxjs/Observable';
 import {Category} from '../services/category';
-import {SearchService} from "../services/search.service";
+import {SearchService} from '../services/search.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -15,16 +16,16 @@ export class NavbarComponent implements OnInit {
   categories: Observable<Category[]>;
   categoriesList: Category[];
   whereto = 'nav';
-  _search: string = "";
+  _search = '';
+  title = 'Cuddly(tm)';
+  isLoggedIn = false;
 
   constructor(
-    private authService: AuthService,
+    protected authService: AuthService,
     private categoryService: CategoryService,
-    private searchService: SearchService
-  ) { }
-
-  getUser() {
-    this.authService.getUser().subscribe(res => this.user = res);
+    private searchService: SearchService,
+    private router: Router
+  ) {
   }
 
   ngOnInit() {
@@ -41,4 +42,20 @@ export class NavbarComponent implements OnInit {
   protected onSearch() {
     this.searchService.changeSearch(this._search);
   }
+
+  getUser() {
+    this.authService.getUser().subscribe(
+      result => {
+        this.isLoggedIn = result !== null;
+        console.log(result);
+        if (result) {
+          this.user = result;
+        }
+      });
+  }
+
+  protected isloggined() {
+    return this.isLoggedIn;
+  }
+
 }
