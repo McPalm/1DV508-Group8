@@ -121,8 +121,6 @@ export class BasketComponent implements OnInit {
   }
   
     countUp(id) {
-			
-			console.log(Date.now());
 		  
 		  let change = 0;
 		  let data;
