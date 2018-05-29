@@ -40,27 +40,11 @@
           </form>
         </li>
 
-        <li class="navbar-nav  navbar-left">
-          <ng-template *ngIf="isloggined()">
-            <div class="loginlogout">
-              <div ngbDropdown class="d-inline-block">
-                <button class="btn btn-sm btn-outline-light" id="dropdownBasic1" ngbDropdownToggle><img
-                  src="/assets/person_green.png"></button>
-                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                  <label class="dropdown-header">Logged in as {{user.displayName}}</label>
-                  <div class="dropdown-divider"></div>
-                  <button class="dropdown-item" [routerLink]="['/main/profile']">Profile</button>
-                  <button class="dropdown-item" (click)="authService.signOut()">Sign Out</button>
-                </div>
-              </div>
-            </div>
-          </ng-template>
-        </li>
-
-
         <li class="nav-item dropdown" *ngIf="isloggined();">
           <a class="nav-link dropdown-toggle" href="" id="dropdown01" data-toggle="dropdown"
-             aria-haspopup="true" aria-expanded="false">{{user.displayName}}</a>
+             aria-haspopup="true" aria-expanded="false">{{user.displayName}} <img src="/assets/person_green.png"
+                                                                                  class="loginlogout"
+                                                                                  style="width: 20px; height:20px"></a>
           <div class="dropdown-menu" aria-labelledby="dropdown01">
 
             <!-- -->
@@ -75,7 +59,8 @@
         </li>
 
         <li class="nav-item active" *ngIf="!isloggined()">
-          <a class="nav-link" (click)="auth.googleLogin()" [routerLink]="['/']" >Login<span class="sr-only">(current)</span></a>
+          <a class="nav-link" (click)="auth.googleLogin()" [routerLink]="['/']">Login<span
+            class="sr-only">(current)</span></a>
         </li>
         <!--
         <li class="nav-item active" *ngIf="!isloggined()">
