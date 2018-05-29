@@ -17,7 +17,7 @@ export class NavbarComponent implements OnInit {
   categoriesList: Category[];
   whereto = 'nav';
   _search = '';
-  title = 'Cuddly(tm)';
+  title = 'CHOTTO GHETTO';
   isLoggedIn = false;
 
   constructor(
