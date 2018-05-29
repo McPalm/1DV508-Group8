@@ -3,6 +3,7 @@ import {AuthService} from '../core/auth.service';
 import {CategoryService} from '../services/category.service';
 import {ItemService} from '../services/item.service';
 import {ItemCarousel} from '../item-carousel/ItemCarousel';
+import { Item } from '../services/item';
 
 @Component({
   selector: 'app-frontpage ngbd-dropdown-basic',
@@ -11,6 +12,7 @@ import {ItemCarousel} from '../item-carousel/ItemCarousel';
 })
 export class FrontpageComponent implements OnInit {
   _items: ItemCarousel = new ItemCarousel();
+  _newItems : Item[];
 
   constructor(
     private authService: AuthService,
@@ -21,7 +23,7 @@ export class FrontpageComponent implements OnInit {
 
   ngOnInit() {
 
-    this.itemService.getRecentItems(10).subscribe(items => {
+    this.itemService.getHighlightedItems().subscribe(items => {
       /*  */
       const elements: ItemCarousel = {
         items: items,
@@ -30,5 +32,7 @@ export class FrontpageComponent implements OnInit {
 
       this._items = elements;
     });
+
+    this.itemService.getRecentItems(6).subscribe(i => this._newItems = i);
   }
 }
