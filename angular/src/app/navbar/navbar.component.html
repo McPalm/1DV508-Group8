@@ -21,7 +21,7 @@
           <a class="nav-link" [routerLink]="['/main/product-list']">Products <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link" [routerLink]="['/admin/product-list']" *ngIf="isloggined()">Admin<span
+          <a class="nav-link" [routerLink]="['/main/admin']" *ngIf="isloggined()">Admin<span
             class="sr-only">(current)</span></a>
         </li>
       </ul>
@@ -58,7 +58,7 @@
         </li>
 
 
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown" *ngIf="isloggined();">
           <a class="nav-link dropdown-toggle" href="" id="dropdown01" data-toggle="dropdown"
              aria-haspopup="true" aria-expanded="false">{{user.displayName}}</a>
           <div class="dropdown-menu" aria-labelledby="dropdown01">
@@ -73,6 +73,14 @@
 
           </div>
         </li>
+
+        <li class="nav-item active" *ngIf="!isloggined()">
+          <a class="nav-link" (click)="auth.googleLogin()" [routerLink]="['/']" >Login<span class="sr-only">(current)</span></a>
+        </li>
+        <!--
+        <li class="nav-item active" *ngIf="!isloggined()">
+          <a class="nav-link" [routerLink]="['/register']">Register<span class="sr-only">(current)</span></a>
+        </li>-->
 
       </ul>
     </div>
