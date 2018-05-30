@@ -67,3 +67,25 @@
 {
     color: var(--secondary);
 }
+
+.page-link
+{
+    color: var(--secondary);
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+.page-item.active > .page-link
+{
+    background: var(--highlight);
+    color: var(--secondary);
+    box-shadow: var(--secondary);
+    border-color: var(--primary);
+}
+
+.page-link:hover
+{
+    color: black;
+    background: var(--active);
+    border-color: var(--dark);
+}
