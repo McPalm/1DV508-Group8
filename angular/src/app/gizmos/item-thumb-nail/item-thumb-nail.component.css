@@ -26,7 +26,6 @@
 }
 
 .addtocart {
-    background-color: var(--secondary);
     position: absolute;
     bottom: 25%;
     right: 15px;
@@ -59,4 +58,9 @@
     max-width: 100%;
     height:auto;
     width:auto;
+}
+
+.btn-outline-primary
+{
+    background: white;
 }

@@ -1,0 +1,10 @@
+
+tr:nth-child(even)
+{
+    background: var(--light);
+}
+
+tr:nth-child(odd)
+{
+    background: var(--extraLight);
+}
