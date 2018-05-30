@@ -1,10 +1,9 @@
 <div class="thumbnail" style="height: 300px">
-
-
-	<div class="addtocart">
-		<button class="btn btn-outline-primary" style="width: 100%;" type="submit" (click)="addCart()">Add to cart</button>
-	</div>
-
+    
+    <div class="addtocart"> 
+        <button class="btn btn-primary" style="width: 100%;" type="submit" (click)="addCart()"><img src="/assets/big-shopping-cart-vector-clipart.png" alt="Add to basket"></button>
+    </div>
+    
     <div *ngIf="_item.highlighted" class="pricetag">
         <h5 class="text-dark">Hot!</h5>
     </div>
@@ -17,5 +16,5 @@
         </div>
         <img class="image" [src]=imageURL title="{{_item.description}}" alt="{{_item.name}}" (click)="openDetails()">
     </div>
-    </a>
+    </a> 
 </div>
