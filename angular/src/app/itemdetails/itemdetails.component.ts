@@ -20,6 +20,7 @@ export class ItemdetailsComponent implements OnInit {
   thumbUpUrl;
   thumbDownUrl;
   private admin = 'false';
+  private image = true;
 
   constructor(private cartService: CartService,
 	  		  private nav: NavComponent,
@@ -34,8 +35,9 @@ export class ItemdetailsComponent implements OnInit {
     /*  Load the item assoicated with the url.  */
     this.route.params.subscribe(params => {
       this.itemService.getItem(params['uid']).subscribe(item => {
-        this.item = item[0];
-      });
+		this.item = item[0];
+		this.isImage();
+	  });
     });
 
 	  /* Get user details */
@@ -44,7 +46,8 @@ export class ItemdetailsComponent implements OnInit {
 			  this.user = res;
 		  	  this.admin = res.admin;
 	      }
-  	      this.updateVoteCount();
+			this.updateVoteCount();
+			
 	  });
   }
 
@@ -106,5 +109,24 @@ export class ItemdetailsComponent implements OnInit {
 			  this.thumbDownUrl = "./assets/thumb-down-filled.png";
 		  }
 	  }
+  }
+
+  // Checks if the file associated with the product is an image
+  isImage() {
+	  let fileType;
+	  setTimeout(() => {
+	    fileType = this.item.path.match(/\..[^.]*(?=\?)/)
+		switch(fileType.toString().toLowerCase()) {
+		  case '.jpg':
+		  case '.jpeg':
+		  case '.png':
+		  case '.bmp':
+		  case '.svg':
+		  case '.gif':
+		    this.image = true;
+			return
+	    }
+	this.image = false;
+	  }, 100)
   }
 }
