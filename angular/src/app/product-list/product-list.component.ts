@@ -5,6 +5,7 @@ import {FlashMessagesService} from 'angular2-flash-messages';
 import {Item} from '../services/item';
 import {Category} from '../services/category';
 import {SearchService} from '../services/search.service';
+import {ActivatedRoute, ActivationEnd, Router} from "@angular/router";
 
 @Component({
   selector: 'app-product-list',
@@ -13,12 +14,41 @@ import {SearchService} from '../services/search.service';
 })
 export class ProductListComponent implements OnInit {
 
+  // pager object
+  private pager: any = {
+    currentPage: -1, /*  [1, inf]*/
+    totalPages: 1, /*  [1, inf]*/
+    pages: [], /* Pages as their page number. [1,2,3,...,n] */
+  };
+
+  /*  */
+  protected _items: Item[] = [];
+  private _category: Category = null;
+  private _search = '';
+  scaleFactor = 1.0;
+  breakpoint = 2;
+  tiles;
+
   /**
    * For listening to search query.
    * @param {string} value
    */
   @Input() set search(value: string) {
-    this._search = value;
+    this.setSearch(value);
+  }
+
+  /**
+   * Set current search string internally.
+   * @param {string} search
+   */
+  private setSearch(search: string) {
+
+    /*  */
+    if (this.pager.currentPage === 1 && search === this._search)
+      return;
+
+    console.log(search);
+    this._search = search;
     this.resetPager();
     this.setPage(1);
   }
@@ -28,6 +58,25 @@ export class ProductListComponent implements OnInit {
    * @param {Category} value
    */
   @Input() set category(value: Category) {
+    this.setCategory(value);
+  }
+
+  /**
+   * Set category.
+   * @param {Category} value
+   */
+  private setCategory(value: Category) {
+
+    if(!value.hasOwnProperty('uid'))
+      return;
+
+    if(value.uid === NaN|| value.name === undefined || value.description == undefined)
+      return;
+
+    /*  */
+    if (this.pager.currentPage === 1 && value === this._category)
+      return;
+
     this._category = value;
     /*  Reset pager.  */
     this.resetPager();
@@ -42,27 +91,29 @@ export class ProductListComponent implements OnInit {
     this.setScaleFactor(scale);
   }
 
-  // pager object
-  private pager: any = {
-    currentPage: -1, /*  [1, inf]*/
-    totalPages: 1, /*  [1, inf]*/
-    pages: [], /* Pages as their page number. [1,2,3,...,n] */
-  };
-
-  /*  */
-  _items: Item[] = [];
-  _category: Category = null;
-  scaleFactor = 1.0;
-  _search: string = null;
-  breakpoint = 2;
-  tiles;
-
   constructor(
     private categoryService: CategoryService,
     private itemService: ItemService,
     private flashMessage: FlashMessagesService,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private route: ActivatedRoute,
+    private router: Router,
   ) {
+
+    this.router.events.subscribe((event: ActivationEnd) => {
+      if (event instanceof ActivationEnd) {
+        /*  Load the category associated with the url.  */
+        console.log(event.snapshot.params);
+        if (event.snapshot.params.hasOwnProperty('uid')) {
+          let cat: Category = new Category();
+          /*  TODO fix this ugly code!  */
+          cat.description = event.snapshot.params.description;
+          cat.uid = +event.snapshot.params.uid;
+          cat.name = event.snapshot.params.name;
+          this.setCategory(cat);
+        }
+      }
+    });
   }
 
   /**
@@ -76,6 +127,10 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit() {
     this.breakpoint = this.computeBreakPoints(window.innerWidth);
+    this.searchService.currentSearch.subscribe((search: string) => {
+      console.log(search);
+      this.setSearch(search);
+    });
   }
 
   /**
@@ -94,7 +149,6 @@ export class ProductListComponent implements OnInit {
       this.pager.pages.push(i);
     }
 
-    console.log('number of pages: ' + nrElements);
     this.pager.totalPages = nrElements;
   }
 
@@ -177,22 +231,20 @@ export class ProductListComponent implements OnInit {
   public setPage(number: number) {
 
     /*  Compute the new valid page and compare with current.  */
-    console.log('requesting page: ' + number);
     const newPage = Math.min(Math.max(number, 1), this.pager.totalPages);
     if (newPage === this.pager.currentPage) {
       return;
     }
 
     /*  Set new page log it.  */
-    console.log('page ' + newPage);
     this.pager.currentPage = newPage;
 
     /*  Update items list.  */
-    if (this._category != null) {
+    if (this._category !== null && this._search.length < 1) {
       /*  TODO add page offset and number of elements to extract. */
 
+      console.log(this._category);
       this.itemService.getItems(this._category).subscribe((result: Item[]) => {
-        console.log(result);
         this._items = result;
 
         /*  */
@@ -209,6 +261,8 @@ export class ProductListComponent implements OnInit {
         });
       });
     } else if (this._search != null) {
+
+      console.log(this._search);
 
       /*  Only search by search input.  */
       const result = this.searchService.search(this._search);
@@ -239,15 +293,14 @@ export class ProductListComponent implements OnInit {
    * @returns {number} number of column.
    */
   private computeBreakPoints(width: number) {
-    return width < 768 ? 1 : Math.floor(this.getScaleFactor() * (width - 320) / 640);
+    return width < 768 ? 1 : Math.floor(this.getScaleFactor() * (width - 320) / 440);
   }
 
   /**
    * Search.
    */
   protected onSearch() {
-    this.resetPager();
-    this._category = null;
-    this.setPage(1);
+    /*  TODO relocate!  */
+    this.setSearch(this._search);
   }
 }

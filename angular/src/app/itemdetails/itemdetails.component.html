@@ -23,18 +23,19 @@
 			<b>Description:</b> {{item.description}}
 		</div>
 
-		<div class="addtocart">
-			<button type="submit" (click)="addCart()">Add to cart</button>
+		<div class="attachment">
+			<button class="btn btn-outline-primary" style="width: 100%;" type="submit" (click)="addCart()">Add to cart</button>
 		</div>
-
+		<!--
 		<div class="attachment">
 			<b>Attached file:</b> {{item.path}}
 		</div>
+		-->
 		<div class="attachment">
-			<button type="submit" (click)="download()">Download</button>
+			<button *ngIf="!image" class="btn btn-outline-primary" style="width: 100%;" type="submit" (click)="download()">Download</button>
 		</div>
 
-		<div class="highlightbutton">
+		<div>
 			<app-highlight-button *ngIf="admin === 'true'"[item]="item"></app-highlight-button>
 		</div>
 	</div>

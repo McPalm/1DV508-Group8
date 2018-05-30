@@ -17,6 +17,18 @@ export class ItemService {
   }
 
   /**
+   * Get item based on the uid.
+   * @param {string} uid
+   * @returns {Observable<Item[]>}
+   */
+  public getItem(uid: string) {
+    const items = this.db.list(this.itemPath,
+      ref => ref.orderByChild('uid').equalTo(uid)
+    ).valueChanges();
+    return this.resolvePath(items);
+  }
+
+  /**
    * Get all items in a specified category
    * @param category
    */
@@ -61,7 +73,6 @@ export class ItemService {
 
         /*  Get Downloadable URL. */
         this.storage.refFromURL(cache).getDownloadURL().then(path => {
-          console.log('new path: ' + path);
           item.path = path;
         }).catch(error => {
           console.log(error);
@@ -95,13 +106,11 @@ export class ItemService {
     item.category = Number(item.category);
 	item.uid = this.db.database.ref().push().key;
     obj.child(item.uid).set(item);
-    console.log(`pushed ${this.itemPath}/${item.uid}`);
   }
 
   delete(id : String) : void {
     var ref = this.db.database.ref().child(`${this.itemPath}/${id}`);
     ref.remove();
-    console.log(`removed ${this.itemPath}/${id}`);
   }
 
   /**

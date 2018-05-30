@@ -1,24 +1,49 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { Adress } from './adress';
+import { AngularFireDatabase } from 'angularfire2/database';
+import { AuthService } from '../core/auth.service';
 
 @Injectable()
 export class AdressService {
+  
+  private user : string;
+  private eventStream = new Subject<Adress[]>();
+  private cache: Adress[] = [];
 
-  constructor() { }
-
-
+  constructor(private db : AngularFireDatabase, private auth : AuthService)
+  {
+    auth.getUser().subscribe(u => {
+      this.user = u.uid,
+      this.db.list(`users/${this.user}/addresses`).valueChanges().subscribe( (list : Adress[]) => {
+        this.eventStream.next(list);
+        this.cache = list;
+      });
+    });
+  }
 
   /**
    * Get all the adresses registered on my account
    */
   public getAdresses() : Observable<Adress[]> {
+    setTimeout(() => this.eventStream.next(this.cache), 1); // Hack
+    return this.eventStream;
+    //if(this.user == null)
+    //  return this.obs;
+    // return this.db.list(`users/${this.user}/addresses`).valueChanges();
+  }
 
-    let temp = Observable.create( (observer) =>
-    {
-      observer.next(this.getMock())    
-    });
-    return temp;
+  public addAdress(adress: Adress) {
+    if(adress.uid == null)
+      adress.uid = this.db.database.ref().push().key
+    const ref = this.db.database.ref(`users/${this.user}/addresses`);
+    ref.child(adress.uid).set(adress);
+  }
+
+  public deleteAdress(adress: Adress) {
+    var ref = this.db.database.ref().child(`users/${this.user}/addresses/${adress.uid}`);
+    ref.remove();
   }
 
   getMock() : Adress[] {

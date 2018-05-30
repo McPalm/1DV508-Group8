@@ -1,5 +1,9 @@
 <h2>Basket</h2>
 
+
+
+
+
 <div *ngIf="!items"> 
 Empty :(
 </div>
@@ -15,9 +19,8 @@ Empty :(
   <tr *ngFor="let item of (items$ |async)">
     <td>{{item.item.name}}</td>
     <td>x{{item.count}}</td>
-    <td>{{item.item.price * item.count}} SEK</td>
-	<td>
-	</td>
+    <td>{{item.item.price}} SEK</td>
+	<td>{{item.item.price * item.count}} SEK</td>
 	<td align="right">
 		<button type="button" class="btn btn-secondary" (click)="countUp(item.item.uid)">+</button>
 		<button type="button" class="btn btn-secondary" (click)="countDown(item.item.uid)">-</button>
@@ -27,16 +30,31 @@ Empty :(
   <tr>
     <th>Total:</th>
     <th>x{{itemCount}}</th>
-    <th>{{ sum }} SEK</th>
-	<th></th>
+    <th></th>
+	<th>{{ sum }} SEK</th>
 	<th></th>
   </tr>
 </table>
 
 
-<div *ngIf="items" class="right"> 
-	<button type="button" class="btn btn-secondary" (click)="checkOut()" >Checkout</button>
+<div *ngIf="items"> 
+
+		<form (ngSubmit)="checkOut()" #productForm="ngForm">
+
+				<div class="form-group">
+					<label for="address">Address</label>
+					<select class="form-control" id="address"
+					required
+					[(ngModel)]="address" name="address"
+					>
+						<option *ngFor="let address of address$ | async" [value]="address.uid">{{address.address1}}, {{address.zip}}, {{address.city}}, {{address.address2}}</option>
+					</select>
+				</div>
+			 <button type="submit" class="btn btn-secondary right" [disabled]="!productForm.form.valid">Checkout</button>
+		</form>
+
 </div>
+
 
 
 

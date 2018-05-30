@@ -10,8 +10,26 @@ import { NavComponent } from '../../nav/nav.component';
 })
 export class ItemThumbNailComponent implements OnInit {
 
-  @Input() item: Item;
+  @Input()
+  set item(item: Item) {
+    this._item = item;
+    let temp = item.path;
+    if(temp.length > 10)
+      imageExists(temp, (b) => {this.imageURL = (b) ? temp : this.imageDefault});
+    else
+    {
+      // It aint pretty, but it works..  srsly tho, never do it like this.
+      let interval = setInterval(() =>{
+        if(item.path.length > 10) {
+          imageExists(item.path, (b) => {this.imageURL = (b) ? item.path : this.imageDefault});
+          clearInterval(interval);
+        }
+      }, 150);
+    }
+  }
+  _item: Item;
   imageURL = "./assets/loading.gif";
+  imageDefault = "./assets/logo.png";
 
   /**
    * Use this to listen to clicks on this, returns a ref to the item you gave it.
@@ -22,6 +40,7 @@ export class ItemThumbNailComponent implements OnInit {
 		      private nav: NavComponent) {}
 
   ngOnInit() {
+    
   }
 
   onClick(): void {
@@ -40,6 +59,14 @@ export class ItemThumbNailComponent implements OnInit {
 }
 
 
+// The "callback" argument is called with either true or false
+// depending on whether the image at "url" exists or not.
+function imageExists(url, callback) {
+  var img = new Image();
+  img.onload = function() { callback(true); };
+  img.onerror = function() { callback(false); };
+  img.src = url;
+}
 
 /**
  * Example of use of this comoponent
