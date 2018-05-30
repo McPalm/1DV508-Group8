@@ -86,9 +86,12 @@ export class ItemdetailsComponent implements OnInit {
 			  }
 
 			  this.itemService.updateItem(this.item);
-			  this.updateVoteCount();
+		  }
+		  else{
+			  this.item.rateLow.splice(this.item.rateLow.indexOf(this.user.uid),1);
 		  }
 	  }
+	  this.updateVoteCount();
   }
 
   rateUp() : void {
@@ -103,9 +106,12 @@ export class ItemdetailsComponent implements OnInit {
 			  }
 
 			  this.itemService.updateItem(this.item);
-			  this.updateVoteCount();
+		  }
+		  else{
+			  this.item.rateHigh.splice(this.item.rateHigh.indexOf(this.user.uid),1);
 		  }
 	  }
+	  this.updateVoteCount();
   }
 
   updateVoteCount() : void {
