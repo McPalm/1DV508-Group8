@@ -18,11 +18,17 @@
     border-color: var(--secondary);
 }
 
+.btn-primary:active
+{
+    background-color: var(--primary) !important;
+    border-color: var(--highlight) !important;
+}
+
 .btn-outline-primary
 {
     
     border-color: var(--primary);
-    color: var(--primary)
+    color: var(--primary);
 }
 
 .btn-outline-primary:hover
@@ -30,6 +36,18 @@
     background-color: var(--highlight);
     border-color: var(--dark);
     color: var(--white);
+}
+
+.btn-outline-primary:active
+{
+    background-color: var(--primary) !important;
+    border-color: var(--highlight) !important; 
+}
+
+.btn:focus,.btn:active:focus,.btn.active:focus,
+.btn.focus,.btn:active.focus,.btn.active.focus {
+    outline: none;
+    box-shadow: none;
 }
 
 .card-header > a
