@@ -8,7 +8,7 @@
 Empty :(
 </div>
 
-<table  *ngIf="items" width=100% class="table table-primary table-striped">
+<table  *ngIf="items" width=100% class="table">
   <tr class="bg-primary text-light">
     <th>Product Name</th>
     <th></th>
@@ -22,9 +22,9 @@ Empty :(
     <td>{{item.item.price}} SEK</td>
 	<td>{{item.item.price * item.count}} SEK</td>
 	<td align="right">
-		<button type="button" class="btn btn-secondary" (click)="countUp(item.item.uid)">+</button>
-		<button type="button" class="btn btn-secondary" (click)="countDown(item.item.uid)">-</button>
-		<button type="button" class="btn btn-secondary" (click)="deleteItem(item.item.uid)">delete</button>
+		<button type="button" class="btn btn-primary" (click)="countUp(item.item.uid)">+</button>
+		<button type="button" class="btn btn-primary" (click)="countDown(item.item.uid)">-</button>
+		<button type="button" class="btn btn-primary" (click)="deleteItem(item.item.uid)">delete</button>
 	</td>
   </tr>
   <tr>
@@ -50,7 +50,7 @@ Empty :(
 						<option *ngFor="let address of address$ | async" [value]="address.uid">{{address.address1}}, {{address.zip}}, {{address.city}}, {{address.address2}}</option>
 					</select>
 				</div>
-			 <button type="submit" class="btn btn-secondary right" [disabled]="!productForm.form.valid">Checkout</button>
+			 <button type="submit" class="btn btn-primary right" [disabled]="!productForm.form.valid">Checkout</button>
 		</form>
 
 </div>
