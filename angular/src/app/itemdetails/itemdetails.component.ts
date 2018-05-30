@@ -5,6 +5,7 @@ import { ItemService } from '../services/item.service';
 import { AuthService } from '../core/auth.service';
 import {ActivatedRoute} from "@angular/router";
 import { CartService } from '../services/cart.service';
+import { CategoryService } from '../services/category.service';
 
 @Component({
   selector: 'app-itemdetails',
@@ -21,12 +22,14 @@ export class ItemdetailsComponent implements OnInit {
   thumbDownUrl;
   private admin = 'false';
   private image = true;
+  category;
 
   constructor(private cartService: CartService,
 	  		  private nav: NavComponent,
 			  private itemService: ItemService,
 			  private authService: AuthService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+		      private categoryService : CategoryService) {
 
   }
 
@@ -40,6 +43,17 @@ export class ItemdetailsComponent implements OnInit {
 	  });
     });
 
+	/* Get the catogory name of this item */
+	this.categoryService.getCategories().subscribe(res => {
+		console.log(res);
+		for(let cat of res){
+			if(cat.uid == this.item.category){
+				this.category = cat.name;
+				break;
+			}
+		}
+	});
+
 	  /* Get user details */
       this.authService.getUser().subscribe(res => {
 		  if(res != null){
@@ -47,7 +61,7 @@ export class ItemdetailsComponent implements OnInit {
 		  	  this.admin = res.admin;
 	      }
 			this.updateVoteCount();
-			
+
 	  });
   }
 
