@@ -4,12 +4,22 @@
     --primary: rgb(70, 70, 70);
     --dark: rgb(30, 30, 30);
     --secondary: #ffc107;
+    --light: rgb(130, 130, 120);
+    --extraLight: rgb(150, 150, 140);
+
 }
 
 .btn-primary
 {
     background-color: var(--primary);
     border-color: var(--primary);
+}
+
+.btn-primary:disabled
+{
+    background-color: var(--light);
+    border-color: var(--light);
+    color: var(--extraLight);
 }
 
 .btn-primary:hover
@@ -97,3 +107,9 @@
     box-shadow: var(--primary);
     border-color: var(--primary);
 }
+
+.bg-primary
+{
+    background: var(--primary) !important;
+}
+
