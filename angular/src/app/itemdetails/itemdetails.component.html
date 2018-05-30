@@ -4,9 +4,9 @@
 	<div class="details">
 		<div class="rating">
 			<img class="rating_1" [src]=thumbUpUrl (click)="rateUp()">
-			<p class="rating_1" style="color:DodgerBlue;"><strong>{{votesUp}}</strong></p>
+			<p class="rating_2" style="color:DodgerBlue;"><strong>{{votesUp}}</strong></p>
 			<img class="rating_1" [src]=thumbDownUrl (click)="rateDown()">
-			<p class="rating_1" style="color:Tomato;"><strong>{{votesDown}}</strong></p>
+			<p class="rating_2" style="color:Tomato;"><strong>{{votesDown}}</strong></p>
 			<div class="clearfix">
 		</div>
 
@@ -26,7 +26,7 @@
 			<b>Description:</b> {{item.description}}
 		</div>
 
-		<div class="attachment">
+		<div class="addtocart">
 			<button class="btn btn-outline-primary" style="width: 100%;" type="submit" (click)="addCart()">Add to cart</button>
 		</div>
 		<!--

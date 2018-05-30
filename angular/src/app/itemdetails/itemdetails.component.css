@@ -27,7 +27,22 @@
     width:25%;
 	float:left;
 	padding: 5px;
+	cursor: pointer;
+}
+
+.rating_2{
+	max-height:200px;
+    max-width:200px;
+	height:auto;
+    width:25%;
+	float:left;
+	padding: 5px;
 	font-size: xx-large;
+}
+
+.addtocart{
+	margin-bottom: 1em;
+	margin-top: 1em;
 }
 
 .attachment{
