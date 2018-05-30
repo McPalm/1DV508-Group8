@@ -1,1 +1,45 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+    --highlight: rgb(112, 101, 81);
+    --primary: rgb(70, 70, 70);
+    --dark: rgb(30, 30, 30);
+    --secondary: #ffc107;
+}
+
+.btn-primary
+{
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-primary:hover
+{
+    background-color: var(--highlight);
+    border-color: var(--secondary);
+}
+
+.btn-outline-primary
+{
+    
+    border-color: var(--primary);
+    color: var(--primary)
+}
+
+.btn-outline-primary:hover
+{
+    background-color: var(--highlight);
+    border-color: var(--dark);
+    color: var(--white);
+}
+
+.card-header > a
+{
+    color: var(--primary)
+}
+
+.form-control:focus
+{
+    outline: none !important;
+    border-color: var(--primary);
+    box-shadow: 0 0 10px var(--primary);
+}
