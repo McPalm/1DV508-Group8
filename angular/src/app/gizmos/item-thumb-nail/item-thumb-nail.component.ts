@@ -40,7 +40,7 @@ export class ItemThumbNailComponent implements OnInit {
 		      private nav: NavComponent) {}
 
   ngOnInit() {
-    
+
   }
 
   onClick(): void {
@@ -50,11 +50,11 @@ export class ItemThumbNailComponent implements OnInit {
   }
 
   addCart(): void {
-    this.cartService.addItem(this.item);
+    this.cartService.addItem(this._item);
   }
 
   openDetails(): void {
-	  this.nav.setSelectedItem(this.item);
+	  this.nav.setSelectedItem(this._item);
   }
 }
 
