@@ -21,14 +21,14 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'main', component: NavComponent, children: [
     {path: 'profile', component: UserprofileComponent},
-    {path: 'admin', component: AdminComponent},
-    {path: 'order', component: OrderCatalogComponent},
+    {path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
+    {path: 'order', component: OrderCatalogComponent, canActivate: [AuthGuard]},
     {path: 'basket', component: BasketComponent},
     {path: 'product', component: ProductPageComponent},
     {path: 'product-list', component: ProductListComponent},
     {path: 'product-list/:category', component: ProductListComponent},
     {path: 'product/:uid', component: ItemdetailsComponent},
-    {path: 'front', component: FrontpageComponent },
+    {path: 'front', component: FrontpageComponent},
     ]},
   // { path: 'test', component: LoginComponent, canActivate: [AuthGuard]} // AuthGuard example
 ]

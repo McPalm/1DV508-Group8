@@ -7,11 +7,6 @@
       ngbRadioGroup
       [(ngModel)]="model"
       >
-
-        <label *ngIf="admin" class="btn btn-primary">
-          <input ngbButton type="radio" value="Admin Controls" [routerLink]="['admin']"> Admin Controls
-        </label>
-
         <label *ngIf="admin" class="btn btn-primary">
           <input ngbButton type="radio" value="New Orders" [routerLink]="['order']"><b *ngIf="newOrders > 0" class="bg-danger">&ensp;{{newOrders}}&ensp;</b> New Orders
         </label>
