@@ -49,6 +49,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { HighlightButtonComponent } from './highlight-button/highlight-button.component';
 import {ProductPageComponent} from "./product-page/product-page.component";
 import {FooterComponent} from "./footer/footer.component";
+import { AuthGuard } from './core/auth.guard';
 
 
 @NgModule({
@@ -107,7 +108,8 @@ import {FooterComponent} from "./footer/footer.component";
     SearchService,
     CartService,
     OrderService,
-	EmailService,
+    EmailService,
+    AuthGuard,
   ],
   bootstrap: [AppComponent]
 })

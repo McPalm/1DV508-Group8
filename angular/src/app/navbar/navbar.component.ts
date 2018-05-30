@@ -19,6 +19,7 @@ export class NavbarComponent implements OnInit {
   _search = '';
   title = 'CHOTTO GHETTO';
   isLoggedIn = false;
+  isAdmin = 'false';
 
   constructor(
     protected authService: AuthService,
@@ -50,6 +51,7 @@ export class NavbarComponent implements OnInit {
         console.log(result);
         if (result) {
           this.user = result;
+          this.isAdmin = result.admin;
         }
       });
   }
