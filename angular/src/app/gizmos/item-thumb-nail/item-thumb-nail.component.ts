@@ -9,6 +9,7 @@ import { NavComponent } from '../../nav/nav.component';
   styleUrls: ['./item-thumb-nail.component.css']
 })
 export class ItemThumbNailComponent implements OnInit {
+  inStockUrl = "././assets/big-shopping-cart-vector-clipart.png";
 
   @Input()
   set item(item: Item) {
@@ -40,7 +41,7 @@ export class ItemThumbNailComponent implements OnInit {
 		      private nav: NavComponent) {}
 
   ngOnInit() {
-
+	  this.checkStock();
   }
 
   onClick(): void {
@@ -55,6 +56,15 @@ export class ItemThumbNailComponent implements OnInit {
 
   openDetails(): void {
 	  this.nav.setSelectedItem(this._item);
+  }
+
+  checkStock(): void {
+	  if(this._item.count < 1){
+	  	this.inStockUrl = "././assets/outofstock.png";
+  	  }
+  	  else{
+	    this.inStockUrl = "././assets/big-shopping-cart-vector-clipart.png";
+  	  }
   }
 }
 
