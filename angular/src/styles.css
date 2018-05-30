@@ -70,7 +70,7 @@
 
 .page-link
 {
-    color: var(--secondary);
+    color: white;
     background: var(--primary);
     border-color: var(--primary);
 }
@@ -85,7 +85,15 @@
 
 .page-link:hover
 {
-    color: black;
-    background: var(--active);
-    border-color: var(--dark);
+    color: var(--secondary);
+    background: var(--dark);
+    border-color: var(--highlight);
+}
+
+.page-item.disabled > .page-link
+{
+    background: var(--primary);
+    color: var(--primary);
+    box-shadow: var(--primary);
+    border-color: var(--primary);
 }
