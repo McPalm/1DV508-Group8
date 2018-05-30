@@ -14,8 +14,9 @@
 
 .btn-primary:hover
 {
-    background-color: var(--highlight);
-    border-color: var(--secondary);
+    background-color: var(--dark);
+    border-color: var(--highlight);
+    color: var(--secondary);
 }
 
 .btn-primary:active
@@ -60,4 +61,9 @@
     outline: none !important;
     border-color: var(--primary);
     box-shadow: 0 0 10px var(--primary);
+}
+
+.a:hover
+{
+    color: var(--secondary);
 }
