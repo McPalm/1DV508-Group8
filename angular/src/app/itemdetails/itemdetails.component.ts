@@ -89,6 +89,7 @@ export class ItemdetailsComponent implements OnInit {
 		  }
 		  else{
 			  this.item.rateLow.splice(this.item.rateLow.indexOf(this.user.uid),1);
+			  this.itemService.updateItem(this.item);
 		  }
 	  }
 	  this.updateVoteCount();
@@ -109,6 +110,7 @@ export class ItemdetailsComponent implements OnInit {
 		  }
 		  else{
 			  this.item.rateHigh.splice(this.item.rateHigh.indexOf(this.user.uid),1);
+			  this.itemService.updateItem(this.item);
 		  }
 	  }
 	  this.updateVoteCount();
