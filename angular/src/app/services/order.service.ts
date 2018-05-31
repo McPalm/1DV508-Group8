@@ -10,7 +10,7 @@ export class OrderService {
   private user;
   private orders;
   constructor(private db: AngularFireDatabase, private auth: AuthService) {
-    this.auth.getUser().subscribe(res => this.user = res.uid);
+    this.auth.getUser().subscribe(res => this.user = (res != null ) ? res.uid : null );
     this.db.list(`orders`).valueChanges().subscribe( o => {
       this.orders = o;
     });
@@ -23,7 +23,7 @@ export class OrderService {
   }
 
   getObservable() : Observable<any[]> {
-    return this.db.list(`orders`).valueChanges();
+    return this.db.list(`orders`, ref => ref.orderByChild('status').equalTo(0)).valueChanges();
   }
 
   // Returns a list with all orders from specified user
@@ -42,6 +42,7 @@ export class OrderService {
       data.userid = this.user;
       data.status = 0;
       data.time = currentTime.toString();
+      data.ordernumber = this.orders.length + 1;
       data.uid = this.db.database.ref(`orders`).push().key;
       
       return this.db.database.ref(`orders/${data.uid}`).set(data).then(resolve => {
