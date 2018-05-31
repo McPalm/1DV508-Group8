@@ -41,7 +41,8 @@ export class UpdateproductComponent implements OnInit {
     if (this.selectedFiles) {
       this.startUpload();
     }
-		this.itemService.updateItem(this.model);
+	this.model.category = Number(this.model.category);
+	this.itemService.updateItem(this.model);
     this.model = new Item();
     this.reset()
 	}
