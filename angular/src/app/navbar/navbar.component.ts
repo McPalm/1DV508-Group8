@@ -5,6 +5,7 @@ import {Observable} from 'rxjs/Observable';
 import {Category} from '../services/category';
 import {SearchService} from '../services/search.service';
 import {Router} from '@angular/router';
+import { OrderService } from '../services/order.service';
 
 @Component({
   selector: 'app-navbar',
@@ -20,12 +21,15 @@ export class NavbarComponent implements OnInit {
   title = 'CHOTTO GHETTO';
   isLoggedIn = false;
   isAdmin = 'false';
+  newOrders = 0;
+  private itemAmount = 0;
 
   constructor(
     protected authService: AuthService,
     private categoryService: CategoryService,
     private searchService: SearchService,
-    private router: Router
+    private router: Router,
+    private orderService: OrderService,
   ) {
   }
 
@@ -35,6 +39,7 @@ export class NavbarComponent implements OnInit {
     this.categories.subscribe(list => {
       this.categoriesList = list;
     });
+    this.orderService.getObservable().subscribe( a => this.newOrders = a.length);
   }
 
   /**
@@ -52,6 +57,11 @@ export class NavbarComponent implements OnInit {
         if (result) {
           this.user = result;
           this.isAdmin = result.admin;
+          if(result.itemcount) {
+            this.itemAmount = result.itemcount;
+          } else {
+            this.itemAmount = 0;
+          }
         }
       });
   }

@@ -23,6 +23,7 @@ interface User {
   city ?: string;
   postcode ?: number;
   admin : string;
+  itemcount ?: number;
   /*  TODO add later */
   //privacy : Privacy;
   //privilege : Privilege;

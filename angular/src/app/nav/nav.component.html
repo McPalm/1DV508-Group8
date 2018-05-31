@@ -7,20 +7,10 @@
       ngbRadioGroup
       [(ngModel)]="model"
       >
-        <label *ngIf="admin" class="btn btn-primary">
-          <input ngbButton type="radio" value="New Orders" [routerLink]="['order']"><b *ngIf="newOrders > 0" class="bg-danger">&ensp;{{newOrders}}&ensp;</b> New Orders
-        </label>
-        <br *ngIf="admin">
-
-		<label  *ngIf="loggedIn" class="btn btn-primary">
-          <input ngbButton type="radio" value="Basket" [routerLink]="['basket']"><b class="bg-danger">&ensp;{{ itemAmount }}&ensp;</b> Basket
-        </label>
-		<br>
-
+      
         <label *ngFor="let cat of categories | async" class="btn btn-primary">
           <input ngbButton type="radio" [value]="cat.name"  [routerLink]="['/main/product-list', cat]"> {{cat.name}}
         </label>
-
 
       </div>
     </div>
