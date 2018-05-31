@@ -24,6 +24,10 @@
           <a class="nav-link" [routerLink]="['/main/admin']" *ngIf="isAdmin === 'true'">Admin<span
             class="sr-only">(current)</span></a>
         </li>
+        <li class="nav-item active">
+          <a class="nav-link" [routerLink]="['/main/order']" *ngIf="isAdmin === 'true'"><b *ngIf="newOrders > 0" class="bg-danger">&ensp;{{newOrders}}&ensp;</b>&nbsp; New Orders
+            <span class="sr-only">(current)</span></a>
+        </li>
       </ul>
 
 
@@ -49,13 +53,17 @@
 
             <!-- -->
             <a class="dropdown-item" [routerLink]="['/main/profile']" *ngIf="isloggined()">Profile</a>
-            <a class="dropdown-item" [routerLink]="['/main/order']" *ngIf="isloggined()">Orders</a>
+           <!-- <a class="dropdown-item" [routerLink]="['/main/order']" *ngIf="isloggined()">Orders</a> !-->
 
             <a class="dropdown-item" (click)="authService.googleLogin()" [routerLink]="['/']" *ngIf="!isloggined()">Login</a>
             <a class="dropdown-item" (click)="authService.signOut()" [routerLink]="['/']"
                *ngIf="isloggined()">Logout</a>
 
           </div>
+        </li>
+        <li class="nav-item active" *ngIf="isloggined()">
+          <a class="nav-link basketbutton" [routerLink]="['/main/basket']"><b class="bg-danger">&ensp;{{ itemAmount }}&ensp;</b><img src="/assets/big-shopping-cart-vector-clipart.png" alt="Show Basket"><span
+            class="sr-only">(current)</span></a>
         </li>
 
         <li class="nav-item active" *ngIf="!isloggined()">

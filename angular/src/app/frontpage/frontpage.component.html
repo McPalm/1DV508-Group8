@@ -2,7 +2,7 @@
 <app-item-carousel [items]="_items"></app-item-carousel>
 
 <div class="row" style="margin: 3em">
-    <div *ngFor="let item of _newItems" class="col-sm-4 thumb">
+    <div *ngFor="let item of _newItems.reverse()" class="col-sm-4 thumb">
         <app-item-thumb-nail [item]="item"></app-item-thumb-nail>
     </div>
 </div>
