@@ -66,7 +66,7 @@ export class OrderCatalogComponent implements OnInit {
 	let opt = 'accepted';
 	this.adminMail(opt, this.order.ordernumber);
 	
-	this.db.object(`orders/${UID}`).remove();
+	this.db.object(`orders/${UID}`).update({ status: 1 });
 	
 	this.changeActive(this.order[0])
 	
@@ -107,7 +107,7 @@ export class OrderCatalogComponent implements OnInit {
 	this.adminMail(opt, this.order.ordernumber);
 	
 	
-	this.db.object(`orders/${UID}`).remove();
+	this.db.object(`orders/${UID}`).update({ status: 2 });
 	
 	this.changeActive(this.order[0]);
 	

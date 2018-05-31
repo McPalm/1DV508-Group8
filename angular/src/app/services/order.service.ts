@@ -23,7 +23,7 @@ export class OrderService {
   }
 
   getObservable() : Observable<any[]> {
-    return this.db.list(`orders`).valueChanges();
+    return this.db.list(`orders`, ref => ref.orderByChild('status').equalTo(0)).valueChanges();
   }
 
   // Returns a list with all orders from specified user
