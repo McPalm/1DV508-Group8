@@ -1,6 +1,6 @@
 <div>
   <form (ngSubmit)="onSubmit()" #productForm="ngForm">
-    <div class="form-group">  
+    <div class="form-group">
     <Label>Product to update:</Label>
       <select  (change)="selectProduct()"  [(ngModel)]="selectedProduct"  name="product" required><option *ngFor="let item of items | async" [ngValue] ="item">{{item.name}}</option></select>
     </div>
@@ -26,7 +26,7 @@
           required
           [(ngModel)]="model.category" name="category"
           >
-              <option *ngFor="let cat of categories | async" [value]="cat.uid">{{cat.name}}</option>
+              <option *ngFor="let cat of categories | async" [value]=cat.uid>{{cat.name}}</option>
           </select>
       </div>
 
@@ -43,7 +43,7 @@
         <input type="number" class="form-control" id="count" required [(ngModel)]="model.count" name="count">
     </div>
 
-    <div class="dropzone" 
+    <div class="dropzone"
 			dropZone
 			(hovered)="toggleHover($event)"
 			(dropped)="chooseFiles($event)"
@@ -63,9 +63,9 @@
 		</div>
 
 	<div *ngIf="percentage | async as pct">
-		<progress class="progress is-info" 
-				[value]="pct" 
-				max="100">        
+		<progress class="progress is-info"
+				[value]="pct"
+				max="100">
 		</progress>
 		{{ pct | number }}%
 	</div>
