@@ -23,7 +23,8 @@ export class ItemdetailsComponent implements OnInit {
   private admin = 'false';
   private image = true;
   category;
-  imgpath;
+  imageURL = "./assets/loading.gif";
+  imageDefault = "./assets/logo.png";
 
   constructor(private cartService: CartService,
 	  		  private nav: NavComponent,
@@ -41,6 +42,19 @@ export class ItemdetailsComponent implements OnInit {
       this.itemService.getItem(params['uid']).subscribe(item => {
 		this.item = item[0];
 		this.isImage();
+		let temp = this.item.path;
+        if(temp.length > 10)
+          imageExists(temp, (b) => {this.imageURL = (b) ? temp : this.imageDefault});
+        else
+        {
+          // It aint pretty, but it works..  srsly tho, never do it like this.
+          let interval = setInterval(() =>{
+            if(this.item.path.length > 10) {
+              imageExists(this.item.path, (b) => {this.imageURL = (b) ? this.item.path : this.imageDefault});
+              clearInterval(interval);
+            }
+          }, 150);
+        }
 	  });
     });
 
@@ -147,11 +161,16 @@ export class ItemdetailsComponent implements OnInit {
 		  case '.svg':
 		  case '.gif':
 		    this.image = true;
-			this.imgpath = this.item.path;
 			return
 	    }
 	this.image = false;
-	this.imgpath = "./assets/logo.png";
 	  }, 100)
   }
+}
+
+function imageExists(url, callback) {
+  var img = new Image();
+  img.onload = function() { callback(true); };
+  img.onerror = function() { callback(false); };
+  img.src = url;
 }
