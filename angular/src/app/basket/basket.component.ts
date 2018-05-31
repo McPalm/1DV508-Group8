@@ -29,6 +29,7 @@ export class BasketComponent implements OnInit {
   private orders$
   itemArray : Array<any>;
   address: String;
+  orderCount : number;
   
   constructor(private db: AngularFireDatabase, private CookieService: CookieService, private cs: EmailService, private firebase: FirebaseApp,
   private orderService : OrderService,) { 
@@ -49,10 +50,10 @@ export class BasketComponent implements OnInit {
 
   ngOnInit() {
 	  
-
-  let data;
+	this.orderService.getAllOrders().subscribe(o => this.orderCount = o.length);
+  	let data;
   
-  this.db.list(`items`).valueChanges().subscribe((value : Array<any>) => {
+  	this.db.list(`items`).valueChanges().subscribe((value : Array<any>) => {
 	  	  this.itemArray = value;
 	   }); 
   
@@ -248,7 +249,7 @@ export class BasketComponent implements OnInit {
 			userid: this.user,
 			status: 0,
 			time: currentTime.toString(),
-			ordernumber: this.orderService.getOrders().length + 1,
+			 ordernumber: this.orderCount,
 			uid: this.db.database.ref(`orders`).push().key,
 			
 		  }
@@ -264,7 +265,7 @@ export class BasketComponent implements OnInit {
 
 		this.db.object(`users/${this.user}/cart/`).remove();
 		this.db.object(`users/${this.user}`).update({ itemcount: 0});
-		this.cs.sendEmail(data.ordernumber);
+		this.cs.sendEmail(this.orderCount);
 		
 	  });
 		

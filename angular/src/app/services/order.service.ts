@@ -9,6 +9,7 @@ import { Order } from './order';
 export class OrderService {
   private user;
   private orders;
+  
   constructor(private db: AngularFireDatabase, private auth: AuthService) {
     this.auth.getUser().subscribe(res => this.user = (res != null ) ? res.uid : null );
     this.db.list(`orders`).valueChanges().subscribe( o => {
@@ -18,8 +19,12 @@ export class OrderService {
   }
 
    // Returns a list with all the orders
-   getOrders() : Order[]  {
+  getOrders() : Order[]  {
     return this.orders;
+  }
+
+  getAllOrders() : Observable<any[]> {
+    return this.db.list("orders").valueChanges();
   }
 
   getObservable() : Observable<any[]> {
