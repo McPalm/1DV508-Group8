@@ -22,6 +22,7 @@ export class NavbarComponent implements OnInit {
   isLoggedIn = false;
   isAdmin = 'false';
   newOrders = 0;
+  private itemAmount = 0;
 
   constructor(
     protected authService: AuthService,
@@ -56,6 +57,11 @@ export class NavbarComponent implements OnInit {
         if (result) {
           this.user = result;
           this.isAdmin = result.admin;
+          if(result.itemcount) {
+            this.itemAmount = result.itemcount;
+          } else {
+            this.itemAmount = 0;
+          }
         }
       });
   }

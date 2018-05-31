@@ -61,6 +61,10 @@
 
           </div>
         </li>
+        <li class="nav-item active" *ngIf="isloggined()">
+          <a class="nav-link basketbutton" [routerLink]="['/main/basket']"><b class="bg-danger">&ensp;{{ itemAmount }}&ensp;</b><img src="/assets/big-shopping-cart-vector-clipart.png" alt="Show Basket"><span
+            class="sr-only">(current)</span></a>
+        </li>
 
         <li class="nav-item active" *ngIf="!isloggined()">
           <a class="nav-link" (click)="authService.googleLogin()" [routerLink]="['/']">Login<span
