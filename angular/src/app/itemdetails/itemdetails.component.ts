@@ -23,6 +23,7 @@ export class ItemdetailsComponent implements OnInit {
   private admin = 'false';
   private image = true;
   category;
+  imgpath;
 
   constructor(private cartService: CartService,
 	  		  private nav: NavComponent,
@@ -146,9 +147,11 @@ export class ItemdetailsComponent implements OnInit {
 		  case '.svg':
 		  case '.gif':
 		    this.image = true;
+			this.imgpath = this.item.path;
 			return
 	    }
 	this.image = false;
+	this.imgpath = "./assets/logo.png";
 	  }, 100)
   }
 }
